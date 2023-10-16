@@ -3,33 +3,37 @@ var fs = require( "fs" );
 var url = require( "url" );
 let querystring = require( "querystring" );
 
-http.createServer( function( request, response ){
+http.createServer( function( request, response ) {
 
     var pathname = url.parse( request.url ).pathname;
     console.log( "Request for " + pathname + " received." );
-    console.log( "要開啟的: " + pathname.substr( 1 ) );
+    // console.log( "要開啟的: " + pathname.substr( 1 ) );
 
     if ( request.url == '/' ) {
-        console.log( '=1=' );
         sendFileContent( response, "view/index.html", "text/html" );
+        console.log( "Response File: " + request.url.toString().substring( 1 ) );
     }
 
     if ( request.url == '/index' ) {
-        console.log( '=2=' );
         fs.readFile( 'index.html', function( err, data ) {
             if ( err ) {
                 console.log( err );
-                response.writeHead( 404, { 'Content-Type': 'text/html' });
+                response.writeHead( 404, { 'Content-Type': 'text/html' } );
             } else {
-                response.writeHead( 200, { 'Content-Type': 'text/html' });
-                response.write( data.toString());
+                response.writeHead( 200, { 'Content-Type': 'text/html' } );
+                response.write( data.toString() );
             }
             response.end();
         });
-    } else if ( /^\/[a-zA-Z0-9\/]*.css$/.test( request.url.toString())) {
+    } else if ( /^\/[a-zA-Z0-9\/]*.css$/.test( request.url.toString() ) ) {
 		sendFileContent( response, request.url.toString().substring( 1 ), "text/css" );
-		console.log( "Response File: " + request.url.toString().substring( 1 ) + "		.css" );
-    }
+		console.log( "Response File: " + request.url.toString().substring( 1 ) );
+
+    } else if ( /^\/[a-zA-Z0-9\/]*.png$/.test( request.url.toString() ) ) {
+		sendFileContent( response, request.url.toString().substring( 1 ), "text/png" );
+		console.log( "Response File: " + request.url.toString().substring( 1 ) );
+
+	} 
 
 }).listen( 8888 );//使用 listen 方法绑定 8888 端口
 
@@ -46,7 +50,7 @@ function sendFileContent( response, fileName, contentType ) {
 			response.writeHead( 404 );
 			response.write( "Not Found!" );
 		} else {
-			response.writeHead( 200, { "Content-Type": contentType });
+			response.writeHead( 200, { "Content-Type": contentType } );
 			response.write( data );
 		}
 		response.end();
