@@ -10,7 +10,7 @@ http.createServer( function( request, response ) {
     // console.log( "要開啟的: " + pathname.substr( 1 ) );
 
     if ( request.url == '/' ) {
-        sendFileContent( response, "view/index.html", "text/html" );
+        sendFileContent( response, "views/index.html", "text/html" );
         console.log( "Response File: " + request.url.toString().substring( 1 ) );
     }
 
