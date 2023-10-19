@@ -5,13 +5,33 @@ let querystring = require( "querystring" );
 
 http.createServer( function( request, response ) {
 
-    var pathname = url.parse( request.url ).pathname;
-    console.log( "Request for " + pathname + " received." );
-    // console.log( "要開啟的: " + pathname.substr( 1 ) );
+    let post = "";
 
+    /* ************************************************
+	 *					     POST  					  *
+	 ************************************************ */
+	request.on( "data", function( chunk ) {
+		post += chunk;
+		console.log( "/* ************************************************" );
+		console.log( " *                      POST                      *" );
+		console.log( " ************************************************ */" );
+	});
+
+	request.on( "end", function() {
+		if ( request.url === "/test" ) {
+			post = querystring.parse( post );
+            console.log( post );
+        }
+    });
+   
+	/* ************************************************
+	 *					     URL  					  *
+	 ************************************************ */
     if ( request.url == '/' ) {
         sendFileContent( response, "views/index.html", "text/html" );
-        console.log( "Response File: " + request.url.toString().substring( 1 ) );
+		console.log( "/* ************************************************" );
+		console.log( " *            F I R S T - R E Q U E S T           *" );
+		console.log( " ************************************************ */" );
     }
 
     if ( request.url == '/index' ) {
@@ -36,10 +56,8 @@ http.createServer( function( request, response ) {
 	} 
 
 }).listen( 8888 );//使用 listen 方法绑定 8888 端口
-
 //終端印如下信息
-console.log( 'Server running at http://127.0.0.1:8888/' );
-
+console.log( "***** Server running at http://127.0.0.1:8888 *****" );
 
 /* ************************************************
  *                     Method                     *
