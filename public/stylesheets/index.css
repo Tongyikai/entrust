@@ -164,12 +164,12 @@ form .inputBox input {
 form .inputBox input::placeholder {
     color: rgba(255, 255, 255, 0.25);
 }
-form .inputBox input[type="submit"] {
+form .inputBox input[type="button"] {
     background: #2196f3;
     font-weight: 500;
     cursor: pointer;
 }
-form#signupForm .inputBox input[type="submit"] {
+form#signupForm .inputBox input[type="button"] {
     background: #f4242f;
 }
 form#signupForm b {

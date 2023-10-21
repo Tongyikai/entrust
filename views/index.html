@@ -12,7 +12,7 @@
             <span></span>
             <span></span>
             <span></span>
-            <form id="signinForm" action="/test" method="post">
+            <form id="signinForm" name="signinForm" action="/signinForm" method="post">
                 <h2>Login</h2>
                 <div class="inputBox">
                     <input type="text" name="Username" placeholder="Username">
@@ -25,25 +25,25 @@
                     <a href="#" id="signup">Signup</a>
                 </div>
                 <div class="inputBox">
-                    <input type="submit" value="Sign in">
+                    <input type="button" value="Signin" onclick="checkSigninForm();">
                 </div>
             </form>
-            <form id="signupForm">
+            <form id="signupForm" name="signupForm" action="/signupForm" method="post">
                 <h2>Registration</h2>
                 <div class="inputBox">
-                    <input type="text" placeholder="Username">
+                    <input type="text" name="Username" placeholder="Username">
                 </div>
                 <div class="inputBox">
-                    <input type="text" placeholder="Email Address">
+                    <input type="text" name="emailAddress" placeholder="Email Address">
                 </div>
                 <div class="inputBox">
-                    <input type="password" placeholder="Create Password">
+                    <input type="password" name="createPassword" placeholder="Create Password">
                 </div>
                 <div class="inputBox">
-                    <input type="password" placeholder="Confirm Password">
+                    <input type="password" name="confirmPassword" placeholder="Confirm Password">
                 </div>
                 <div class="inputBox">
-                    <input type="submit" value="Register Account">
+                    <input type="button" value="RegisterAccount" onclick="checkSignupForm();">
                 </div>
                 <div class="inputBox group">
                     <a href="#">Already Have an Account ? <b id="signin">Login</b></a>
@@ -51,8 +51,9 @@
             </form>
         </div>
     </section>
-    <!-- <script type="text/javascript" src="public/scripts/formCheck.js"></script> -->
+    <script type="text/javascript" src="public/scripts/formCheck.js"></script>
     <script>
+        // 切換Sign in & Sign up 功能
         let signup = document.querySelector('#signup');
         let signin = document.querySelector('#signin');
         let body = document.querySelector('body');
@@ -61,6 +62,52 @@
         }
         signin.onclick = function() {
             body.classList.remove('signup');
+        }
+
+        let emailCorrect = checkEmailFormat;
+        let nameCorrect = checkNameFormat;
+        let passwordCorrect = checkPasswordFormat;
+        let blankOrEmpty = checkBlankFormat;
+        // 登入表單檢查
+        function checkSigninForm() {
+            var form = document.forms[ "signinForm" ];
+            if ( nameCorrect( form.Username.value ) ) {
+                alert( "Error: Name exceeds 24 characters." );
+
+            } else if ( blankOrEmpty( form.Username.value ) ) {
+                alert( "Error: Invalid Name." );
+
+            } else if ( !passwordCorrect( form.Password.value ) ) {
+                alert( "Error: Password 8 to 16 characters, uppercase English words, Need numbers." );
+
+            } else {
+                alert( "send" );
+                form.submit();
+            }
+        }
+
+        // 註冊表單價差
+        function checkSignupForm() {
+            var form = document.forms[ "signupForm" ];
+            if ( nameCorrect( form.Username.value ) ) {
+                alert( "Error: Name exceeds 24 characters." );
+
+            } else if ( blankOrEmpty( form.Username.value ) ) {
+                alert( "Error: Invalid Name." );
+
+            } else if ( !emailCorrect( form.emailAddress.value ) ) {
+                alert( "Error: Invalid Email." );
+
+            } else if ( !passwordCorrect( form.createPassword.value ) ) {
+                alert( "Error: Password 8 to 16 characters, uppercase English words, Need numbers." );
+
+            } else if ( form.createPassword.value != form.confirmPassword.value ) {
+                alert( "Error: Passwords are not the same." );
+
+            } else {
+                alert( "send" );
+                form.submit();
+            }
         }
     </script>
 </body>
