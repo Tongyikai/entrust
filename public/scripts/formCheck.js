@@ -31,3 +31,7 @@ function checkBlankFormat( parameter ) {
     var re = new RegExp( regulation );
     return re.test( parameter );
 }
+
+function checkUserNameAvailable( parameter ) {
+    console.log( "testAjax: " + clientAJAX( parameter ) );
+}

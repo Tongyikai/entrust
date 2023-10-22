@@ -12,7 +12,7 @@
             <span></span>
             <span></span>
             <span></span>
-            <form id="signinForm" name="signinForm" action="/signinForm" method="post">
+            <form id="signinForm" name="signinForm">
                 <h2>Login</h2>
                 <div class="inputBox">
                     <input type="text" name="Username" placeholder="Username">
@@ -28,7 +28,7 @@
                     <input type="button" value="Signin" onclick="checkSigninForm();">
                 </div>
             </form>
-            <form id="signupForm" name="signupForm" action="/signupForm" method="post">
+            <form id="signupForm" name="signupForm">
                 <h2>Registration</h2>
                 <div class="inputBox">
                     <input type="text" name="Username" placeholder="Username">
@@ -52,6 +52,7 @@
         </div>
     </section>
     <script type="text/javascript" src="public/scripts/formCheck.js"></script>
+    <script type="text/javascript" src="public/scripts/clientAJAX.js"></script>
     <script>
         // 切換Sign in & Sign up 功能
         let signup = document.querySelector('#signup');
@@ -68,9 +69,11 @@
         let nameCorrect = checkNameFormat;
         let passwordCorrect = checkPasswordFormat;
         let blankOrEmpty = checkBlankFormat;
+        let visitAjax = helloAjax;
         // 登入表單檢查
         function checkSigninForm() {
             var form = document.forms[ "signinForm" ];
+            // client端自行檢查格式是否正確--第1關卡
             if ( nameCorrect( form.Username.value ) ) {
                 alert( "Error: Name exceeds 24 characters." );
 
@@ -81,8 +84,10 @@
                 alert( "Error: Password 8 to 16 characters, uppercase English words, Need numbers." );
 
             } else {
-                alert( "send" );
-                form.submit();
+                alert( visitAjax( "hello" ) );
+                // Ajax訪問Server使用者名稱可否使用--第2關卡
+                // form.submit();
+                
             }
         }
 
