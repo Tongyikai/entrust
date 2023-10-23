@@ -69,7 +69,7 @@
         let nameCorrect = checkNameFormat;
         let passwordCorrect = checkPasswordFormat;
         let blankOrEmpty = checkBlankFormat;
-        let visitAjax = helloAjax;
+        let usernameAvailable = usernameExists;
         // 登入表單檢查
         function checkSigninForm() {
             var form = document.forms[ "signinForm" ];
@@ -84,10 +84,9 @@
                 alert( "Error: Password 8 to 16 characters, uppercase English words, Need numbers." );
 
             } else {
-                alert( visitAjax( "hello" ) );
                 // Ajax訪問Server使用者名稱可否使用--第2關卡
                 // form.submit();
-                
+                usernameAvailable( form.Username.value );
             }
         }
 

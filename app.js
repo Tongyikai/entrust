@@ -29,6 +29,11 @@ http.createServer( function( request, response ) {
 			console.log( "Request for sign up: " );
             console.log( post );
 
+		} else if ( request.url === "/usernameExists" ) {
+			post = querystring.parse( post );
+			console.log( "Request for usernameExists: " + post.username );
+            // console.log( post.username );
+			userController.helloDB( post.username );
 		}
     });
    
@@ -71,7 +76,6 @@ http.createServer( function( request, response ) {
 		console.log("Response File: " + request.url.toString().substring( 1 ) );
 		
 	}
-
 }).listen( 8888 );//使用 listen 方法绑定 8888 端口
 
 //終端印如下信息

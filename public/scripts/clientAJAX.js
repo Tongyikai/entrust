@@ -52,6 +52,8 @@ function registerForUser( familyName, givenName, email, password, yearOfBirth, m
                          "&gender=" + gender );
 }
 
-function helloAjax( parameter ) {
-    return parameter + "Okay!!";
+function usernameExists( parameter ) {
+    httpRequest.open( "POST", "http://127.0.0.1:8888/usernameExists", false );
+    httpRequest.setRequestHeader( "Content-type", "application/x-www-form-urlencoded" );
+    httpRequest.send( "username=" + parameter );
 }

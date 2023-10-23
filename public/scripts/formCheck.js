@@ -26,12 +26,9 @@ function checkBlankFormat( parameter ) {
     if ( parameter.replace( blankRule, "" ).length == 0 ) {
         return true;
     }
+    
     if ( parameter == "" ) return true;
     var regulation = "^[ ]+$";
     var re = new RegExp( regulation );
     return re.test( parameter );
-}
-
-function checkUserNameAvailable( parameter ) {
-    console.log( "testAjax: " + clientAJAX( parameter ) );
 }
