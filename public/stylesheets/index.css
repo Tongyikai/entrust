@@ -14,8 +14,7 @@ body::before {
     content: '';
     position: absolute;
     inset: 0;
-    /* background: url(../images/signin.png); */
-    background: url(../images/f6.png);
+    background: url(../images/SignIn.png);
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
@@ -24,15 +23,14 @@ body::after {
     content: '';
     position: absolute;
     inset: 0;
-    /* background: url(../images/signup.png); */
-    background: url(../images/f10.png);
+    background: url(../images/SignUp.png);
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
     opacity: 0;
     transition: 0.5s;
 }
-body.signup::after {
+body.SignUp::after {
     opacity: 1;
 }
 .container {
@@ -48,7 +46,7 @@ body.signup::after {
     transition: 0.5s;
     overflow: hidden;
 }
-body.signup .container {
+body.SignUp .container {
     height: 440px;
 }
 .container::before {
@@ -60,7 +58,7 @@ body.signup .container {
     border-radius: 20px;
     animation: animate 2.5s linear infinite;
 }
-body.signup .container::before {
+body.SignUp .container::before {
     filter: hue-rotate(140deg);
 }
 @property --a {
@@ -86,8 +84,7 @@ body.signup .container::before {
     content: '';
     position: absolute;
     inset: 5px;
-    /* background: url(../images/signin.png); */
-    background: url(../images/f6.png);
+    background: url(../images/SignIn.png);
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
@@ -97,17 +94,15 @@ body.signup .container::before {
     content: '';
     position: absolute;
     inset: 5px;
-    /* background: url(../images/signin.png); */
-    background: url(../images/f6.png);
+    background: url(../images/SignIn.png);
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
     filter: blur(15px);
 }
-body.signup .container span::before,
-body.signup .container span::after {
-    /* background: url(../images/signup.png); */
-    background: url(../images/f10.png);
+body.SignUp .container span::before,
+body.SignUp .container span::after {
+    background: url(../images/SignUp.png);
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
@@ -124,13 +119,13 @@ form {
     gap: 15px;
     transition: 0.5s;
 }
-form#signupForm {
+form#SignUpForm {
     left: 100%;
 }
-body.signup form#signinForm {
+body.SignUp form#SignInForm {
     left: -100%;
 }
-body.signup form#signupForm {
+body.SignUp form#SignUpForm {
     left: 0%;
 }
 form h2 {
@@ -169,15 +164,15 @@ form .inputBox input {
 form .inputBox input::placeholder {
     color: rgba(255, 255, 255, 0.25);
 }
-form .inputBox input[type="submit"] {
+form .inputBox input[type="button"] {
     background: #2196f3;
     font-weight: 500;
     cursor: pointer;
 }
-form#signupForm .inputBox input[type="submit"] {
+form#SignUpForm .inputBox input[type="button"] {
     background: #f4242f;
 }
-form#signupForm b {
+form#SignUpForm b {
     font-weight: 500;
     color: #ffeb3b;
     text-decoration: underline;

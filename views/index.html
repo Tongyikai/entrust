@@ -12,55 +12,108 @@
             <span></span>
             <span></span>
             <span></span>
-            <form id="signinForm">
+            <form id="SignInForm" name="SignInForm">
                 <h2>Login</h2>
                 <div class="inputBox">
-                    <input type="text" placeholder="Username">
+                    <input type="text" name="Username" placeholder="Username">
                 </div>
                 <div class="inputBox">
-                    <input type="password" placeholder="Password">
+                    <input type="password" name="Password" placeholder="Password">
                 </div>
                 <div class="inputBox group">
                     <a href="#">Forgot Password</a>
-                    <a href="#" id="signup">Signup</a>
+                    <a href="#" id="SignUp">Signup</a>
                 </div>
                 <div class="inputBox">
-                    <input type="submit" value="Sign in">
+                    <input type="button" value="SignIn" onclick="checkSignInForm();">
                 </div>
             </form>
-            <form id="signupForm">
+            <form id="SignUpForm" name="SignUpForm">
                 <h2>Registration</h2>
                 <div class="inputBox">
-                    <input type="text" placeholder="Username">
+                    <input type="text" name="Username" placeholder="Username">
                 </div>
                 <div class="inputBox">
-                    <input type="text" placeholder="Email Address">
+                    <input type="text" name="Email" placeholder="Email Address">
                 </div>
                 <div class="inputBox">
-                    <input type="password" placeholder="Create Password">
+                    <input type="password" name="CreatePassword" placeholder="Create Password">
                 </div>
                 <div class="inputBox">
-                    <input type="password" placeholder="Confirm Password">
+                    <input type="password" name="ConfirmPassword" placeholder="Confirm Password">
                 </div>
                 <div class="inputBox">
-                    <input type="submit" value="Register Account">
+                    <input type="button" value="RegisterAccount" onclick="checkSignUpForm();">
                 </div>
                 <div class="inputBox group">
-                    <a href="#">Already Have an Account ? <b id="signin">Login</b></a>
+                    <a href="#">Already Have an Account ? <b id="SignIn">Login</b></a>
                 </div>
             </form>
         </div>
     </section>
     <script type="text/javascript" src="public/scripts/formCheck.js"></script>
+    <script type="text/javascript" src="public/scripts/clientAJAX.js"></script>
     <script>
-        let signup = document.querySelector('#signup');
-        let signin = document.querySelector('#signin');
-        let body = document.querySelector('body');
-        signup.onclick = function() {
-            body.classList.add('signup');
+        // 切換Sign in & Sign up 功能
+        let signUp = document.querySelector( "#SignUp" );
+        let signIn = document.querySelector( "#SignIn" );
+        let body = document.querySelector( "body" );
+        signUp.onclick = function() {
+            body.classList.add( "SignUp" );
         }
-        signin.onclick = function() {
-            body.classList.remove('signup');
+        signIn.onclick = function() {
+            body.classList.remove( "SignUp" );
+        }
+
+        let emailCorrect = checkEmailFormat;
+        let nameCorrect = checkNameFormat;
+        let passwordCorrect = checkPasswordFormat;
+        let blankOrEmpty = checkBlankFormat;
+        let clientSignIn = userLogin;
+        let clientSignUp = userSignUp;
+
+        // 登入表單檢查
+        function checkSignInForm() {
+            var form = document.forms[ "SignInForm" ];
+            // formCheck.js--自行檢查格式是否正確
+            if ( nameCorrect( form.Username.value ) ) {
+                alert( "Error: Name exceeds 24 characters." );
+
+            } else if ( blankOrEmpty( form.Username.value ) ) {
+                alert( "Error: Invalid Name." );
+
+            } else if ( !passwordCorrect( form.Password.value ) ) {
+                alert( "Error: Password 8 to 16 characters, uppercase English words, Need numbers." );
+
+            } else {
+                // clientAJAX.js--訪問Server使用者名稱可否使用
+                clientSignIn( form.Username.value, form.Password.value );
+            }
+        }
+
+        // 註冊表單價差
+        function checkSignUpForm() {
+            
+            var form = document.forms[ "SignUpForm" ];
+            if ( nameCorrect( form.Username.value ) ) {
+                alert( "Error: Name exceeds 24 characters." );
+
+            } else if ( blankOrEmpty( form.Username.value ) ) {
+                alert( "Error: Invalid Name." );
+
+            } else if ( !emailCorrect( form.Email.value ) ) {
+                alert( "Error: Invalid Email." );
+
+            } else if ( !passwordCorrect( form.CreatePassword.value ) ) {
+                alert( "Error: Password 8 to 16 characters, uppercase English words, Need numbers." );
+
+            } else if ( form.CreatePassword.value != form.ConfirmPassword.value ) {
+                alert( "Error: Passwords are not the same." );
+
+            } else {    
+                clientSignUp( form.Username.value, form.Email.value, form.CreatePassword.value );
+
+            }
         }
     </script>
 </body>
