@@ -1,20 +1,20 @@
-const MongoClient = require( "mongodb" ).MongoClient;
-const config = require( "../config/configuration" );
-const uri = "mongodb://" + config.mongodb.user + ":" + config.mongodb.password + "@" + config.mongodb.host + "/" + config.mongodb.database;
-const client = new MongoClient( uri, { useUnifiedTopology: true } );
+let memberOperations = require("../models/memberOperations");
 
 module.exports = {
-    helloDB
+    userLogin
 }
 
-function helloDB( parameter ) {
-    client.connect( err => {
-        if ( err ) throw err;
-        const collectionMember = client.db( config.mongodb.database ).collection( config.mongodb.collections_members );
-        collectionMember.find( { name: parameter } ).toArray( function( err, result ) {
-            if ( err ) throw err;
-            console.log( result );
-            client.close();
-        });
-    });
+function userLogin( username, password ) {
+    
+    if ( memberOperations.queryUsername( username, ( usernameExists ) => {
+        if ( usernameExists ) {
+            console.log( "/* *********#*********#*********#*********#*********#" );
+            console.log( " *                      welcome                     *" );
+            console.log( " #*********#*********#*********#*********#********* */" );
+        } else {
+            console.log( "/* *********#*********#*********#*********#*********#" );
+            console.log( " *                     Outlander                    *" );
+            console.log( " #*********#*********#*********#*********#********* */" );
+        }
+    }));
 }

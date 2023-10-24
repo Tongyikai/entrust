@@ -52,8 +52,14 @@ function registerForUser( familyName, givenName, email, password, yearOfBirth, m
                          "&gender=" + gender );
 }
 
-function usernameExists( parameter ) {
-    httpRequest.open( "POST", "http://127.0.0.1:8888/usernameExists", false );
+function userLogin( username, password ) {
+    httpRequest.open( "POST", "http://127.0.0.1:8888/SignIn", false );
     httpRequest.setRequestHeader( "Content-type", "application/x-www-form-urlencoded" );
-    httpRequest.send( "username=" + parameter );
+    httpRequest.send( "username=" + username + "&password=" + password );
+}
+
+function userSignUp( username, email, password ) {
+    httpRequest.open( "POST", "http://127.0.0.1:8888/SignUp", false );
+    httpRequest.setRequestHeader( "Content-type", "application/x-www-form-urlencoded" );
+    httpRequest.send( "username=" + username + "&email=" + email + "&password=" + password );
 }

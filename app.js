@@ -2,7 +2,7 @@ var http = require( "http" );
 var fs = require( "fs" );
 var url = require( "url" );
 let querystring = require( "querystring" );
-let userController = require( "./controllers/userController" );
+let userController = require("./controllers/userController");
 
 http.createServer( function( request, response ) {
 
@@ -19,21 +19,17 @@ http.createServer( function( request, response ) {
 	});
 
 	request.on( "end", function() {
-		if ( request.url === "/signinForm" ) {
+		if ( request.url === "/SignIn" ) {
 			post = querystring.parse( post );
-            console.log( "Request for sign in: " );
+            console.log( "Request for Sign In: " );
 			console.log( post );
+			userController.userLogin( post.username, post.password );
 
-        } else if ( request.url === "/signupForm" ) {
+        } else if ( request.url === "/SignUp" ) {
 			post = querystring.parse( post );
-			console.log( "Request for sign up: " );
+			console.log( "Request for Sign Up: " );
             console.log( post );
 
-		} else if ( request.url === "/usernameExists" ) {
-			post = querystring.parse( post );
-			console.log( "Request for usernameExists: " + post.username );
-            // console.log( post.username );
-			userController.helloDB( post.username );
 		}
     });
    
@@ -42,9 +38,7 @@ http.createServer( function( request, response ) {
 	 #*********#*********#*********#*********#********* */
     if ( request.url == '/' ) {
         sendFileContent( response, "views/index.html", "text/html" );
-		console.log( "/* *********#*********#*********#*********#*********#" );
 		console.log( " *             F I R S T - R E Q U E S T            *" );
-		console.log( " #*********#*********#*********#*********#********* */" );
     }
 
     if ( request.url == '/index' ) {
@@ -79,9 +73,7 @@ http.createServer( function( request, response ) {
 }).listen( 8888 );//使用 listen 方法绑定 8888 端口
 
 //終端印如下信息
-console.log( "/* *********#*********#*********#*********#*********#" );
 console.log( " *      Server running at http://127.0.0.1:8888     *" );
-console.log( " #*********#*********#*********#*********#********* */" );
 
 /* *********#*********#*********#*********#*********#
  *					    METHOD 					    *
