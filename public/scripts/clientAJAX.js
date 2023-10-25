@@ -18,6 +18,10 @@ httpRequest.onload = function() {
         if ( jsonObject.createMember == "success" ) {
             window.location.href = "http://127.0.0.1:8888/index";
         }
+
+        if ( jsonObject.register == "done" ) {
+            alert( "Register Done" );
+        }
     }
 }
 
@@ -58,7 +62,7 @@ function userLogin( username, password ) {
     httpRequest.send( "username=" + username + "&password=" + password );
 }
 
-function userSignUp( username, email, password ) {
+function userRegister( username, email, password ) {
     httpRequest.open( "POST", "http://127.0.0.1:8888/SignUp", false );
     httpRequest.setRequestHeader( "Content-type", "application/x-www-form-urlencoded" );
     httpRequest.send( "username=" + username + "&email=" + email + "&password=" + password );

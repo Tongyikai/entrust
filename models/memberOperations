@@ -8,15 +8,16 @@ const MongoClient = require( "mongodb" ).MongoClient;
 const config = require( "../config/configuration" );
 const uri = "mongodb://" + config.mongodb.user + ":" + config.mongodb.password + "@" + config.mongodb.host + "/" + config.mongodb.database;
 const client = new MongoClient( uri, { useUnifiedTopology: true } );
-
+const encryption = require( "../models/encryption" ); // 加密
 module.exports = {
-    queryUsername
+    queryUsername,
+    queryEmail,
+    createNewMember
 }
 
 function queryUsername( username, callback ) {
-    console.log( "/* *********#*********#*********#*********#*********#*********#*********#" );
-    console.log( " *    MongoDB: For the next generation of intelligent applications.     *" );
-    console.log( " #*********#*********#*********#*********#*********#*********#********* */" );
+    terminalInformation();
+
     var usernameExists = false;
     client.connect( err => {
         if ( err ) throw err;
@@ -25,7 +26,8 @@ function queryUsername( username, callback ) {
             if ( err ) throw err;
     
             if ( result[ 0 ] == undefined ) {
-                console.log( result );
+                // console.log( result );
+                console.log( "∅ undefined" );
             } else {
                 usernameExists = true;
                 console.log( result );
@@ -34,4 +36,55 @@ function queryUsername( username, callback ) {
             callback( usernameExists );
         });
     });
+}
+
+function queryEmail( emailAddress, callback ) {
+    terminalInformation();
+
+    var emailExists = false;
+    client.connect( err => {
+        if ( err ) throw err;
+        const membersCollections = client.db( config.mongodb.database ).collection( config.mongodb.members_Collections );
+        membersCollections.find( { email: emailAddress } ).toArray( function( err, result ) {
+            if ( err ) throw err;
+    
+            if ( result[ 0 ] == undefined ) {
+                // console.log( result );
+                console.log( "∅ undefined" );
+            } else {
+                emailExists = true;
+                console.log( result );
+            }
+            client.close();
+            callback( emailExists );
+        });
+    });
+}
+
+function createNewMember( username, emailAddress, password, callback ) {
+    terminalInformation();
+
+    client.connect( err => {
+        if ( err ) throw err;
+        const membersCollections = client.db( config.mongodb.database ).collection( config.mongodb.members_Collections );
+        const dateTime = new Date().toLocaleString( "zh-TW", { timeZone: "Asia/Taipei" } ); // 取得目前的時間+台北的時區(存入資料庫才是會當地的時間)
+        const encryptionPassword = encryption( password ); // 加密
+        var userObj = { name: username, email: emailAddress, password: encryptionPassword, createDate: dateTime };
+        membersCollections.insertOne( userObj, ( err, res ) => {
+            if ( err ) throw err;
+            console.log( "*  Create New Member  *" );
+            client.close();
+            callback();
+        });
+    });
+}
+
+function parsePassword() {
+
+}
+
+function terminalInformation() {
+    console.log( "/* *********#*********#*********#*********#*********#*********#*********#" );
+    console.log( " *    MongoDB: For the next generation of intelligent applications.     *" );
+    console.log( " #*********#*********#*********#*********#*********#*********#********* */" );
 }

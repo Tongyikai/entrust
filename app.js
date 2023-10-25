@@ -23,13 +23,20 @@ http.createServer( function( request, response ) {
 			post = querystring.parse( post );
             console.log( "Request for Sign In: " );
 			console.log( post );
-			userController.userLogin( post.username, post.password );
+			userController.userLogin( post.username, post.password, () => {
+				// 回傳使用者資訊
+			});
 
         } else if ( request.url === "/SignUp" ) {
 			post = querystring.parse( post );
 			console.log( "Request for Sign Up: " );
             console.log( post );
-
+			userController.userRegister( post.username, post.email, post.password, () => {
+				// 回傳使用者資訊
+				response.writeHead( 200, { "Content-Type": "application/json" } );
+				response.write( JSON.stringify( { register: "done" } ) );
+				response.end();
+			});
 		}
     });
    
@@ -89,4 +96,10 @@ function sendFileContent( response, fileName, contentType ) {
 		}
 		response.end();
 	});
+}
+
+function responseClient( response, headObject, contentObject ) {
+	response.writeHead( 200, headObject );
+	response.write( JSON.stringify( contentObject ) );
+	response.end();
 }
