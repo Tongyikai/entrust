@@ -21,6 +21,7 @@ httpRequest.onload = function() {
 
         if ( jsonObject.register == "done" ) {
             alert( "Register Done" );
+            window.location.href = "http://127.0.0.1:8888/lobby";
         }
     }
 }

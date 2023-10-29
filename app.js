@@ -60,6 +60,12 @@ http.createServer( function( request, response ) {
             response.end();
         });
 
+	} else if ( request.url == '/lobby' ) {
+		sendFileContent( response, "views/lobby.html", "text/html" );
+		console.log( "/* *********#*********#*********#*********#*********#" );
+		console.log( " *             Welcome To Entrust Lobby             *" );
+		console.log( " #*********#*********#*********#*********#********* */" );
+
     } else if ( /^\/[a-zA-Z0-9\/]*.css$/.test( request.url.toString() ) ) {
 		sendFileContent( response, request.url.toString().substring( 1 ), "text/css" );
 		console.log( "Response File: " + request.url.toString().substring( 1 ) );

@@ -2,5 +2,12 @@
   "dependencies": {
     "crypto": "^1.0.1",
     "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
+  },
+  "scripts": {
+    "test": "jest --coverage"
   }
 }
