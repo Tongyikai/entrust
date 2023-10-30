@@ -8,15 +8,17 @@ const MongoClient = require( "mongodb" ).MongoClient;
 const config = require( "../config/configuration" );
 const uri = "mongodb://" + config.mongodb.user + ":" + config.mongodb.password + "@" + config.mongodb.host + "/" + config.mongodb.database;
 const client = new MongoClient( uri, { useUnifiedTopology: true } );
-const encryption = require( "../models/encryption" ); // 加密
+const encryption = require( "./encryption" ); // 加密
+
 module.exports = {
     queryUsername,
+    queryUsernameAndPassword,
     queryEmail,
     createNewMember
 }
 
 function queryUsername( username, callback ) {
-    terminalInformation();
+    terminalInformation( "Query Username." );
 
     var usernameExists = false;
     client.connect( err => {
@@ -26,7 +28,7 @@ function queryUsername( username, callback ) {
             if ( err ) throw err;
     
             if ( result[ 0 ] == undefined ) {
-                // console.log( result );
+                console.log( result );
                 console.log( "∅ undefined" );
             } else {
                 usernameExists = true;
@@ -38,8 +40,31 @@ function queryUsername( username, callback ) {
     });
 }
 
+function queryUsernameAndPassword( username, userPassword, callback ) {
+    terminalInformation( "Query Username And Password." );
+
+    var isExists = false;
+    client.connect( err => {
+        if ( err ) throw err;
+        const membersCollections = client.db( config.mongodb.database ).collection( config.mongodb.members_Collections );
+        membersCollections.find( { name: username } ).toArray( function( err, result ) {
+            if ( err ) throw err;
+
+            if ( result[ 0 ] == undefined ) { // 資料庫沒有找到相同的名字
+                console.log( result );
+                console.log( "∅ undefined" );
+            } else if ( comparePassword( userPassword, result[ 0 ].password ) ) { // 找到名字, 做比對密碼的動作
+                isExists = true;
+                console.log( "same password" );
+            }
+            client.close();
+            callback( isExists );
+        });
+    });
+}
+
 function queryEmail( emailAddress, callback ) {
-    terminalInformation();
+    terminalInformation( "Query email." );
 
     var emailExists = false;
     client.connect( err => {
@@ -49,7 +74,7 @@ function queryEmail( emailAddress, callback ) {
             if ( err ) throw err;
     
             if ( result[ 0 ] == undefined ) {
-                // console.log( result );
+                console.log( result );
                 console.log( "∅ undefined" );
             } else {
                 emailExists = true;
@@ -62,7 +87,7 @@ function queryEmail( emailAddress, callback ) {
 }
 
 function createNewMember( username, emailAddress, password, callback ) {
-    terminalInformation();
+    terminalInformation( "Create a new member.");
 
     client.connect( err => {
         if ( err ) throw err;
@@ -72,19 +97,22 @@ function createNewMember( username, emailAddress, password, callback ) {
         var userObj = { name: username, email: emailAddress, password: encryptionPassword, createDate: dateTime };
         membersCollections.insertOne( userObj, ( err, res ) => {
             if ( err ) throw err;
-            console.log( "*  Create New Member  *" );
+            console.log( res );
+            console.log( "*          Create a new member          *" );
             client.close();
             callback();
         });
     });
 }
 
-function parsePassword() {
-
+function comparePassword( userPassword, dbPassword ) { // 將使用者的密碼, 加密變暗碼, 之後比對資料庫的暗碼是否相同
+    const encryptionPassword = encryption( userPassword ); 
+    if ( encryptionPassword == dbPassword ) return true;
+    return false;
 }
 
-function terminalInformation() {
+function terminalInformation( string ) {
     console.log( "/* *********#*********#*********#*********#*********#*********#*********#" );
-    console.log( " *    MongoDB: For the next generation of intelligent applications.     *" );
+    console.log( " *   MongoDB: " + string );
     console.log( " #*********#*********#*********#*********#*********#*********#********* */" );
 }

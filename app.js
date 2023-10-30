@@ -23,8 +23,11 @@ http.createServer( function( request, response ) {
 			post = querystring.parse( post );
             console.log( "Request for Sign In: " );
 			console.log( post );
-			userController.userLogin( post.username, post.password, () => {
+			userController.userLogin( post.username, post.password, ( token ) => {
 				// 回傳使用者資訊
+				response.writeHead( 200, { "Content-Type": "application/json" } );
+				response.write( JSON.stringify( { authorization: token } ) ); // 回傳 token 給使用者, 使用者不存在會收到 authorization: empty
+				response.end();
 			});
 
         } else if ( request.url === "/SignUp" ) {
@@ -62,9 +65,7 @@ http.createServer( function( request, response ) {
 
 	} else if ( request.url == '/lobby' ) {
 		sendFileContent( response, "views/lobby.html", "text/html" );
-		console.log( "/* *********#*********#*********#*********#*********#" );
 		console.log( " *             Welcome To Entrust Lobby             *" );
-		console.log( " #*********#*********#*********#*********#********* */" );
 
     } else if ( /^\/[a-zA-Z0-9\/]*.css$/.test( request.url.toString() ) ) {
 		sendFileContent( response, request.url.toString().substring( 1 ), "text/css" );
@@ -83,9 +84,9 @@ http.createServer( function( request, response ) {
 		console.log("Response File: " + request.url.toString().substring( 1 ) );
 		
 	}
-}).listen( 8888 );//使用 listen 方法绑定 8888 端口
+}).listen( 8888 );// 使用 listen 方法绑定 8888 端口
 
-//終端印如下信息
+// 終端印如下信息
 console.log( " *      Server running at http://127.0.0.1:8888     *" );
 
 /* *********#*********#*********#*********#*********#

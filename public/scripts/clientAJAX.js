@@ -1,12 +1,12 @@
 // Asynchronous JavaScript and XML
 
 const httpRequest = new XMLHttpRequest();
-let isEmailAvailable;
 
 httpRequest.onload = function() {
     if ( httpRequest.status >= 200 && httpRequest.status < 400 ) {
         let jsonObject = JSON.parse( httpRequest.responseText );
 
+        /*
         // Email是否可以使用
         if ( jsonObject.emailAvailable == "true" ) {
             isEmailAvailable = true;
@@ -18,10 +18,18 @@ httpRequest.onload = function() {
         if ( jsonObject.createMember == "success" ) {
             window.location.href = "http://127.0.0.1:8888/index";
         }
+        */
 
+        // 註冊成功, 讓使用者自行登入
         if ( jsonObject.register == "done" ) {
             alert( "Register Done" );
-            window.location.href = "http://127.0.0.1:8888/lobby";
+            // window.location.href = "http://127.0.0.1:8888/lobby";
+        }
+
+        if ( jsonObject.authorization != "empty" ) {
+            alert( "got token" );
+        } else {
+            alert( "Account password is wrong!!" );
         }
     }
 }
@@ -30,6 +38,7 @@ httpRequest.onerror = function() {
     alert( "Can't connect to this network." );
 }
 
+/*
 // 檢查電子郵件是否存在(避免註冊重複的電子郵件)
 function checkEmailAvailable( searchEmail ) {
     httpRequest.open( "GET", "http://127.0.0.1:8888/signUp/check?email=" + searchEmail, false );
@@ -56,6 +65,7 @@ function registerForUser( familyName, givenName, email, password, yearOfBirth, m
                      "&dayOfBirth=" + dayOfBirth +
                          "&gender=" + gender );
 }
+*/
 
 function userLogin( username, password ) {
     httpRequest.open( "POST", "http://127.0.0.1:8888/SignIn", false );

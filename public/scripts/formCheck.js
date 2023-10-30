@@ -21,7 +21,7 @@ function checkPasswordFormat( parameter ) {
     return passwordRule.test( parameter );
 }
 
-// 檢查是否輸入了空白 (沒有輸入或輸入空白為 true，文字包含空白字符為 false)
+// 檢查是否輸入了空白 ( 沒有輸入或輸入空白為 true，文字包含空白字符為 false )
 function checkBlankFormat( parameter ) {
     if ( parameter.replace( blankRule, "" ).length == 0 ) {
         return true;

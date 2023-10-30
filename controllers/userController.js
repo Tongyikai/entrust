@@ -1,4 +1,5 @@
-let memberOperations = require("../models/memberOperations");
+let memberOperations = require( "../models/memberOperations" );
+let tokenOperations = require( "../models/tokenOperations" );
 
 module.exports = {
     userLogin,
@@ -6,14 +7,16 @@ module.exports = {
 }
 
 function userLogin( username, password, callback ) {
-    
-    if ( memberOperations.queryUsername( username, ( usernameExists ) => {
-        if ( usernameExists ) {
-            // 密碼比對
+    memberOperations.queryUsernameAndPassword( username, password, ( isExists ) => {
+        console.log( "log in successfully: " + isExists );
+        if ( isExists ) {
+            // 使用者可以登入, 產生一個 token 回傳給使用者
+            let generateToken = tokenOperations.getToken( username );
+            callback( generateToken );
         } else {
-            // 使用者名稱不存在
+            callback( "empty" ); // 使用者不存在, 回傳 empty, client 會拿到物件 authorization: empty
         }
-    }));
+    });
 }
 
 function userRegister( username, emailAddress, password, callback ) {

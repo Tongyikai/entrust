@@ -12,8 +12,8 @@ section {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    /* background: url( ../images/miami2.png ); */
-    background: rgba( 165, 165, 165, 0.8 );
+    background: url( ../images/miami.png );
+    /* background: rgba( 165, 165, 165, 0.8 ); */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -52,14 +52,14 @@ header {
     display: flex;
 	align-items: center;
 }
-.navbar ul li.nr_li {
+.navbar ul li.graph_o {
     margin-left: 25px;
 	cursor: pointer;
 	color: #fff;
 	font-size: 20px;
 	position: relative;
 }
-.navbar ul li.nr_li:hover {
+.navbar ul li.graph_o:hover {
     color: #cefffc;
 }
 .navbar ul li img {
@@ -73,12 +73,12 @@ header {
     display: flex;
     background: #fff;
     border-radius: 15px;
-    box-shadow: 0px 0px 3px rgba(0,0,0,0.25);
+    box-shadow: 0px 0px 3px rgba( 0, 0, 0, 0.25 );
     display: none;
 }
 .navbar .menu .menu_left {
     /* background: #45f3ff; */
-    background: rgb(218, 168, 168);
+    background: rgb( 218, 168, 168 );
 	padding: 15px 20px;
 	border-top-left-radius: 15px;
 	border-bottom-left-radius: 15px;
@@ -103,6 +103,6 @@ header {
 	border-color: transparent transparent #fff transparent;
 }
 
-.navbar .dd_main.active .menu {
+.navbar .graph_o.active .menu {
 	display: flex;
 }
