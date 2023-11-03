@@ -8,6 +8,7 @@ module.exports = {
 
 function getToken( username ) {
     terminalInformation( "generate new key" );
+    
     const token = jwt.sign( { algorithm: "HS256", exp: Math.floor( Date.now() / 1000 ) + ( 60 * 60 ), name: username }, config.signature );
     return token;
 }

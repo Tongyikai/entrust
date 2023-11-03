@@ -40,6 +40,16 @@ http.createServer( function( request, response ) {
 				response.write( JSON.stringify( { register: "done" } ) );
 				response.end();
 			});
+
+		} else if ( request.url === "/logInWithToken" ) {
+			console.log( "Request for logInWithToken: " );
+			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
+			console.log( "token: " + token );
+
+			// token驗證還沒寫
+			response.writeHead( 200, { "Content-Type": "application/json" } );
+			response.write( JSON.stringify( { authorization: "Okay" } ) );
+			response.end();
 		}
     });
    
@@ -64,7 +74,7 @@ http.createServer( function( request, response ) {
         });
 
 	} else if ( request.url == '/lobby' ) {
-		sendFileContent( response, "views/lobby.html", "text/html" );
+		sendFileContent( response, "views/lobby.html", "text/html" ); 
 		console.log( " *             Welcome To Entrust Lobby             *" );
 
     } else if ( /^\/[a-zA-Z0-9\/]*.css$/.test( request.url.toString() ) ) {

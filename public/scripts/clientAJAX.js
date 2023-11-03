@@ -6,30 +6,27 @@ httpRequest.onload = function() {
     if ( httpRequest.status >= 200 && httpRequest.status < 400 ) {
         let jsonObject = JSON.parse( httpRequest.responseText );
 
-        /*
-        // Email是否可以使用
-        if ( jsonObject.emailAvailable == "true" ) {
-            isEmailAvailable = true;
-        } else {
-            isEmailAvailable = false;
-        }
-
-        // 成功註冊
-        if ( jsonObject.createMember == "success" ) {
-            window.location.href = "http://127.0.0.1:8888/index";
-        }
-        */
+        console.log( jsonObject );
 
         // 註冊成功, 讓使用者自行登入
         if ( jsonObject.register == "done" ) {
             alert( "Register Done" );
-            // window.location.href = "http://127.0.0.1:8888/lobby";
+            return;
         }
+       
+        switch( jsonObject.authorization ) {
+            case "empty":
+                alert( "Account password is wrong!!" );
+                break;
 
-        if ( jsonObject.authorization != "empty" ) {
-            alert( "got token" );
-        } else {
-            alert( "Account password is wrong!!" );
+            case "Okay":
+                alert( "Welcome To Entrust Lobby" );
+                window.location.href = "http://127.0.0.1:8888/lobby";
+                break;
+
+            default:
+                document.cookie = "authorization=" + jsonObject.authorization;
+                loginAuthorization();
         }
     }
 }
@@ -37,35 +34,6 @@ httpRequest.onload = function() {
 httpRequest.onerror = function() {
     alert( "Can't connect to this network." );
 }
-
-/*
-// 檢查電子郵件是否存在(避免註冊重複的電子郵件)
-function checkEmailAvailable( searchEmail ) {
-    httpRequest.open( "GET", "http://127.0.0.1:8888/signUp/check?email=" + searchEmail, false );
-    httpRequest.send();
-    return isEmailAvailable;
-}
-
-// 傳送使用者"註冊"的基本資料
-function registerForUser( familyName, givenName, email, password, yearOfBirth, monthOfBirth, dayOfBirth, gender ) {
-    // console.log("客戶端註冊資訊準備用POST傳給伺服器");
-    // async 可选
-    // 一个可选的布尔参数，表示是否异步执行操作，默认为 true。
-    // 如果值为 false，send() 方法直到收到答复前不会返回。
-    // 如果 true，已完成事务的通知可供事件监听器使用。
-    // 如果 multipart 属性为 true 则这个必须为 true，否则将引发异常。
-    httpRequest.open( "POST", "http://127.0.0.1:8888/register", false );
-    httpRequest.setRequestHeader( "Content-type", "application/x-www-form-urlencoded" );
-    httpRequest.send( "familyName=" + familyName + 
-                      "&givenName=" + givenName +
-                          "&email=" + email +
-                       "&password=" + password +
-                    "&yearOfBirth=" + yearOfBirth + 
-                   "&monthOfBirth=" + monthOfBirth +
-                     "&dayOfBirth=" + dayOfBirth +
-                         "&gender=" + gender );
-}
-*/
 
 function userLogin( username, password ) {
     httpRequest.open( "POST", "http://127.0.0.1:8888/SignIn", false );
@@ -77,4 +45,15 @@ function userRegister( username, email, password ) {
     httpRequest.open( "POST", "http://127.0.0.1:8888/SignUp", false );
     httpRequest.setRequestHeader( "Content-type", "application/x-www-form-urlencoded" );
     httpRequest.send( "username=" + username + "&email=" + email + "&password=" + password );
+}
+
+function loginAuthorization() {
+    var cookieValue = document.cookie.replace( /(?:(?:^|.*;\s*)authorization\s*\=\s*([^;]*).*$)|^.*$/, "$1" );
+    console.log( "拿到認證: " + cookieValue );
+
+    if ( cookieValue !== "" ) { // 如果authorization有值，傳給伺服器認證
+        httpRequest.open( "POST", "http://127.0.0.1:8888/logInWithToken", false );
+        httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue );
+        httpRequest.send();
+    }
 }

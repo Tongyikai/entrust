@@ -24,9 +24,11 @@ function userRegister( username, emailAddress, password, callback ) {
     if ( memberOperations.queryUsername( username, ( usernameExists ) => {
         if ( usernameExists ) {
             // 使用者名稱存在, 不能建立新會員
+
         } else if ( memberOperations.queryEmail( emailAddress, ( emailExists ) => {
             if ( emailExists ) {
                 // email存在, 不能建立新會員
+                
             } else {
                 // 驗證可以, 建立新會員
                 memberOperations.createNewMember( username, emailAddress, password, () => {
