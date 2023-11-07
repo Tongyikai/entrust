@@ -24,7 +24,7 @@ function queryUsername( username, callback ) {
     client.connect( err => {
         if ( err ) throw err;
         const membersCollections = client.db( config.mongodb.database ).collection( config.mongodb.members_Collections );
-        membersCollections.find( { name: username } ).toArray( function( err, result ) {
+        membersCollections.find( { username: username } ).toArray( function( err, result ) {
             if ( err ) throw err;
     
             if ( result[ 0 ] == undefined ) {
@@ -47,7 +47,7 @@ function queryUsernameAndPassword( username, userPassword, callback ) {
     client.connect( err => {
         if ( err ) throw err;
         const membersCollections = client.db( config.mongodb.database ).collection( config.mongodb.members_Collections );
-        membersCollections.find( { name: username } ).toArray( function( err, result ) {
+        membersCollections.find( { username: username } ).toArray( function( err, result ) {
             if ( err ) throw err;
 
             if ( result[ 0 ] == undefined ) { // 資料庫沒有找到相同的名字
@@ -94,7 +94,7 @@ function createNewMember( username, emailAddress, password, callback ) {
         const membersCollections = client.db( config.mongodb.database ).collection( config.mongodb.members_Collections );
         const dateTime = new Date().toLocaleString( "zh-TW", { timeZone: "Asia/Taipei" } ); // 取得目前的時間+台北的時區(存入資料庫才是會當地的時間)
         const encryptionPassword = encryption( password ); // 加密
-        var userObj = { name: username, email: emailAddress, password: encryptionPassword, createDate: dateTime };
+        var userObj = { username: username, email: emailAddress, password: encryptionPassword, createDate: dateTime };
         membersCollections.insertOne( userObj, ( err, res ) => {
             if ( err ) throw err;
             console.log( res );

@@ -7,6 +7,7 @@
     list-style: none;
 	font-family: 'Jost', sans-serif;
 }
+
 section {
     display: flex;
     justify-content: center;
@@ -19,6 +20,7 @@ section {
     background-attachment: fixed;
     padding: 50px;
 }
+
 .container .logo {
     display: block;
 	text-decoration: none;
@@ -28,6 +30,7 @@ section {
 	font-size: 25px;
 	text-transform: uppercase;
 }
+
 header {
     position: absolute;
     top: 10px;
@@ -47,11 +50,16 @@ header {
     
     z-index: 100;
 }
+
+/* *********#*********#*********#*********#*********#
+ *					    頭像menu 					 *
+ #*********#*********#*********#*********#********* */
 /* 大於(>)就是選取底下直接的子元素 */
 .navbar > ul { 
     display: flex;
 	align-items: center;
 }
+
 .navbar ul li.graph_o {
     margin-left: 25px;
 	cursor: pointer;
@@ -59,9 +67,11 @@ header {
 	font-size: 20px;
 	position: relative;
 }
+
 .navbar ul li.graph_o:hover {
     color: #cefffc;
 }
+
 .navbar ul li img {
     width: 35px;
 	vertical-align: middle;
@@ -74,6 +84,7 @@ header {
     -webkit-border-radius:100px;
     -moz-border-radius:100px;
 }
+
 .navbar .menu {
     position: absolute;
     right: -25px;
@@ -85,7 +96,6 @@ header {
     display: none;
 }
 
-
 /* .navbar .menu .menu_left {
     background: rgb( 218, 168, 168 );
 	padding: 15px 20px;
@@ -96,14 +106,15 @@ header {
     color: #fff;
 } */
 
-
 .navbar .menu .menu_right {
     padding: 15px 20px;
 }
+
 .navbar .menu li {
 	margin-bottom: 10px;
 	color: #868686;
 }
+
 .navbar .menu:before {
 	content: "";
 	position: absolute;
@@ -112,6 +123,7 @@ header {
 	border: 10px solid;
 	border-color: transparent transparent #fff transparent;
 }
+
 .navbar .graph_o.active .menu {
 	display: flex;
 }
@@ -209,9 +221,9 @@ header {
 }
 
 /* *********#*********#*********#*********#*********#
- *			  container_left add-button		    *
+ *			  container_left add-button		        *
  #*********#*********#*********#*********#********* */
- .container_left .add-box {
+ .container_left .add_box {
     /* width: 140px; */
     width: 90px;
     height: auto;
@@ -232,7 +244,7 @@ header {
     color: #fff;
 }
 
-.container_left .add-box:before {
+.container_left .add_box:before {
     position: absolute;
     content: '';
     left: 0;
@@ -245,7 +257,7 @@ header {
     transform: translateX(100%);
 }
 
-.container_left .add-box:after {
+.container_left .add_box:after {
     position: absolute;
     content: '';
     top: 0;
@@ -258,18 +270,18 @@ header {
     transform: translateX(-100%);
 }
 
-.container_left .add-box:hover {
+.container_left .add_box:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 
-.container_left .add-box:hover:before {
+.container_left .add_box:hover:before {
     border-color: #262626;
     height: 100%;
     transform: translateX(0);
     transition: .3s transform linear, .3s height linear .3s;
 }
 
-.container_left .add-box:hover:after {
+.container_left .add_box:hover:after {
     border-color: #262626;
     height: 100%;
     transform: translateX(0);
@@ -286,6 +298,109 @@ header {
 }
 
 /* *********#*********#*********#*********#*********#
+ *			        add-button 輸入框	             *
+ #*********#*********#*********#*********#********* */
+.box .addBox_input {
+    position: absolute;
+    right: -550px;
+    top: 10px;
+    display: flex;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0px 0px 3px rgba( 0, 0, 0, 0.25 );
+    /* display: none; */
+    padding: 20px 80px;
+    z-index: 2;
+}
+
+.box .addBox_input::before {
+    content: "";
+	position: absolute;
+	top: 15px;
+	right: 549px;
+	border: 10px solid;
+	border-color: transparent #fff transparent transparent;
+}
+
+/* *********#*********#*********#*********#*********#
+ *			        add-button 影子表單	             *
+ #*********#*********#*********#*********#********* */
+ .input-sizer {
+    display: inline-grid;
+    vertical-align: top;
+    align-items: center;
+    position: relative;
+    border: solid 1px;
+    /* padding: .25em .5em; */
+    padding: .25em 5em;
+    margin: 5px;
+}
+
+.input-sizer.stacked {
+    padding: .5em;
+    align-items: stretch;
+}
+
+.input-sizer.stacked::after,
+.input-sizer.stacked input,
+.input-sizer.stacked textarea {
+    grid-area: 2 / 1;
+}
+
+.input-sizer::after,
+.input-sizer input,
+.input-sizer textarea {
+    width: auto;
+    min-width: 10em;
+    grid-area: 1 / 2;
+    font: inherit;
+    padding: 0.25em;
+    margin: 0;
+    resize: none;
+    background: none;
+    appearance: none;
+    border: none;
+}
+
+.input-sizer span {
+    padding: 0.25em;
+}
+
+.input-sizer::after {
+    content: attr( data-value ) " ";
+    visibility: hidden;
+    white-space: pre-wrap;
+}
+
+.input-sizer:focus-within {
+    /* outline: solid 1px blue; */
+    outline: solid 1px #03a9f4;
+    /* box-shadow: 4px 4px 0px blue; */
+    box-shadow: 4px 4px 0px #03a9f4;
+}
+
+.input-sizer:focus-within > span {
+    /* color: blue; */
+    color: #03a9f4;
+}
+
+.input-sizer:focus-within textarea:focus,
+.input-sizer:focus-within input:focus {
+    outline: none;
+}
+
+.input-sizer {
+    box-shadow: 4px 4px 0px #000;
+}
+
+.input-sizer > span {
+    text-transform: uppercase;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-shadow: 2px 2px 0 rgba( 0, 0, 0, 0.15 );
+}
+
+/* *********#*********#*********#*********#*********#
  *				   container_middle 			    *
  #*********#*********#*********#*********#********* */
 .container_middle .box {
@@ -299,7 +414,7 @@ header {
     border-right: 1px solid rgba( 255, 255, 255, 0.2 );
     border-bottom: 1px solid rgba( 255, 255, 255, 0.2 );
     border-radius: 40px;
-    z-index: 10;
+    z-index: 1;
     padding: 20px;
     backdrop-filter: blur( 25px );
 
