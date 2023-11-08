@@ -50,16 +50,21 @@
                 <div class="box">
                     <!-- <h3>Popular Creator Rank List</h3> -->
                     <h3>All Friends</h3>
-                    <button><span class="add_box">Add+</span></button>
+
+                    <button>
+                        <span class="add_box">Add+</span>
+                    </button>
+
                     <div class="addBox_input">
                         <ul>
                             <li>
                                 <form action="#">
-                                    <label class="input-sizer">
-                                      <span>Input: </span>
-                                      <input type="text" onInput="this.parentNode.dataset.value = this.value" size="4" placeholder="Username or email">
+                                    <label class="input-sizer">                                            
+                                        <span>Input: </span>
+                                        <input type="text" onInput="this.parentNode.dataset.value = this.value" size="4" placeholder="Username or email">
                                     </label>
-                                  </form>
+                                    <input type="button" value="Invite Friends" onclick="newFriend();">
+                                </form>
                             </li>
                         </ul>
                     </div>
@@ -165,8 +170,17 @@
 
         var add_box = document.querySelector( ".add_box" );
         add_box.addEventListener( "click", function() {
-            alert( "add people" );
+            var addBtn = document.getElementsByClassName( "addBox_input" )[ 0 ];
+            if ( addBtn.style.display == "none" ) {
+                addBtn.style.display = "flex";
+            } else {
+                addBtn.style.display = "none";
+            }
         });
+
+        function newFriend() {
+            alert();
+        }
     </script>
 </body>
 </html>
