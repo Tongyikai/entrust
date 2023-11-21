@@ -1,5 +1,6 @@
 emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
-nameRule = /[a-zA-Z0-9]{25}/; // 匹配成立代表名字超過24字元
+nameLengthRule = /[a-zA-Z0-9]{25}/; // 匹配成立代表名字超過24字元
+userNameRule = /[^a-zA-Z0-9]+/; // 英文或數字以外的符號都配對，[^a-z] 方刮號前面寫一個尖號(脱字符)則代表要求匹配除了尖號後面列出"以外"的字符
 passwordRule = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\w\s]).{8,16}$/;
 blankRule = /(^s*)|(s*$)/g;
 testName = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,12}$/; //至少有一個數字,至少有一個小寫英文字母,至少有一個大寫英文字母,字串長度在 6 ~ 12 個字母之間
@@ -12,8 +13,13 @@ function checkEmailFormat( parameter ) {
     return false;
 }
 
-function checkNameFormat( parameter ) {
-    if ( nameRule.test( parameter ) ) return true;
+function checkNameLengthFormat( parameter ) {
+    if ( nameLengthRule.test( parameter ) ) return true;
+    return false;
+}
+
+function checkUserNameFormat( parameter ) { // 匹配成功代表輸入了英文數字以外的字符
+    if ( userNameRule.test( parameter ) ) return true;
     return false;
 }
 

@@ -62,7 +62,7 @@ http.createServer( function( request, response ) {
     }
 
     if ( request.url == '/index' ) {
-        fs.readFile( 'index.html', function( err, data ) {
+        fs.readFile( 'views/index.html', function( err, data ) {
             if ( err ) {
                 console.log( err );
                 response.writeHead( 404, { 'Content-Type': 'text/html' } );

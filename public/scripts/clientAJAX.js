@@ -47,6 +47,9 @@ function userRegister( username, email, password ) {
     httpRequest.send( "username=" + username + "&email=" + email + "&password=" + password );
 }
 
+/* *********#*********#*********#*********#*********#
+ *					    Token 					    *
+ #*********#*********#*********#*********#********* */
 function loginAuthorization() {
     var cookieValue = document.cookie.replace( /(?:(?:^|.*;\s*)authorization\s*\=\s*([^;]*).*$)|^.*$/, "$1" );
     console.log( "拿到認證: " + cookieValue );
