@@ -228,18 +228,22 @@
     <script type="text/javascript" src="public/scripts/clientAJAX.js"></script>
     <script type="text/javascript" src="public/scripts/formCheck.js"></script>
     <script>
-        var graph_o = document.querySelector( ".graph_o" ); // 頭像menu
+        // 頭像menu
+        var graph_o = document.querySelector( ".graph_o" ); 
         graph_o.addEventListener( "click", function() {
             this.classList.toggle( "active" );
         });
 
-        var add_box = document.querySelector( ".add_box" ); // 新增好友輸入框
+        // 新增好友輸入框
+        var add_box = document.querySelector( ".add_box" ); 
         add_box.addEventListener( "click", function() {
             var addBtn = document.getElementsByClassName( "addBox_input" )[ 0 ];
-            if ( addBtn.style.display == "none" ) {
-                addBtn.style.display = "flex";
+            if ( addBtn.style.display == "none" || addBtn.style.display == "" ) {
+                addBtn.style.display = "block";
+               
             } else {
                 addBtn.style.display = "none";
+             
             }
         });
 
