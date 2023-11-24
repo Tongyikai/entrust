@@ -6,7 +6,7 @@ module.exports = function getRePassword( password ) {
     hashPassword.update( password );
     const rePassword = hashPassword.digest( "hex" );
     
-    console.log( " *          E N C R Y P T I O N          *" );
+    console.log( "* E N C R Y P T I O N *" );
     console.log( "hashPassword: " + hashPassword );
     console.log( "rePassword: " + rePassword );
 

@@ -1,5 +1,4 @@
 // Asynchronous JavaScript and XML
-
 const httpRequest = new XMLHttpRequest();
 
 httpRequest.onload = function() {
@@ -47,9 +46,6 @@ function userRegister( username, email, password ) {
     httpRequest.send( "username=" + username + "&email=" + email + "&password=" + password );
 }
 
-/* *********#*********#*********#*********#*********#
- *					    Token 					    *
- #*********#*********#*********#*********#********* */
 function loginAuthorization() {
     var cookieValue = document.cookie.replace( /(?:(?:^|.*;\s*)authorization\s*\=\s*([^;]*).*$)|^.*$/, "$1" );
     console.log( "拿到認證: " + cookieValue );
@@ -60,3 +56,15 @@ function loginAuthorization() {
         httpRequest.send();
     }
 }
+
+// function addBuddyFromEmail( email ) {
+//     httpRequest.open( "POST", "http://127.0.0.1:8888/addBuddy", false );
+//     httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
+//     httpRequest.send( "email=" + email );
+// }
+
+// function addBuddyFromUsername( username ) {
+//     httpRequest.open( "POST", "http://127.0.0.1:8888/addBuddy", false );
+//     httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
+//     httpRequest.send( "username=" + username );
+// }

@@ -9,7 +9,9 @@ module.exports = {
 function getToken( username ) {
     terminalInformation( "generate new key" );
     
-    const token = jwt.sign( { algorithm: "HS256", exp: Math.floor( Date.now() / 1000 ) + ( 60 * 60 ), name: username }, config.signature );
+    // const token = jwt.sign( { algorithm: "HS256", exp: Math.floor( Date.now() / 1000 ) + ( 60 * 60 ), username: username }, config.JWT_KEY );
+    const token = jwt.sign( { username: username }, config.JWT_KEY, { algorithm: "HS256", expiresIn: "1 day" } );
+    console.log( "generate token: " + token );
     return token;
 }
 
@@ -18,14 +20,14 @@ function whoIsThisToken( token ) {
     
     let decoded;
     let tokenCorrect;
-    jwt.verify( token, config.signature, err => {
+    jwt.verify( token, config.JWT_KEY, err => {
         if ( err ) {
-            console.log( "err: " + err );
+            console.log( "Token err: " + err );
             tokenCorrect = false;
         } else {   
-            decoded = jwt.verify( token, config.secret );
+            decoded = jwt.verify( token, config.JWT_KEY );
             console.log( decoded );
-            console.log( "Token Exist: " + decoded.name );
+            console.log( "Token Exist: " + decoded.username );
             tokenCorrect = true;
         }
     });

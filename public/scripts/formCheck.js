@@ -5,9 +5,6 @@ passwordRule = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\w\s]).{8,16}$/;
 blankRule = /(^s*)|(s*$)/g;
 testName = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,12}$/; //至少有一個數字,至少有一個小寫英文字母,至少有一個大寫英文字母,字串長度在 6 ~ 12 個字母之間
 
-/* *********#*********#*********#*********#*********#
- *					    METHOD 					    *
- #*********#*********#*********#*********#********* */
 function checkEmailFormat( parameter ) {
     if ( emailRule.test( parameter ) ) return true;
     return false;

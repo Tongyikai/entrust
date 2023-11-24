@@ -12,5 +12,5 @@ module.exports = {
                 database:   process.env.DATABASE,
      members_Collections:   process.env.MEMBERS_COLLECTIONS
     },
-               signature:   process.env.SIGNATURE
+                 JWT_KEY:   process.env.JWT_KEY
 }

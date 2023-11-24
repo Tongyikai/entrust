@@ -4,6 +4,7 @@ Read Operations
 Update Operations
 Delete Operations
 */
+
 const MongoClient = require( "mongodb" ).MongoClient;
 const config = require( "../config/configuration" );
 const uri = "mongodb://" + config.mongodb.user + ":" + config.mongodb.password + "@" + config.mongodb.host + "/" + config.mongodb.database;
@@ -98,7 +99,7 @@ function createNewMember( username, emailAddress, password, callback ) {
         membersCollections.insertOne( userObj, ( err, res ) => {
             if ( err ) throw err;
             console.log( res );
-            console.log( "*          Create a new member          *" );
+            console.log( "* Create a new member *" );
             client.close();
             callback();
         });

@@ -3,7 +3,8 @@ let tokenOperations = require( "../models/tokenOperations" );
 
 module.exports = {
     userLogin,
-    userRegister
+    userRegister,
+    tokenLogin
 }
 
 function userLogin( username, password, callback ) {
@@ -37,4 +38,15 @@ function userRegister( username, emailAddress, password, callback ) {
             }
         })); 
     }));
+}
+
+function tokenLogin( token ) {
+    if ( tokenOperations.whoIsThisToken( token ) ) {
+        console.log( "token ok" );
+        
+    } else {
+        console.log( "token no" );
+
+    }
+    
 }

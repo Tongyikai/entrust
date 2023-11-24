@@ -5,12 +5,8 @@ let querystring = require( "querystring" );
 let userController = require("./controllers/userController");
 
 http.createServer( function( request, response ) {
-
     let post = "";
 
-    /* *********#*********#*********#*********#*********#
-	 *					     POST 					    *
-	 #*********#*********#*********#*********#********* */
 	request.on( "data", function( chunk ) {
 		post += chunk;
 		console.log( "/* *********#*********#*********#*********#*********#" );
@@ -46,7 +42,10 @@ http.createServer( function( request, response ) {
 			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
 			console.log( "token: " + token );
 
-			// token驗證還沒寫
+			// token驗證
+			userController.tokenLogin( token );
+
+			// 暫時回傳假資訊
 			response.writeHead( 200, { "Content-Type": "application/json" } );
 			response.write( JSON.stringify( { authorization: "Okay" } ) );
 			response.end();
@@ -58,7 +57,7 @@ http.createServer( function( request, response ) {
 	 #*********#*********#*********#*********#********* */
     if ( request.url == '/' ) {
         sendFileContent( response, "views/index.html", "text/html" );
-		console.log( " *             F I R S T - R E Q U E S T            *" );
+		console.log( "* F R O N T P A G E - R E Q U E S T *" );
     }
 
     if ( request.url == '/index' ) {
@@ -75,7 +74,7 @@ http.createServer( function( request, response ) {
 
 	} else if ( request.url == '/lobby' ) {
 		sendFileContent( response, "views/lobby.html", "text/html" ); 
-		console.log( " *             Welcome To Entrust Lobby             *" );
+		console.log( "* Welcome To Entrust Lobby *" );
 
     } else if ( /^\/[a-zA-Z0-9\/]*.css$/.test( request.url.toString() ) ) {
 		sendFileContent( response, request.url.toString().substring( 1 ), "text/css" );
@@ -97,7 +96,7 @@ http.createServer( function( request, response ) {
 }).listen( 8888 );// 使用 listen 方法绑定 8888 端口
 
 // 終端印如下信息
-console.log( " *      Server running at http://127.0.0.1:8888     *" );
+console.log( "**** Server running at http://127.0.0.1:8888 ****" );
 
 /* *********#*********#*********#*********#*********#
  *					    METHOD 					    *
