@@ -1,5 +1,4 @@
 hostURL = "http://127.0.0.1:8888/index";
-clearToken = "authorization=";
 
 // 頭像menu
 var graph_o = document.querySelector( ".graph_o" ); 
@@ -25,10 +24,14 @@ let emailCorrect = checkEmailFormat;
 let nameLengthCorrect = checkNameLengthFormat;
 let userNameCorrect = checkUserNameFormat;
 
+let addFriendEmail = addBuddyFromEmail;
+let addFriendUsername = addBuddyFromUsername;
+
 function newFriend() {
     var addFriendName = document.getElementById( "addFriendName" );
     if ( emailCorrect( addFriendName.value ) ) {
         alert( "email Ok" );
+        addFriendEmail( addFriendName.value );
 
     } else if ( nameLengthCorrect( addFriendName.value ) ) {
         alert( "Error: Name exceeds 24 characters." );
@@ -38,7 +41,7 @@ function newFriend() {
 
     } else {
         alert( "username Ok" );
-
+        addFriendUsername( addFriendName.value );
     }
 }
 

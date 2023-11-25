@@ -17,7 +17,7 @@ http.createServer( function( request, response ) {
 	request.on( "end", function() {
 		if ( request.url === "/SignIn" ) {
 			post = querystring.parse( post );
-            console.log( "Request for Sign In: " );
+            console.log( "Request [Sign In]: " );
 			console.log( post );
 			userController.userLogin( post.username, post.password, ( token ) => {
 				// 回傳使用者資訊
@@ -28,7 +28,7 @@ http.createServer( function( request, response ) {
 
         } else if ( request.url === "/SignUp" ) {
 			post = querystring.parse( post );
-			console.log( "Request for Sign Up: " );
+			console.log( "Request [Sign Up]: " );
             console.log( post );
 			userController.userRegister( post.username, post.email, post.password, () => {
 				// 回傳使用者資訊
@@ -38,7 +38,7 @@ http.createServer( function( request, response ) {
 			});
 
 		} else if ( request.url === "/logInWithToken" ) {
-			console.log( "Request for logInWithToken: " );
+			console.log( "Request [logInWithToken]: " );
 			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
 			console.log( "token: " + token );
 
@@ -49,30 +49,36 @@ http.createServer( function( request, response ) {
 			response.writeHead( 200, { "Content-Type": "application/json" } );
 			response.write( JSON.stringify( { authorization: "Okay" } ) );
 			response.end();
+
+		} else if ( request.url === "/addBuddy" ) {
+			console.log( "Request [addBuddy]: " );
+			console.log( post );
+			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
+			console.log( "who did: " + token );
 		}
     });
    
 	/* *********#*********#*********#*********#*********#
 	 *					      URL 					    *
 	 #*********#*********#*********#*********#********* */
-    if ( request.url == '/' ) {
+    if ( request.url === "/" ) {
         sendFileContent( response, "views/index.html", "text/html" );
 		console.log( "* F R O N T P A G E - R E Q U E S T *" );
     }
 
-    if ( request.url == '/index' ) {
-        fs.readFile( 'views/index.html', function( err, data ) {
+    if ( request.url === "/index" ) {
+        fs.readFile( "views/index.html", function( err, data ) {
             if ( err ) {
                 console.log( err );
-                response.writeHead( 404, { 'Content-Type': 'text/html' } );
+                response.writeHead( 404, { "Content-Type": "text/html" } );
             } else {
-                response.writeHead( 200, { 'Content-Type': 'text/html' } );
+                response.writeHead( 200, { "Content-Type": "text/html" } );
                 response.write( data.toString() );
             }
             response.end();
         });
 
-	} else if ( request.url == '/lobby' ) {
+	} else if ( request.url === "/lobby" ) {
 		sendFileContent( response, "views/lobby.html", "text/html" ); 
 		console.log( "* Welcome To Entrust Lobby *" );
 

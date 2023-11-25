@@ -1,5 +1,6 @@
 // Asynchronous JavaScript and XML
 const httpRequest = new XMLHttpRequest();
+const AUTHORIZATION_FORMAT = /(?:(?:^|.*;\s*)authorization\s*\=\s*([^;]*).*$)|^.*$/;
 
 httpRequest.onload = function() {
     if ( httpRequest.status >= 200 && httpRequest.status < 400 ) {
@@ -47,7 +48,7 @@ function userRegister( username, email, password ) {
 }
 
 function loginAuthorization() {
-    var cookieValue = document.cookie.replace( /(?:(?:^|.*;\s*)authorization\s*\=\s*([^;]*).*$)|^.*$/, "$1" );
+    var cookieValue = document.cookie.replace( AUTHORIZATION_FORMAT, "$1" );
     console.log( "拿到認證: " + cookieValue );
 
     if ( cookieValue !== "" ) { // 如果authorization有值，傳給伺服器認證
@@ -57,14 +58,16 @@ function loginAuthorization() {
     }
 }
 
-// function addBuddyFromEmail( email ) {
-//     httpRequest.open( "POST", "http://127.0.0.1:8888/addBuddy", false );
-//     httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
-//     httpRequest.send( "email=" + email );
-// }
+function addBuddyFromEmail( email ) {
+    var cookieValue = document.cookie.replace( AUTHORIZATION_FORMAT, "$1" );
+    httpRequest.open( "POST", "http://127.0.0.1:8888/addBuddy", false );
+    httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
+    httpRequest.send( "email=" + email );
+}
 
-// function addBuddyFromUsername( username ) {
-//     httpRequest.open( "POST", "http://127.0.0.1:8888/addBuddy", false );
-//     httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
-//     httpRequest.send( "username=" + username );
-// }
+function addBuddyFromUsername( username ) {
+    var cookieValue = document.cookie.replace( AUTHORIZATION_FORMAT, "$1" );
+    httpRequest.open( "POST", "http://127.0.0.1:8888/addBuddy", false );
+    httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
+    httpRequest.send( "username=" + username );
+}
