@@ -3,6 +3,7 @@ const config = require( "../config/configuration" );
 
 module.exports = {
     getToken,
+    tokenExist,
     whoIsThisToken
 }
 
@@ -14,8 +15,8 @@ function getToken( username ) {
     return token;
 }
 
-function whoIsThisToken( token ) {
-    terminalInformation( "Who is this Token?" );
+function tokenExist( token ) {
+    terminalInformation( "Is exist Token?" );
     
     let decoded;
     let tokenCorrect;
@@ -31,6 +32,25 @@ function whoIsThisToken( token ) {
         }
     });
     return tokenCorrect;
+}
+
+function whoIsThisToken( token ) {
+    terminalInformation( "Who is this Token?" );
+    
+    let decoded;
+    let who = "????";
+    jwt.verify( token, config.JWT_KEY, err => {
+        if ( err ) {
+            console.log( "err: " + err );
+            
+        } else {   
+            decoded = jwt.verify( token, config.JWT_KEY );
+            console.log( decoded );
+            console.log( "Token parse username: " + decoded.username );
+            who = decoded.username;
+        }
+    });
+    return who;
 }
 
 function terminalInformation( string ) {

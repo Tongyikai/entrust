@@ -4,7 +4,8 @@ let tokenOperations = require( "../models/tokenOperations" );
 module.exports = {
     userLogin,
     userRegister,
-    tokenLogin
+    tokenLogin,
+    addBuddy
 }
 
 function userLogin( username, password, callback ) {
@@ -41,12 +42,26 @@ function userRegister( username, emailAddress, password, callback ) {
 }
 
 function tokenLogin( token ) {
-    if ( tokenOperations.whoIsThisToken( token ) ) {
-        console.log( "token ok" );
+    if ( tokenOperations.tokenExist( token ) ) {
+        console.log( "token exist [ Under Construction ]" );
         
     } else {
-        console.log( "token no" );
+        console.log( "token no exist [ Under Construction ]" );
 
     }
-    
+}
+
+function addBuddy( userToken, friendData ) {
+    if ( friendData.indexOf( "email=" ) == 0 ) {
+        var str = friendData.replace( "email=", "" );
+        console.log( "add friend email: " + str );
+
+    } else if ( friendData.indexOf( "username=" ) == 0 ) {
+        var str = friendData.replace( "username=", "" );
+        console.log( "add friend username: " + str );
+
+    } else {
+        console.log( "err: " + friendData );
+    }
+    console.log( tokenOperations.whoIsThisToken( userToken ) );
 }

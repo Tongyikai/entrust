@@ -1,4 +1,5 @@
-hostURL = "http://127.0.0.1:8888/index";
+CLEAR_TOKEN = "authorization=";
+HOST_URL = "http://127.0.0.1:8888/index";
 
 // 頭像menu
 var graph_o = document.querySelector( ".graph_o" ); 
@@ -48,6 +49,6 @@ function newFriend() {
 // Logout
 let logoutButton = document.getElementById( "logout" );
 logoutButton.onclick = () => {
-    document.cookie = clearToken;
-    window.location.href = hostURL;
+    document.cookie = CLEAR_TOKEN;
+    window.location.href = HOST_URL;
 }

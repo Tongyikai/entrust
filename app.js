@@ -17,7 +17,7 @@ http.createServer( function( request, response ) {
 	request.on( "end", function() {
 		if ( request.url === "/SignIn" ) {
 			post = querystring.parse( post );
-            console.log( "Request [Sign In]: " );
+            console.log( "Request [ Sign In ]: " );
 			console.log( post );
 			userController.userLogin( post.username, post.password, ( token ) => {
 				// 回傳使用者資訊
@@ -28,7 +28,7 @@ http.createServer( function( request, response ) {
 
         } else if ( request.url === "/SignUp" ) {
 			post = querystring.parse( post );
-			console.log( "Request [Sign Up]: " );
+			console.log( "Request [ Sign Up ]: " );
             console.log( post );
 			userController.userRegister( post.username, post.email, post.password, () => {
 				// 回傳使用者資訊
@@ -38,9 +38,8 @@ http.createServer( function( request, response ) {
 			});
 
 		} else if ( request.url === "/logInWithToken" ) {
-			console.log( "Request [logInWithToken]: " );
+			console.log( "Request [ logInWithToken ]: " );
 			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
-			console.log( "token: " + token );
 
 			// token驗證
 			userController.tokenLogin( token );
@@ -51,10 +50,14 @@ http.createServer( function( request, response ) {
 			response.end();
 
 		} else if ( request.url === "/addBuddy" ) {
-			console.log( "Request [addBuddy]: " );
+			console.log( "Request [ addBuddy ]: " );
 			console.log( post );
+			// console.log( post.indexOf( "email=" ) );
+			// console.log( post.indexOf( "username=" ) );
+
 			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
-			console.log( "who did: " + token );
+			userController.addBuddy( token, post );
+		
 		}
     });
    
