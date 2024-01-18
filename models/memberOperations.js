@@ -15,6 +15,7 @@ module.exports = {
     queryUsername,
     queryUsernameAndPassword,
     queryEmail,
+    QueryTheUsernameOfEmail,
     createNewMember
 }
 
@@ -24,8 +25,8 @@ function queryUsername( username, callback ) {
     var usernameExists = false;
     client.connect( err => {
         if ( err ) throw err;
-        const membersCollections = client.db( config.mongodb.database ).collection( config.mongodb.members_Collections );
-        membersCollections.find( { username: username } ).toArray( function( err, result ) {
+        const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
+        membersCollection.find( { username: username } ).toArray( function( err, result ) {
             if ( err ) throw err;
     
             if ( result[ 0 ] == undefined ) {
@@ -47,8 +48,8 @@ function queryUsernameAndPassword( username, userPassword, callback ) {
     var isExists = false;
     client.connect( err => {
         if ( err ) throw err;
-        const membersCollections = client.db( config.mongodb.database ).collection( config.mongodb.members_Collections );
-        membersCollections.find( { username: username } ).toArray( function( err, result ) {
+        const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
+        membersCollection.find( { username: username } ).toArray( function( err, result ) {
             if ( err ) throw err;
 
             if ( result[ 0 ] == undefined ) { // 資料庫沒有找到相同的名字
@@ -65,13 +66,13 @@ function queryUsernameAndPassword( username, userPassword, callback ) {
 }
 
 function queryEmail( emailAddress, callback ) {
-    terminalInformation( "Query email." );
+    terminalInformation( "Query email. does it exist?" );
 
     var emailExists = false;
     client.connect( err => {
         if ( err ) throw err;
-        const membersCollections = client.db( config.mongodb.database ).collection( config.mongodb.members_Collections );
-        membersCollections.find( { email: emailAddress } ).toArray( function( err, result ) {
+        const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
+        membersCollection.find( { email: emailAddress } ).toArray( function( err, result ) {
             if ( err ) throw err;
     
             if ( result[ 0 ] == undefined ) {
@@ -87,12 +88,32 @@ function queryEmail( emailAddress, callback ) {
     });
 }
 
+function QueryTheUsernameOfEmail( emailAddress ) {
+    terminalInformation( "Query email. for username" );
+
+    client.connect( err => {
+        if ( err ) throw err;
+        const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
+        membersCollection.find( { email: emailAddress } ).toArray( ( err, result ) => {
+            if ( err ) throw err;
+
+            if ( result[ 0 ] == undefined ) {
+                console.log( "∅ undefined" );
+            } else {
+                console.log( "member username: ↓");
+                console.log( result[ 0 ].email );
+            }
+            client.close();
+        });
+    });
+}
+
 function createNewMember( username, emailAddress, password, callback ) {
     terminalInformation( "Create a new member.");
 
     client.connect( err => {
         if ( err ) throw err;
-        const membersCollections = client.db( config.mongodb.database ).collection( config.mongodb.members_Collections );
+        const membersCollections = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
         const dateTime = new Date().toLocaleString( "zh-TW", { timeZone: "Asia/Taipei" } ); // 取得目前的時間+台北的時區(存入資料庫才是會當地的時間)
         const encryptionPassword = encryption( password ); // 加密
         var userObj = { username: username, email: emailAddress, password: encryptionPassword, createDate: dateTime };
@@ -110,6 +131,10 @@ function comparePassword( userPassword, dbPassword ) { // 將使用者的密碼,
     const encryptionPassword = encryption( userPassword ); 
     if ( encryptionPassword == dbPassword ) return true;
     return false;
+}
+
+function createNewFriend() {
+
 }
 
 function terminalInformation( string ) {

@@ -55,6 +55,7 @@ function addBuddy( userToken, friendData ) {
     if ( friendData.indexOf( "email=" ) == 0 ) {
         var str = friendData.replace( "email=", "" );
         console.log( "add friend email: " + str );
+        memberOperations.QueryTheUsernameOfEmail( str );
 
     } else if ( friendData.indexOf( "username=" ) == 0 ) {
         var str = friendData.replace( "username=", "" );
