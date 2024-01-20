@@ -88,8 +88,9 @@ function queryEmail( emailAddress, callback ) {
     });
 }
 
-function QueryTheUsernameOfEmail( emailAddress ) {
+function QueryTheUsernameOfEmail( emailAddress, callback ) {
     terminalInformation( "Query email. for username" );
+    var username = "undefined";
 
     client.connect( err => {
         if ( err ) throw err;
@@ -100,10 +101,11 @@ function QueryTheUsernameOfEmail( emailAddress ) {
             if ( result[ 0 ] == undefined ) {
                 console.log( "∅ undefined" );
             } else {
-                console.log( "member username: ↓");
-                console.log( result[ 0 ].email );
+                console.log( "member username: " + result[ 0 ].username );
+                username = result[ 0 ].username;
             }
             client.close();
+            callback( username );
         });
     });
 }

@@ -20,28 +20,32 @@ add_box.addEventListener( "click", function() {
     }
 });
 
-// 引用外部 script
+// 引用外部 script "formCheck.js"
 let emailCorrect = checkEmailFormat;
 let nameLengthCorrect = checkNameLengthFormat;
-let userNameCorrect = checkUserNameFormat;
-
+let includeSymbolsCorrect = checkIncludeSymbolsFormat;
+let usernameCorrect = checkUsernameFormat;
+// 引用外部 script "clientAJAX.js"
 let addFriendEmail = addBuddyFromEmail;
 let addFriendUsername = addBuddyFromUsername;
 
 function newFriend() {
     var addFriendName = document.getElementById( "addFriendName" );
     if ( emailCorrect( addFriendName.value ) ) {
-        alert( "email Ok" );
+        alert( "email Ok." );
         addFriendEmail( addFriendName.value );
 
     } else if ( nameLengthCorrect( addFriendName.value ) ) {
         alert( "Error: Name exceeds 24 characters." );
 
-    } else if ( userNameCorrect( addFriendName.value ) ) {
-        alert( "Error: Name has other symbols." );
+    } else if ( includeSymbolsCorrect( addFriendName.value ) ) {
+        alert( "Error: Name has other symbols or email address is incorrect format." );
+
+    } else if ( usernameCorrect( addFriendName.value ) ) {
+        alert( "Error: The name must contain English and numbers. Characters longer than 6" );
 
     } else {
-        alert( "username Ok" );
+        alert( "username Ok." );
         addFriendUsername( addFriendName.value );
     }
 }
