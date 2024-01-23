@@ -42,7 +42,7 @@ function newFriend() {
         alert( "Error: Name has other symbols or email address is incorrect format." );
 
     } else if ( usernameCorrect( addFriendName.value ) ) {
-        alert( "Error: The name must contain English and numbers. Characters longer than 6" );
+        alert( "Error: The name must contain English and Numbers. Characters longer than 6." );
 
     } else {
         alert( "username Ok." );
