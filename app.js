@@ -40,23 +40,24 @@ http.createServer( function( request, response ) {
 		} else if ( request.url === "/logInWithToken" ) {
 			console.log( "Request [ logInWithToken ]: " );
 			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
-
 			// token驗證
-			userController.tokenLogin( token );
-
-			// 暫時回傳假資訊
-			response.writeHead( 200, { "Content-Type": "application/json" } );
-			response.write( JSON.stringify( { authorization: "Okay" } ) );
-			response.end();
+			userController.tokenLogin( token, ( tokenKey ) => {
+				response.writeHead( 200, { "Content-Type": "application/json" } );
+				response.write( JSON.stringify( { authorization: tokenKey } ) );
+				response.end();
+			});
 
 		} else if ( request.url === "/addBuddy" ) {
 			console.log( "Request [ addBuddy ]: " );
 			console.log( post );
 			// console.log( post.indexOf( "email=" ) );
 			// console.log( post.indexOf( "username=" ) );
-
 			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
-			userController.addBuddy( token, post );
+			userController.addBuddy( token, post, ( isFinished ) => {
+				response.writeHead( 200, { "Content-Type": "application/json" } );
+				response.write( JSON.stringify( { addBuddy: isFinished } ) );
+				response.end();
+			});   
 		
 		}
     });

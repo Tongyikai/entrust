@@ -13,7 +13,15 @@ httpRequest.onload = function() {
             alert( "Register Done" );
             return;
         }
-       
+
+        if ( jsonObject.addBuddy == true ) {
+            alert( "🫱🏻‍🫲🏽New Buddy!" );
+            return;
+        } else if ( jsonObject.addBuddy == false ) {
+            alert( "😞Not found!" );
+            return;
+        }
+
         switch( jsonObject.authorization ) {
             case "empty":
                 alert( "Account password is wrong!!" );
@@ -24,6 +32,9 @@ httpRequest.onload = function() {
                 window.location.href = "http://127.0.0.1:8888/lobby";
                 break;
 
+            case "NotOkay":
+                alert( "Token Authentication Failed: " + jsonObject.authorization );
+                break;
             default:
                 document.cookie = "authorization=" + jsonObject.authorization;
                 loginAuthorization();

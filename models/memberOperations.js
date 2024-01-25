@@ -138,7 +138,7 @@ function comparePassword( userPassword, dbPassword ) { // 將使用者的密碼,
 }
 
 function createNewFriend( tokenName, newFriendsName, callback ) {
-    terminalInformation( "🫱🏻‍🫲🏽 New buddy." );
+    terminalInformation( "New buddy." );
 
     client.connect( err => {
         if ( err ) throw err;
@@ -148,12 +148,14 @@ function createNewFriend( tokenName, newFriendsName, callback ) {
 
             if ( result[ 0 ] == undefined ) { // 資料表不存在，就建立(第1次邀請好友)
                 console.log( result );
-                console.log( "∅ undefined & create a new one." );
+                console.log( "∅ undefined * create a new tables, first times add buddy." );
+
                 let person = [ newFriendsName ]; 
                 var userObj = { owner: tokenName, buddyList: person };
                 buddyListCollection.insertOne( userObj, ( err, res ) => {
                     if ( err ) throw err;
                     console.log( res );
+                    callback();
                 });
 
             } else { // 資料表存在，查詢 tokenName，插入一筆到 buddyList陣列中
@@ -162,11 +164,13 @@ function createNewFriend( tokenName, newFriendsName, callback ) {
                 person = result[ 0 ].buddyList;
                 person.push( newFriendsName );
                 console.log( person );
+
                 var whereStr = { owner: tokenName };
                 var updateStr = { $set: { buddyList: person } };
                 buddyListCollection.updateOne( whereStr, updateStr, ( err, res ) => {
                     if ( err ) throw err;
                     console.log( res );
+                    callback();
                 });
             }
             

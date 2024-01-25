@@ -22,7 +22,7 @@ function tokenExist( token ) {
     let tokenCorrect;
     jwt.verify( token, config.JWT_KEY, err => {
         if ( err ) {
-            console.log( "err: " + err );
+            console.log( "Token err: " + err );
             tokenCorrect = false;
         } else {   
             decoded = jwt.verify( token, config.JWT_KEY );
@@ -41,7 +41,7 @@ function whoIsThisToken( token ) {
     let who = "????";
     jwt.verify( token, config.JWT_KEY, err => {
         if ( err ) {
-            console.log( "err: " + err );
+            console.log( "Token err: " + err );
             
         } else {   
             decoded = jwt.verify( token, config.JWT_KEY );
