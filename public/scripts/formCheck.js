@@ -40,3 +40,7 @@ function checkBlankFormat( parameter ) {
     var re = new RegExp( regulation );
     return re.test( parameter );
 }
+
+function checkProfileData() {
+    return true;
+}

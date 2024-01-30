@@ -7,7 +7,6 @@
     list-style: none;
 	font-family: 'Jost', sans-serif;
 }
-
 section {
     display: flex;
     justify-content: center;
@@ -20,7 +19,6 @@ section {
     background-attachment: fixed;
     padding: 50px;
 }
-
 .container .logo {
     display: block;
 	text-decoration: none;
@@ -30,7 +28,6 @@ section {
 	font-size: 25px;
 	text-transform: uppercase;
 }
-
 header {
     position: absolute;
     top: 10px;
@@ -50,7 +47,6 @@ header {
     
     z-index: 2;
 }
-
 /* *********#*********#*********#*********#*********#
  *					    頭像menu 					 *
  #*********#*********#*********#*********#********* */
@@ -59,7 +55,6 @@ header {
     display: flex;
 	align-items: center;
 }
-
 .navbar ul li.graph_o {
     margin-left: 25px;
 	cursor: pointer;
@@ -67,11 +62,9 @@ header {
 	font-size: 20px;
 	position: relative;
 }
-
 .navbar ul li.graph_o:hover {
     color: #cefffc;
 }
-
 .navbar ul li img {
     width: 35px;
 	vertical-align: middle;
@@ -84,7 +77,6 @@ header {
     -webkit-border-radius:100px;
     -moz-border-radius:100px;
 }
-
 .navbar .menu {
     position: absolute;
     right: -25px;
@@ -95,7 +87,6 @@ header {
     box-shadow: 0px 0px 3px rgba( 0, 0, 0, 0.25 );
     display: none;
 }
-
 /* .navbar .menu .menu_left {
     background: rgb( 218, 168, 168 );
 	padding: 15px 20px;
@@ -105,16 +96,13 @@ header {
 .navbar .menu .menu_left li {
     color: #fff;
 } */
-
 .navbar .menu .menu_right {
     padding: 15px 20px;
 }
-
 .navbar .menu li {
 	margin-bottom: 10px;
 	color: #868686;
 }
-
 .navbar .menu:before {
 	content: "";
 	position: absolute;
@@ -123,11 +111,9 @@ header {
 	border: 10px solid;
 	border-color: transparent transparent #fff transparent;
 }
-
 .navbar .graph_o.active .menu {
 	display: flex;
 }
-
 /* *********#*********#*********#*********#*********#
  *					container_left 					*
  #*********#*********#*********#*********#********* */
@@ -219,7 +205,6 @@ header {
 .container_left .box .list:hover .content p {
     color: #333;
 }
-
 /* *********#*********#*********#*********#*********#
  *			  container_left add-button		        *
  #*********#*********#*********#*********#********* */
@@ -243,7 +228,6 @@ header {
     left: 240px;
     color: #fff;
 }
-
 .container_left .add_box:before {
     position: absolute;
     content: '';
@@ -256,9 +240,8 @@ header {
     border-bottom: 2px solid transparent;
     border-left: 2px solid transparent;
     box-sizing: border-box;
-    transform: translateX(100%);
+    transform: translateX( 100% );
 }
-
 .container_left .add_box:after {
     position: absolute;
     content: '';
@@ -271,27 +254,23 @@ header {
     border-top: 2px solid transparent;
     border-right: 2px solid transparent;
     box-sizing: border-box;
-    transform: translateX(-100%);
+    transform: translateX( -100% );
 }
-
 .container_left .add_box:hover {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 15px rgba( 178, 228, 61, 1 );
 }
-
 .container_left .add_box:hover:before {
-    border-color: #262626;
+    border-color: #b2e43d;
     height: 100%;
-    transform: translateX(0);
+    transform: translateX( 0 );
     transition: .3s transform linear, .3s height linear .3s;
 }
-
 .container_left .add_box:hover:after {
-    border-color: #262626;
+    border-color: #b2e43d;
     height: 100%;
-    transform: translateX(0);
+    transform: translateX( 0 );
     transition: .3s transform linear, .3s height linear .5s;
 }
-
 .container_left .box button {
     color: black;
     text-decoration: none;
@@ -300,7 +279,6 @@ header {
     border: none;
     background: transparent;
 }
-
 /* *********#*********#*********#*********#*********#
  *              add-button 白色泡泡框                 *
  #*********#*********#*********#*********#********* */
@@ -315,7 +293,6 @@ header {
     z-index: 4;
     display: none;
 }
-
 .box .addBox_input::before {
     content: "";
 	position: absolute;
@@ -324,7 +301,6 @@ header {
 	border: 10px solid;
 	border-color: transparent #fff transparent transparent;
 }
-
 /* *********#*********#*********#*********#*********#
  *			      add-button 影子輸入框	              *
  #*********#*********#*********#*********#********* */
@@ -338,18 +314,15 @@ header {
     padding: .25em 5em;
     margin: 5px;
 }
-
 .input-sizer.stacked {
     padding: .5em;
     align-items: stretch;
 }
-
 .input-sizer.stacked::after,
 .input-sizer.stacked input,
 .input-sizer.stacked textarea {
     grid-area: 2 / 1;
 }
-
 .input-sizer::after,
 .input-sizer input,
 .input-sizer textarea {
@@ -364,45 +337,37 @@ header {
     appearance: none;
     border: none;
 }
-
 .input-sizer span {
     padding: 0.25em;
 }
-
 .input-sizer::after {
     content: attr( data-value ) " ";
     visibility: hidden;
     white-space: pre-wrap;
 }
-
 .input-sizer:focus-within {
     /* outline: solid 1px blue; */
     outline: solid 1px #03a9f4;
     /* box-shadow: 4px 4px 0px blue; */
     box-shadow: 4px 4px 0px #03a9f4;
 }
-
 .input-sizer:focus-within > span {
     /* color: blue; */
     color: #03a9f4;
 }
-
 .input-sizer:focus-within textarea:focus,
 .input-sizer:focus-within input:focus {
     outline: none;
 }
-
 .input-sizer {
     box-shadow: 4px 4px 0px #000;
 }
-
 .input-sizer > span {
     text-transform: uppercase;
     font-size: 0.8em;
     font-weight: bold;
     text-shadow: 2px 2px 0 rgba( 0, 0, 0, 0.15 );
 }
-
 /* *********#*********#*********#*********#*********#
  *				   container_middle 			    *
  #*********#*********#*********#*********#********* */
@@ -428,9 +393,58 @@ header {
     color: #fff;
     margin-bottom: 20px;
 }
-
 .container_middle_footer {
     position: absolute;
     top: 90%;
     right: 20%;
+}
+/* *********#*********#*********#*********#*********#
+ *				      editWindow		            *
+ #*********#*********#*********#*********#********* */
+ .editWindow .box {
+    position: absolute;
+    /* min-width: 350px; */
+    width: 72%;
+    min-height: 600px;
+    /* background: rgba( 255, 255, 255, 0.1 ); */
+    background: rgba(240, 40, 40, 0.1);
+    box-shadow: 0 25px 45px rgba( 0, 0, 0, 0.1 );
+    border: 1px solid rgba( 255, 255, 255, 0.5 );
+    border-right: 1px solid rgba( 255, 255, 255, 0.2 );
+    border-bottom: 1px solid rgba( 255, 255, 255, 0.2 );
+    border-radius: 40px;
+    z-index: 1;
+    padding: 20px;
+    backdrop-filter: blur( 25px );
+
+    right: 20px;
+    top: 110px;
+ }
+.editWindow .box td {
+    color: #fff;
+}
+.edit_closeButtonArea {
+    /* background-color: #3b5998; */
+    height: 60px;
+    width: 50px;
+    float: right;
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-top: 1px;
+    top: 3%;
+    right: 1%;
+    position: absolute;
+}
+.edit_closeButton {
+    color: #fff;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    padding-right: 50%;
+}
+.edit_closeButton:hover,
+.edit_closeButton:focus {
+    color: #b2e43d;
+    text-decoration: none;
+    cursor: pointer;
 }

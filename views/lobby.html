@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>ENTRUST</title>
-        <!-- <link rel="stylesheet" href="public/stylesheets/lobby.css"> -->
-        <link rel="stylesheet" href="../public/stylesheets/lobby.css">
+        <link rel="stylesheet" href="public/stylesheets/lobby.css">
+        <!-- <link rel="stylesheet" href="../public/stylesheets/lobby.css"> -->
         <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
     </head>
 
@@ -32,9 +32,9 @@
                                     </div> -->
                                     <div class="menu_right">
                                         <ul>
+                                            <li>Edit</li>
                                             <li>Circle</li>
                                             <li>HCE</li>
-                                            <li>Friends</li>
                                             <li>Settings</li>
                                             <li id="logout">Logout</li>
                                         </ul>
@@ -194,13 +194,130 @@
                 </aside>
             </div>
 
-            <div class="container_middle">
+            <div class="container_middle" hidden="until-found">
                 <main>
                     <div class="box">
                         <h3>Operating platform</h3>
                     </div>
                 </main>
             </div>
+
+            <div class="editWindow">
+                <main>
+                    <div class="box">
+                        <form id="edit_profileForm">
+                            <table>
+                                <tbody>    
+                                    <tr>                
+                                        <td style="width:150px">
+                                            <label for="avatar"><h4>Upload Avatar</h4></label>
+                                        </td>
+                                        <td>
+                                            <input type="file" id="edit_uploadAvatar" name="avatar" accept="image/png, image/jpeg" onchange="loadFile(event)">
+                                        </td>
+                                        <td>
+                                            <button type="button" onclick="cancelUploadAvatar()" style="width: 20px;">x</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label><h4>Family Name</h4></label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="edit_familyName" style="width: 200px;" name="familyName">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label><h4>Given Name</h4></label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="edit_givenName" style="width: 200px;" name="givenName">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label><h4>Nick Name</h4></label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="edit_nickName" style="width: 200px;" name="nickName">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label><h4>Date Of Birth</h4></label>
+                                        </td>
+                                        <td>
+                                            <select id="edit_yearBox" class="year" name="yearOfBirth">
+                                                <option value="year">Year</option>
+                                            </select>
+                                            <select id="edit_monthBox" class="month" name="monthOfBirth">
+                                                <option value="month">Month</option>
+                                            </select>
+                                            <select id="edit_dayBox" class="day" name="dayOfBirth">
+                                                <option value="day">Day</option>
+                                            </select><br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label><h4>Gender</h4></label>
+                                        </td>
+                                        <td>
+                                            <input class="male" id="edit_male" type="radio" name="gender" value="male">Male
+                                            <input class="female" id="edit_female" type="radio" name="gender" value="female" checked>Female
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label><h4>Stay at</h4></label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="edit_currentCity" style="width: 200px;" name="currentCity">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label><h4>Hometown</h4></label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="edit_hometown" style="width: 200px;" name="hometown">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label><h4>Mobile</h4></label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="edit_mobileNumber" style="width: 200px;" name="mobileNumber">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label><h4>Facebook</h4></label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="edit_facebook" style="width: 200px;" name="facebook">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label><h4>All Friends</h4></label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="edit_footer">
+                                <input class="edit_update_button" style="font-size: 1em;" type="submit" value="submit">&nbsp<input style="font-size: 1em;" type="reset" value="reset">
+                            </div>
+                            <div class="edit_closeButtonArea">
+                                <span class="edit_closeButton">&times;</span>
+                            </div>
+                        </form>
+                    </div>
+                </main>
+            </div>
+
             <div class="container_middle_footer">
                 <h3>Copyright @ 2023 Financial Technology Company. All Right Reserved.</h3>
                 <h3>&copy; 2024 HowY'allDoing.com</h3>

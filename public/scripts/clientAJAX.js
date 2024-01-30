@@ -82,3 +82,15 @@ function addBuddyFromUsername( username ) {
     httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
     httpRequest.send( "username=" + username );
 }
+
+function uploadProfileData( form ) {
+    const FD = new FormData( form );
+    httpRequest.addEventListener( "load", function( event ) {
+        alert( "Server: " + event.target.responseText );
+    });
+    httpRequest.addEventListener( "error", function( event ) {
+        alert( "Oops! Something went wrong..." + event );
+    });
+    httpRequest.open( "POST", "http://127.0.0.1:8888/updateProfile" );
+    httpRequest.send( FD );
+}
