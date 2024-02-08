@@ -1,3 +1,7 @@
+/* *********#*********#*********#*********#*********#
+ *                      網頁功能                     *
+ #*********#*********#*********#*********#********* */
+ 
 CLEAR_TOKEN = "authorization=";
 HOST_URL = "http://127.0.0.1:8888/index";
 
@@ -56,28 +60,26 @@ function newFriend() {
 // 限制上傳圖片的大小
 const UPLOAD_AVATAR_MAX_SIZE = 1*1024*1024; 
 const ERROR_MESSAGE = "The uploaded attachment file cannot exceed 1 Mega Byte";
-let avatarSize = true;
+
 var loadFile = function( event ) {
     let uploadAvatar = document.getElementById( "edit_uploadAvatar" );
 
     // 上傳的檔案如果大於限制顯示警告
     if ( uploadAvatar.files[ 0 ].size > UPLOAD_AVATAR_MAX_SIZE ) {
-        avatarSize = false;
         alert( ERROR_MESSAGE );
+        cancelUploadAvatar(); //取消頭像
     } else {
-        avatarSize = true;
         avatar = uploadAvatar;
     }
 }
 
 function cancelUploadAvatar() {
     document.getElementById( "edit_uploadAvatar" ).value = "";
-    avatarSize = true;
 }
 
 // 出生年月日參數
 function displayYear() {
-    let options = "<option>year</option>";
+    let options = "<option>Year</option>";
     for ( var i = 1900; i <= 2020; i++ ) {
         options += ( "<option>" + i + "</option>" );
     }
@@ -85,7 +87,7 @@ function displayYear() {
 }
 
 function displayMonth() {
-    let options = "<option>month</option>";
+    let options = "<option>Month</option>";
     for ( var i = 1; i <= 12; i++ ) {
         options += ( "<option>" + i + "</option>" );
     }
@@ -93,7 +95,7 @@ function displayMonth() {
 }
 
 function displayDay() {
-    let options = "<option>day</option>";
+    let options = "<option>Day</option>";
     for ( var i = 1; i <= 31; i++ ) {
         options += ( "<option>" + i + "</option>" );
     }
@@ -105,9 +107,7 @@ window.addEventListener( "load", () => {
     const form = document.getElementById( "edit_profileForm" );
     form.addEventListener( "submit", ( event ) => {
         event.preventDefault();
-        if ( checkProfile() ) {
-            uploadProfile( form );
-        }
+        if ( checkProfile( form ) ) uploadProfile( form );
     });
 });
 

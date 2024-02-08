@@ -57,8 +57,12 @@ http.createServer( function( request, response ) {
 				response.writeHead( 200, { "Content-Type": "application/json" } );
 				response.write( JSON.stringify( { addBuddy: isFinished } ) );
 				response.end();
-			});   
-		
+			});
+
+		} else if ( request.url === "/updateProfile" ) {
+			console.log( "Request [ updateProfile ]: " );
+			console.log( post );
+			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
 		}
     });
    
