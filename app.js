@@ -3,6 +3,7 @@ var fs = require( "fs" );
 var url = require( "url" );
 let querystring = require( "querystring" );
 let userController = require("./controllers/userController");
+const formidable = require( "formidable" );
 
 http.createServer( function( request, response ) {
     let post = "";
@@ -59,19 +60,61 @@ http.createServer( function( request, response ) {
 				response.end();
 			});
 
-		} else if ( request.url === "/updateProfile" ) {
+		} /*else if ( request.url === "/updateProfile" && request.method.toLowerCase() === "post" ) {
 			console.log( "Request [ updateProfile ]: " );
-			console.log( post );
-			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
-		}
+			// console.log( post );
+			// const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
+
+			// 實例化一個傳入表單
+			let form = new formidable.IncomingForm();
+			// 設置文件存儲目錄
+			form.uploadDir = "./uploadDir";
+
+			form.keepExtensions = true;
+
+			form.on( "file", ( name, file ) => {
+				console.log( name );
+				console.log( file );
+			});
+
+			form.on( "err", ( err ) => {
+				console.log( err );
+			});
+
+			form.on( "aborted", () => {
+				console.log( "aborted" );
+			});
+
+			// 解析傳入數據
+			form.parse( request, ( err, fields, files ) => {
+				if ( err ) throw err;
+				console.log( fields );
+			});
+		}*/
     });
+
+	if (request.url === '/updateProfile' && request.method.toLowerCase() === 'post') {
+		// parse a file upload
+		// 實例化一個傳入表單
+		let form = new formidable.IncomingForm();
+		// 設置文件存儲目錄
+		form.uploadDir = "./uploadDir";
+
+		// 解析傳入數據
+		form.parse( request, ( err, fields, files ) => {
+			if ( err ) throw err;
+			console.log( fields );
+			
+		});
+
+	}
    
 	/* *********#*********#*********#*********#*********#
 	 *					      URL 					    *
 	 #*********#*********#*********#*********#********* */
     if ( request.url === "/" ) {
         sendFileContent( response, "views/index.html", "text/html" );
-		console.log( "* F R O N T P A G E - R E Q U E S T *" );
+		console.log( "**** FRONTPAGE - REQUEST ****" );
     }
 
     if ( request.url === "/index" ) {
@@ -88,7 +131,7 @@ http.createServer( function( request, response ) {
 
 	} else if ( request.url === "/lobby" ) {
 		sendFileContent( response, "views/lobby.html", "text/html" ); 
-		console.log( "* Welcome To Entrust Lobby *" );
+		console.log( "**** Welcome To Entrust Lobby ****" );
 
     } else if ( /^\/[a-zA-Z0-9\/]*.css$/.test( request.url.toString() ) ) {
 		sendFileContent( response, request.url.toString().substring( 1 ), "text/css" );
@@ -107,7 +150,7 @@ http.createServer( function( request, response ) {
 		console.log("Response File: " + request.url.toString().substring( 1 ) );
 		
 	}
-}).listen( 8888 );// 使用 listen 方法绑定 8888 端口
+}).listen( 8888 ); // 使用 listen 方法绑定 8888 端口
 
 // 終端印如下信息
 console.log( "**** Server running at http://127.0.0.1:8888 ****" );

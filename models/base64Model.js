@@ -31,8 +31,7 @@ function imageBase64( fileURL ) {
     imagePrefix( imageBase64 );
 }
 
-function imagePrefix( base64code ) {
+function imagePrefix( base64code ) { // 把圖片轉成 Base64
     let imagePrefix = "data:image/jpeg;base64,";
     base64 = imagePrefix + base64code;    
 }
-// 把圖片轉成 Base64 

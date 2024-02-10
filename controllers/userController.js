@@ -52,7 +52,6 @@ function tokenLogin( token, callback ) {
 
 function addBuddy( userToken, friendData, callback ) {
     let tokenName = tokenOperations.whoIsThisToken( userToken );
-
     if ( friendData.indexOf( "email=" ) == 0 ) { // 資料是 email 的格式, 查詢 email 的使用者名稱
         var email = friendData.replace( "email=", "" );
         console.log( "add friend email: " + email );
@@ -63,7 +62,7 @@ function addBuddy( userToken, friendData, callback ) {
                     console.log( "Not found: " + username );
                     callback( false );
                     break;
-                
+            
                 default:
                     console.log( "Add new buddy from email." );
                     memberOperations.createNewFriend( tokenName, username, () => {
@@ -71,7 +70,6 @@ function addBuddy( userToken, friendData, callback ) {
                     });
             } 
         });
-
     } else if ( friendData.indexOf( "username=" ) == 0 ) { // 資料是 username 的格式, 查詢名稱是否存在
         var username = friendData.replace( "username=", "" );
         console.log( "add friend username: " + username );
@@ -90,10 +88,12 @@ function addBuddy( userToken, friendData, callback ) {
                     });
             } 
         });
-
     } else {
         console.log( "err: " + friendData );
-
     }
     // console.log( tokenOperations.whoIsThisToken( userToken ) );
+}
+
+function updateProfile() {
+    
 }

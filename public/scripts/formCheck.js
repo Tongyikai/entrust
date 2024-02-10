@@ -128,7 +128,7 @@ function checkProfileData( form ) {
     if ( userData.yearOfBirth != YEAR_CHARACTER && userData.monthOfBirth != MONTH_CHARACTER && userData.dayOfBirth != DAY_CHARACTER ) {
         if ( checkDateOfBirth( userData.yearOfBirth, userData.monthOfBirth, userData.dayOfBirth ) ) {
             console.log( "出生 - 修改 可以" );
-            alert( "出生 - 修改 可以" );
+            // alert( "出生 - 修改 可以" );
 
         } else {
             safeBall--;
@@ -136,7 +136,7 @@ function checkProfileData( form ) {
         }
     } else if ( userData.yearOfBirth == YEAR_CHARACTER && userData.monthOfBirth == MONTH_CHARACTER && userData.dayOfBirth == DAY_CHARACTER ) {
         console.log( "出生 - 不修改" );
-        alert( "出生 - 不修改" );
+        // alert( "出生 - 不修改" );
 
     } else {
         alert( "出生 - 請輸入完整的出生日期" );
@@ -162,7 +162,7 @@ function checkProfileData( form ) {
         alert( "資料不能送出");
         return false;
     } else {
-        alert( "送出修改");
+        // alert( "送出修改");
         return true;
     }
 

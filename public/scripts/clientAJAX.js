@@ -93,6 +93,6 @@ function uploadProfileData( form ) {
         alert( "Oops! Something went wrong..." + event );
     });
     httpRequest.open( "POST", "http://127.0.0.1:8888/updateProfile" );
-    httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
+    // httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
     httpRequest.send( FD );
 }

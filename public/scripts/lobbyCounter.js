@@ -67,7 +67,7 @@ var loadFile = function( event ) {
     // 上傳的檔案如果大於限制顯示警告
     if ( uploadAvatar.files[ 0 ].size > UPLOAD_AVATAR_MAX_SIZE ) {
         alert( ERROR_MESSAGE );
-        cancelUploadAvatar(); //取消頭像
+        cancelUploadAvatar(); // 取消頭像
     } else {
         avatar = uploadAvatar;
     }
