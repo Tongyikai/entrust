@@ -3,15 +3,16 @@ var fs = require( "fs" );
 var url = require( "url" );
 let querystring = require( "querystring" );
 let userController = require("./controllers/userController");
+const formidable = require( "formidable" );
 
 http.createServer( function( request, response ) {
     let post = "";
 
 	request.on( "data", function( chunk ) {
 		post += chunk;
-		console.log( "/* *********#*********#*********#*********#*********#" );
-		console.log( " *                       POST                       *" );
-		console.log( " #*********#*********#*********#*********#********* */" );
+		// console.log( "/* *********#*********#*********#*********#*********#" );
+		// console.log( " *                       POST                       *" );
+		// console.log( " #*********#*********#*********#*********#********* */" );
 	});
 
 	request.on( "end", function() {
@@ -40,36 +41,61 @@ http.createServer( function( request, response ) {
 		} else if ( request.url === "/logInWithToken" ) {
 			console.log( "Request [ logInWithToken ]: " );
 			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
-
 			// token驗證
-			userController.tokenLogin( token );
-
-			// 暫時回傳假資訊
-			response.writeHead( 200, { "Content-Type": "application/json" } );
-			response.write( JSON.stringify( { authorization: "Okay" } ) );
-			response.end();
+			userController.tokenLogin( token, ( tokenKey ) => {
+				response.writeHead( 200, { "Content-Type": "application/json" } );
+				response.write( JSON.stringify( { authorization: tokenKey } ) );
+				response.end();
+			});
 
 		} else if ( request.url === "/addBuddy" ) {
 			console.log( "Request [ addBuddy ]: " );
 			console.log( post );
 			// console.log( post.indexOf( "email=" ) );
 			// console.log( post.indexOf( "username=" ) );
-
 			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
-			userController.addBuddy( token, post );
-		
+			userController.addBuddy( token, post, ( isFinished ) => {
+				response.writeHead( 200, { "Content-Type": "application/json" } );
+				response.write( JSON.stringify( { addBuddy: isFinished } ) );
+				response.end();
+			});
+
 		}
     });
+
+	/* *********#*********#*********#*********#*********#
+	 *					     Form  					    *
+	 #*********#*********#*********#*********#********* */
+	if ( request.url === "/updateProfile" && request.method.toLowerCase() === "post" ) {
+		console.log( "Request [ updateProfile ]: " );
+		const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
+
+		// 實例化一個傳入表單
+		let form = new formidable.IncomingForm();
+		// 設置文件存儲目錄
+		form.uploadDir = "./uploadDir";
+		// 解析傳入數據
+		form.parse( request, ( err, fields, files ) => {
+			if ( err ) throw err;
+			// console.log( fields, '....Form Fields ****' );
+			// console.log( files, '....Form Files ****' );
+
+			userController.updateProfile( token, fields, files, () => {
+				response.writeHead( 200, { "Content-Type": "application/json" } );
+				response.write( JSON.stringify( { updateProfile: "finished" } ) );
+				response.end();
+			});
+		});
+	}
    
 	/* *********#*********#*********#*********#*********#
 	 *					      URL 					    *
 	 #*********#*********#*********#*********#********* */
     if ( request.url === "/" ) {
         sendFileContent( response, "views/index.html", "text/html" );
-		console.log( "* F R O N T P A G E - R E Q U E S T *" );
-    }
+		console.log( "**** FRONTPAGE - REQUEST ****" );
 
-    if ( request.url === "/index" ) {
+    } else if ( request.url === "/index" ) {
         fs.readFile( "views/index.html", function( err, data ) {
             if ( err ) {
                 console.log( err );
@@ -83,7 +109,7 @@ http.createServer( function( request, response ) {
 
 	} else if ( request.url === "/lobby" ) {
 		sendFileContent( response, "views/lobby.html", "text/html" ); 
-		console.log( "* Welcome To Entrust Lobby *" );
+		console.log( "**** Welcome To Entrust Lobby ****" );
 
     } else if ( /^\/[a-zA-Z0-9\/]*.css$/.test( request.url.toString() ) ) {
 		sendFileContent( response, request.url.toString().substring( 1 ), "text/css" );
@@ -102,7 +128,7 @@ http.createServer( function( request, response ) {
 		console.log("Response File: " + request.url.toString().substring( 1 ) );
 		
 	}
-}).listen( 8888 );// 使用 listen 方法绑定 8888 端口
+}).listen( 8888 ); // 使用 listen 方法绑定 8888 端口
 
 // 終端印如下信息
 console.log( "**** Server running at http://127.0.0.1:8888 ****" );

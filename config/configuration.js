@@ -10,7 +10,8 @@ module.exports = {
                     user:   process.env.DATABASE_USER,
                 password:   process.env.DATABASE_PASSWORD,
                 database:   process.env.DATABASE,
-     members_Collections:   process.env.MEMBERS_COLLECTIONS
+      members_Collection:   process.env.MEMBERS_COLLECTION,
+        buddy_Collection:   process.env.BUDDY_COLLECTION
     },
                  JWT_KEY:   process.env.JWT_KEY
 }

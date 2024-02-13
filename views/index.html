@@ -70,7 +70,7 @@
 
         let emailCorrect = checkEmailFormat;
         let nameLengthCorrect = checkNameLengthFormat;
-        let userNameCorrect = checkUserNameFormat;
+        let includeSymbolsCorrect = checkIncludeSymbolsFormat;
         let passwordCorrect = checkPasswordFormat;
         let blankOrEmpty = checkBlankFormat;
         
@@ -90,7 +90,7 @@
             if ( nameLengthCorrect( form.Username.value ) ) {
                 alert( "Error: Name exceeds 24 characters." );
             
-            } else if ( userNameCorrect( form.Username.value ) ) {
+            } else if ( includeSymbolsCorrect( form.Username.value ) ) {
                 alert( "Error: Name has other symbols." );
 
             } else if ( blankOrEmpty( form.Username.value ) ) {
@@ -112,7 +112,7 @@
             if ( nameLengthCorrect( form.Username.value ) ) {
                 alert( "Error: Name exceeds 24 characters." );
 
-            } else if ( userNameCorrect( form.Username.value ) ) {
+            } else if ( includeSymbolsCorrect( form.Username.value ) ) {
                 alert( "Error: Name has other symbols." );
 
             } else if ( blankOrEmpty( form.Username.value ) ) {

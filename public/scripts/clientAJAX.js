@@ -13,7 +13,20 @@ httpRequest.onload = function() {
             alert( "Register Done" );
             return;
         }
-       
+
+        if ( jsonObject.addBuddy == true ) {
+            alert( "🫱🏻‍🫲🏽New Buddy!" );
+            return;
+        } else if ( jsonObject.addBuddy == false ) {
+            alert( "😞Not found!" );
+            return;
+        }
+
+        if ( jsonObject.updateProfile == "finished" ) {
+            alert( "📝Update Profile!" );
+            return;
+        }  
+
         switch( jsonObject.authorization ) {
             case "empty":
                 alert( "Account password is wrong!!" );
@@ -24,6 +37,9 @@ httpRequest.onload = function() {
                 window.location.href = "http://127.0.0.1:8888/lobby";
                 break;
 
+            case "NotOkay":
+                alert( "Token Authentication Failed: " + jsonObject.authorization );
+                break;
             default:
                 document.cookie = "authorization=" + jsonObject.authorization;
                 loginAuthorization();
@@ -70,4 +86,18 @@ function addBuddyFromUsername( username ) {
     httpRequest.open( "POST", "http://127.0.0.1:8888/addBuddy", false );
     httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
     httpRequest.send( "username=" + username );
+}
+
+function uploadProfileData( form ) {
+    var cookieValue = document.cookie.replace( AUTHORIZATION_FORMAT, "$1" );
+    const FD = new FormData( form );
+    httpRequest.addEventListener( "load", function( event ) {
+        // alert( "Server: " + event.target.responseText );
+    });
+    httpRequest.addEventListener( "error", function( event ) {
+        alert( "Oops! Something went wrong..." + event );
+    });
+    httpRequest.open( "POST", "http://127.0.0.1:8888/updateProfile" );
+    httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
+    httpRequest.send( FD );
 }
