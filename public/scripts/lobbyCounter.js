@@ -69,7 +69,7 @@ var loadFile = function( event ) {
         alert( ERROR_MESSAGE );
         cancelUploadAvatar(); // 取消頭像
     } else {
-        avatar = uploadAvatar;
+        // avatar = uploadAvatar;
     }
 }
 

@@ -73,6 +73,13 @@ function checkDateOfBirth( year, month, day ) {
 }
 
 function checkProfileData( form ) {
+     // test
+    let uploadAvatar = document.getElementById( "edit_uploadAvatar" );
+    let x12x = document.getElementById( "x12x" );
+    x12x.src = URL.createObjectURL( uploadAvatar.files[0] );
+    alert(uploadAvatar.files[0]);
+    // test
+
     userData = {
         avatarImg: form[ 0 ].value,
        familyName: form[ 2 ].value,

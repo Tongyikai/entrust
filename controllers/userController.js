@@ -1,11 +1,13 @@
 let memberOperations = require( "../models/memberOperations" );
 let tokenOperations = require( "../models/tokenOperations" );
+let base64 = require( "../models/base64Model" );
 
 module.exports = {
     userLogin,
     userRegister,
     tokenLogin,
-    addBuddy
+    addBuddy,
+    updateProfile
 }
 
 function userLogin( username, password, callback ) {
@@ -94,6 +96,47 @@ function addBuddy( userToken, friendData, callback ) {
     // console.log( tokenOperations.whoIsThisToken( userToken ) );
 }
 
-function updateProfile() {
-    
+function updateProfile( userToken, fields, files, callback ) {
+    let tokenName = tokenOperations.whoIsThisToken( userToken );
+    var birth = fields.yearOfBirth + "/" + fields.monthOfBirth + "/" + fields.dayOfBirth;
+    var avatar64code = "0";
+    if ( files.avatar.size > 0 ) {
+        avatar64code = base64( files );
+        // console.log( "[ base64code ]: " + base64code );
+        // console.log( files );
+    }
+
+    memberOperations.updateProfileData( tokenName, 
+                                     avatar64code,
+                                fields.familyName, 
+                                 fields.givenName,
+                                            birth,
+                                    fields.gender,
+                               fields.currentCity,
+                                  fields.hometown,
+                              fields.mobileNumber,
+                                  fields.facebook, 
+                                          () => {
+                                            callback();
+                                        });
+
+    /*
+    console.log( "-----------------	Profile Information	-------------------" );
+    console.log( "Family Name: " + fields.familyName + "\n" +
+                 "Given name: " + fields.givenName + "\n" +
+                 "Nickname: " + fields.nickname + "\n" +
+                 "Birth: " + fields.yearOfBirth + "/" + fields.monthOfBirth + "/" + fields.dayOfBirth + "\n" +
+                 "Gender: " + fields.gender + "\n" +
+                 "Current City: " + fields.currentCity + "\n" +
+                 "Hometown:" + fields.hometown + "\n" +
+                 "Mobile Number: " + fields.mobileNumber + "\n" +
+                 "FB: " + fields.facebook
+    );
+    console.log( "-----------------	Image Information	-------------------" );
+    console.log( "files photo : " + files.avatar );
+    console.log( "files photo name: " + files.avatar.name );
+    console.log( "files photo type: " + files.avatar.type );
+    console.log( "files photo size: " + files.avatar.size );
+    console.log( "base64code: " + base64code );
+    console.log( "-----------------	 Information End	-------------------" );*/
 }

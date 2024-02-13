@@ -22,6 +22,11 @@ httpRequest.onload = function() {
             return;
         }
 
+        if ( jsonObject.updateProfile == "finished" ) {
+            alert( "📝Update Profile!" );
+            return;
+        }  
+
         switch( jsonObject.authorization ) {
             case "empty":
                 alert( "Account password is wrong!!" );
@@ -87,12 +92,12 @@ function uploadProfileData( form ) {
     var cookieValue = document.cookie.replace( AUTHORIZATION_FORMAT, "$1" );
     const FD = new FormData( form );
     httpRequest.addEventListener( "load", function( event ) {
-        alert( "Server: " + event.target.responseText );
+        // alert( "Server: " + event.target.responseText );
     });
     httpRequest.addEventListener( "error", function( event ) {
         alert( "Oops! Something went wrong..." + event );
     });
     httpRequest.open( "POST", "http://127.0.0.1:8888/updateProfile" );
-    // httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
+    httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
     httpRequest.send( FD );
 }

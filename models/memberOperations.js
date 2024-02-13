@@ -17,7 +17,8 @@ module.exports = {
     queryEmail,
     QueryTheUsernameOfEmail,
     createNewMember,
-    createNewFriend
+    createNewFriend,
+    updateProfileData
 }
 
 function queryUsername( username, callback ) {
@@ -120,7 +121,8 @@ function createNewMember( username, emailAddress, password, callback ) {
         const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
         const dateTime = new Date().toLocaleString( "zh-TW", { timeZone: "Asia/Taipei" } ); // 取得目前的時間+台北的時區(存入資料庫才是會當地的時間)
         const encryptionPassword = encryption( password ); // 加密
-        var userObj = { username: username, email: emailAddress, password: encryptionPassword, createDate: dateTime };
+        const unfilled = "";
+        var userObj = { username: username, email: emailAddress, password: encryptionPassword, createDate: dateTime, avatar64code: unfilled, familyName: unfilled, givenName: unfilled, birth: unfilled, gender: unfilled, currentCity: unfilled, hometown: unfilled, mobileNumber: unfilled, facebook: unfilled };
         membersCollection.insertOne( userObj, ( err, res ) => {
             if ( err ) throw err;
             console.log( res );
@@ -155,6 +157,7 @@ function createNewFriend( tokenName, newFriendsName, callback ) {
                 buddyListCollection.insertOne( userObj, ( err, res ) => {
                     if ( err ) throw err;
                     console.log( res );
+                    client.close();
                     callback();
                 });
 
@@ -170,10 +173,27 @@ function createNewFriend( tokenName, newFriendsName, callback ) {
                 buddyListCollection.updateOne( whereStr, updateStr, ( err, res ) => {
                     if ( err ) throw err;
                     console.log( res );
+                    client.close();
                     callback();
                 });
             }
-            
+        });
+    });
+}
+
+function updateProfileData( username, avatar64code, familyName, givenName, birth, gender, currentCity, hometown, mobileNumber, facebook, callback ) {
+    terminalInformation( "Update Profile." );
+
+    client.connect( err => {
+        if ( err ) throw err;
+        const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
+        var modifiedUser = { username: username };
+        var updateData = { $set: { avatar64code: avatar64code, familyName: familyName, givenName: givenName, birth: birth, gender: gender, currentCity: currentCity, hometown: hometown, mobileNumber: mobileNumber, facebook: facebook } };
+        membersCollection.updateMany( modifiedUser, updateData, function( err, result ) {
+            if ( err ) throw err;
+            console.log( result );
+            client.close();
+            callback();
         });
     });
 }
