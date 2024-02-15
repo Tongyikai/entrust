@@ -32,6 +32,7 @@ let checkProfile = checkProfileData;
 let addFriendEmail = addBuddyFromEmail;
 let addFriendUsername = addBuddyFromUsername;
 let uploadProfile = uploadProfileData;
+let loadingProfile = loadingProfileData;
 
 function newFriend() {
     var addFriendName = document.getElementById( "addFriendName" );
@@ -111,12 +112,15 @@ window.addEventListener( "load", () => {
     });
 });
 
-// Logout
-let logoutButton = document.getElementById( "logout" );
-logoutButton.onclick = () => {
-    document.cookie = CLEAR_TOKEN;
-    window.location.href = HOST_URL;
+// 取得個人資料
+function displayProfile() {
+    loadingProfile();
 }
+
+// 個人資料顯示 將Server給的資料 放置對的地方
+function setProfile( userProfile ) {
+    document.getElementById( "menuAvatar" ).src = userProfile.avatar64code;
+} 
 
 /* *********#*********#*********#*********#*********#
  *					畫面載入執行的功能				   *
@@ -124,3 +128,11 @@ logoutButton.onclick = () => {
  displayYear();
  displayMonth();
  displayDay();
+ displayProfile();
+
+ // Logout
+let logoutButton = document.getElementById( "logout" );
+logoutButton.onclick = () => {
+    document.cookie = CLEAR_TOKEN;
+    window.location.href = HOST_URL;
+}

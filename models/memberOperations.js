@@ -18,7 +18,8 @@ module.exports = {
     QueryTheUsernameOfEmail,
     createNewMember,
     createNewFriend,
-    updateProfileData
+    updateProfileData,
+    getProfileData
 }
 
 function queryUsername( username, callback ) {
@@ -122,7 +123,7 @@ function createNewMember( username, emailAddress, password, callback ) {
         const dateTime = new Date().toLocaleString( "zh-TW", { timeZone: "Asia/Taipei" } ); // 取得目前的時間+台北的時區(存入資料庫才是會當地的時間)
         const encryptionPassword = encryption( password ); // 加密
         const unfilled = "";
-        var userObj = { username: username, email: emailAddress, password: encryptionPassword, createDate: dateTime, avatar64code: unfilled, familyName: unfilled, givenName: unfilled, birth: unfilled, gender: unfilled, currentCity: unfilled, hometown: unfilled, mobileNumber: unfilled, facebook: unfilled };
+        var userObj = { username: username, email: emailAddress, password: encryptionPassword, createDate: dateTime, avatar64code: config.DEFAULT_AVATAR, familyName: unfilled, givenName: unfilled, birth: unfilled, gender: unfilled, currentCity: unfilled, hometown: unfilled, mobileNumber: unfilled, facebook: unfilled };
         membersCollection.insertOne( userObj, ( err, res ) => {
             if ( err ) throw err;
             console.log( res );
@@ -183,6 +184,7 @@ function createNewFriend( tokenName, newFriendsName, callback ) {
 
 function updateProfileData( username, avatar64code, familyName, givenName, birth, gender, currentCity, hometown, mobileNumber, facebook, callback ) {
     terminalInformation( "Update Profile." );
+    if ( avatar64code == "0" ) avatar64code = config.DEFAULT_AVATAR;
 
     client.connect( err => {
         if ( err ) throw err;
@@ -194,6 +196,27 @@ function updateProfileData( username, avatar64code, familyName, givenName, birth
             console.log( result );
             client.close();
             callback();
+        });
+    });
+}
+
+function getProfileData( username, callback ) {
+    var profileData = { avatar64code: "" };
+    client.connect( err => {
+        if ( err ) throw err;
+        const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
+        membersCollection.find( { username: username } ).toArray( ( err, result ) => {
+            if ( err ) throw err;
+
+            if ( result[ 0 ] == undefined ) {
+                console.log( result );
+                console.log( "∅ undefined" );
+            } else {
+                console.log( "member username: " + result[ 0 ].username );
+                profileData.avatar64code = result[ 0 ].avatar64code;
+            }
+            client.close();
+            callback( profileData );
         });
     });
 }

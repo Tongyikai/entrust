@@ -7,7 +7,8 @@ module.exports = {
     userRegister,
     tokenLogin,
     addBuddy,
-    updateProfile
+    updateProfile,
+    loadingProfile
 }
 
 function userLogin( username, password, callback ) {
@@ -102,41 +103,16 @@ function updateProfile( userToken, fields, files, callback ) {
     var avatar64code = "0";
     if ( files.avatar.size > 0 ) {
         avatar64code = base64( files );
-        // console.log( "[ base64code ]: " + base64code );
-        // console.log( files );
     }
 
-    memberOperations.updateProfileData( tokenName, 
-                                     avatar64code,
-                                fields.familyName, 
-                                 fields.givenName,
-                                            birth,
-                                    fields.gender,
-                               fields.currentCity,
-                                  fields.hometown,
-                              fields.mobileNumber,
-                                  fields.facebook, 
-                                          () => {
-                                            callback();
-                                        });
+    memberOperations.updateProfileData( tokenName, avatar64code, fields.familyName, fields.givenName, birth, fields.gender, fields.currentCity, fields.hometown, fields.mobileNumber, fields.facebook, () => { 
+        callback();
+    });
+}
 
-    /*
-    console.log( "-----------------	Profile Information	-------------------" );
-    console.log( "Family Name: " + fields.familyName + "\n" +
-                 "Given name: " + fields.givenName + "\n" +
-                 "Nickname: " + fields.nickname + "\n" +
-                 "Birth: " + fields.yearOfBirth + "/" + fields.monthOfBirth + "/" + fields.dayOfBirth + "\n" +
-                 "Gender: " + fields.gender + "\n" +
-                 "Current City: " + fields.currentCity + "\n" +
-                 "Hometown:" + fields.hometown + "\n" +
-                 "Mobile Number: " + fields.mobileNumber + "\n" +
-                 "FB: " + fields.facebook
-    );
-    console.log( "-----------------	Image Information	-------------------" );
-    console.log( "files photo : " + files.avatar );
-    console.log( "files photo name: " + files.avatar.name );
-    console.log( "files photo type: " + files.avatar.type );
-    console.log( "files photo size: " + files.avatar.size );
-    console.log( "base64code: " + base64code );
-    console.log( "-----------------	 Information End	-------------------" );*/
+function loadingProfile( userToken, callback ) {
+    let tokenName = tokenOperations.whoIsThisToken( userToken );
+    memberOperations.getProfileData( tokenName, ( profileData ) => {
+        callback( profileData );
+    });
 }

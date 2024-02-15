@@ -15,17 +15,30 @@ httpRequest.onload = function() {
         }
 
         if ( jsonObject.addBuddy == true ) {
-            alert( "🫱🏻‍🫲🏽New Buddy!" );
+            alert( "🫱🏻‍🫲🏽 New Buddy!" );
             return;
         } else if ( jsonObject.addBuddy == false ) {
-            alert( "😞Not found!" );
+            alert( "😞 Not found!" );
             return;
         }
 
         if ( jsonObject.updateProfile == "finished" ) {
-            alert( "📝Update Profile!" );
+            alert( "📝 Update Profile!" );
             return;
-        }  
+        }
+
+        // 取得個人資料
+        if (  jsonObject[ "profileData" ] != undefined ) { 
+            // alert( "Server: response profile" );
+            let setProfileData = setProfile; // 引用外部 script "lobbyCounter.js"
+            setProfileData( jsonObject.profileData );
+            // test 
+            // document.getElementById( "menuAvatar" ).src = jsonObject.profileData.avatar64code;
+            // var imgb1 = document.getElementById( "imageB1" );
+            // imgb1.src = jsonObject.profileData.avatar64code;
+            // test
+            return;
+        }
 
         switch( jsonObject.authorization ) {
             case "empty":
@@ -100,4 +113,11 @@ function uploadProfileData( form ) {
     httpRequest.open( "POST", "http://127.0.0.1:8888/updateProfile" );
     httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
     httpRequest.send( FD );
+}
+
+function loadingProfileData() {
+    var cookieValue = document.cookie.replace( AUTHORIZATION_FORMAT, "$1" );
+    httpRequest.open( "POST", "http://127.0.0.1:8888/loadingProfileData", false );
+    httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue );
+    httpRequest.send();
 }
