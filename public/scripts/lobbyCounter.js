@@ -15,7 +15,7 @@ graph_o.addEventListener( "click", function() {
 var add_box = document.querySelector( ".add_box" ); 
 add_box.addEventListener( "click", function() {
     var addBtn = document.getElementsByClassName( "addBox_input" )[ 0 ];
-    if ( addBtn.style.display == "none" || addBtn.style.display == "" ) {
+    if ( addBtn.style.display === "none" || addBtn.style.display === "" ) {
         addBtn.style.display = "block";
     } else {
         addBtn.style.display = "none";
@@ -123,16 +123,36 @@ function setProfile( userProfile ) {
 } 
 
 /* *********#*********#*********#*********#*********#
+ *					   Menu 選單				     *
+ #*********#*********#*********#*********#********* */
+ // Edit
+ let editButton = document.getElementById( "menu_edit" );
+ editButton.onclick = () => {
+    let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
+    if ( editWindow.style.display === "none" ) {
+        editWindow.style.display = "block";
+    } else {
+        editWindow.style.display = "none";
+    }
+ }
+ // edit_closeButton
+ let edit_closeButton = document.getElementsByClassName( "edit_closeButton" )[ 0 ];
+ edit_closeButton.onclick = () => {
+    let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
+    editWindow.style.display = "none";
+ }
+
+ // Logout
+ let logoutButton = document.getElementById( "menu_logout" );
+ logoutButton.onclick = () => {
+     document.cookie = CLEAR_TOKEN;
+     window.location.href = HOST_URL;
+ }
+
+/* *********#*********#*********#*********#*********#
  *					畫面載入執行的功能				   *
  #*********#*********#*********#*********#********* */
  displayYear();
  displayMonth();
  displayDay();
  displayProfile();
-
- // Logout
-let logoutButton = document.getElementById( "logout" );
-logoutButton.onclick = () => {
-    document.cookie = CLEAR_TOKEN;
-    window.location.href = HOST_URL;
-}
