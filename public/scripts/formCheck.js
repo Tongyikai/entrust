@@ -164,16 +164,4 @@ function checkProfileData( form ) {
         // alert( "送出修改");
         return true;
     }
-
-    // alert( userData[ 'avatarImg' ] + "\n" +
-    //        userData[ 'familyName' ] + "\n" +
-    //        userData[ 'givenName' ] + "\n" +
-    //        userData[ 'nickname' ] + "\n" +
-    //        userData[ 'birthYear' ] + "\n" +
-    //        userData[ 'birthMonth' ] + "\n" +
-    //        userData[ 'birthDay' ] 
-    //        );
-    // alert( form.gender[ 0 ].checked + "\n" + 
-    //        form.gender[ 1 ].checked
-    //        );
 }

@@ -32,11 +32,6 @@ httpRequest.onload = function() {
             // alert( "Server: response profile" );
             let setProfileData = setProfile; // 引用外部 script "lobbyCounter.js"
             setProfileData( jsonObject.profileData );
-            // test 
-            // document.getElementById( "menuAvatar" ).src = jsonObject.profileData.avatar64code;
-            // var imgb1 = document.getElementById( "imageB1" );
-            // imgb1.src = jsonObject.profileData.avatar64code;
-            // test
             return;
         }
 

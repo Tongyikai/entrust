@@ -3,7 +3,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* font-family: 'Poppins', sans-serif; */
     list-style: none;
 	font-family: 'Jost', sans-serif;
 }
@@ -12,7 +11,6 @@ section {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    /* background: url( ../images/f3.png ); */
     background: rgba( 165, 165, 165, 0.8 );
     background-size: cover;
     background-position: center;
@@ -44,7 +42,6 @@ header {
     border: 1px solid rgba( 255, 255, 255, 0.25 );
     border-top: 1px solid rgba( 255, 255, 255, 0.5 );
     border-left: 1px solid rgba( 255, 255, 255, 0.5 );
-    
     z-index: 2;
 }
 /* *********#*********#*********#*********#*********#
@@ -115,13 +112,28 @@ header {
 	display: flex;
 }
 /* *********#*********#*********#*********#*********#
+ *          三大瀏覽器的滾動條都隱藏，並且可以捲動        *
+ #*********#*********#*********#*********#********* */
+html {
+    overflow: -moz-hidden-unscrollable;
+    height: 100%;
+}
+body::-webkit-scrollbar {
+    display: none;
+}
+body {
+    -ms-overflow-style: none;
+    height: 100%;
+	width: calc(100vw + 18px);
+	overflow: auto;
+}
+/* *********#*********#*********#*********#*********#
  *					container_left 					*
  #*********#*********#*********#*********#********* */
 .container_left .box {
-    /* position: relative; */
     position: absolute;
-    min-width: 350px;
-    min-height: 400px;
+    min-width: 400px;
+    height: 700px;
     background: rgba( 255, 255, 255, 0.1 );
     box-shadow: 0 25px 45px rgba( 0, 0, 0, 0.1 );
     border: 1px solid rgba( 255, 255, 255, 0.5 );
@@ -131,9 +143,12 @@ header {
     z-index: 2;
     padding: 20px;
     backdrop-filter: blur( 25px );
-
     left: 20px;
     top: 110px;
+    overflow-y: auto;
+}
+.container_left .box::-webkit-scrollbar { /* 隱藏滾動條 */
+    display: none;
 }
 .container_left .box h3 {
     color: #fff;
@@ -145,10 +160,10 @@ header {
     padding: 10px 0;
     background: rgba( 0, 0, 0, 0.1 );
     border-radius: 10px;
-    margin: 10px 0;
     cursor: pointer;
     transition: 0.5s;
     overflow: hidden;
+    margin: 10px 18px;
 }
 .container_left .box .list:hover {
     background: #fff;
@@ -206,100 +221,18 @@ header {
     color: #333;
 }
 /* *********#*********#*********#*********#*********#
- *			  container_left add-button		        *
- #*********#*********#*********#*********#********* */
- .container_left .add_box {
-    /* width: 140px; */
-    width: 90px;
-    height: auto;
-    float: left;
-    transition: .5s linear;
-    position: absolute;
-    display: block;
-    overflow: hidden;
-    padding: 15px;
-    text-align: center;
-    margin: 0 5px;
-    background: transparent;
-    text-transform: uppercase;
-    font-weight: 900;
-
-    top: 15px;
-    left: 240px;
-    color: #fff;
-}
-.container_left .add_box:before {
-    position: absolute;
-    content: '';
-    left: 0;
-    bottom: 0;
-    height: 4px;
-    width: 100%;
-    /* border-bottom: 4px solid transparent;
-    border-left: 4px solid transparent; */
-    border-bottom: 2px solid transparent;
-    border-left: 2px solid transparent;
-    box-sizing: border-box;
-    transform: translateX( 100% );
-}
-.container_left .add_box:after {
-    position: absolute;
-    content: '';
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    /* border-top: 4px solid transparent; */
-    /* border-right: 4px solid transparent; */
-    border-top: 2px solid transparent;
-    border-right: 2px solid transparent;
-    box-sizing: border-box;
-    transform: translateX( -100% );
-}
-.container_left .add_box:hover {
-    box-shadow: 0 5px 15px rgba( 178, 228, 61, 1 );
-}
-.container_left .add_box:hover:before {
-    border-color: #b2e43d;
-    height: 100%;
-    transform: translateX( 0 );
-    transition: .3s transform linear, .3s height linear .3s;
-}
-.container_left .add_box:hover:after {
-    border-color: #b2e43d;
-    height: 100%;
-    transform: translateX( 0 );
-    transition: .3s transform linear, .3s height linear .5s;
-}
-.container_left .box button {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    background: transparent;
-}
-/* *********#*********#*********#*********#*********#
  *              add-button 白色泡泡框                 *
  #*********#*********#*********#*********#********* */
-.box .addBox_input {
-    position: absolute;
-    right: -570px;
-    top: 5px;
+.addNewFriendWindow {
+    position: relative;
+    right: -330px;
+    top: -350px;
     background: #fff;
     border-radius: 15px;
     box-shadow: 0px 0px 3px rgba( 0, 0, 0, 0.25 );
-    padding: 10px 60px;
-    z-index: 4;
+    padding: 10px 30px;
     display: none;
-}
-.box .addBox_input::before {
-    content: "";
-	position: absolute;
-	top: 20px;
-	right: 579.3px;
-	border: 10px solid;
-	border-color: transparent #fff transparent transparent;
+    z-index: 2;
 }
 /* *********#*********#*********#*********#*********#
  *			      add-button 影子輸入框	              *
@@ -310,7 +243,6 @@ header {
     align-items: center;
     position: relative;
     border: solid 1px;
-    /* padding: .25em .5em; */
     padding: .25em 5em;
     margin: 5px;
 }
@@ -346,13 +278,10 @@ header {
     white-space: pre-wrap;
 }
 .input-sizer:focus-within {
-    /* outline: solid 1px blue; */
     outline: solid 1px #03a9f4;
-    /* box-shadow: 4px 4px 0px blue; */
     box-shadow: 4px 4px 0px #03a9f4;
 }
 .input-sizer:focus-within > span {
-    /* color: blue; */
     color: #03a9f4;
 }
 .input-sizer:focus-within textarea:focus,
@@ -373,7 +302,6 @@ header {
  #*********#*********#*********#*********#********* */
 .container_middle .box {
     position: absolute;
-    /* min-width: 350px; */
     width: 72%;
     min-height: 600px;
     background: rgba( 255, 255, 255, 0.1 );
@@ -385,7 +313,6 @@ header {
     z-index: 1;
     padding: 20px;
     backdrop-filter: blur( 25px );
-
     right: 20px;
     top: 110px;
 }
@@ -403,10 +330,8 @@ header {
  #*********#*********#*********#*********#********* */
  .editWindow .box {
     position: absolute;
-    /* min-width: 350px; */
     width: 72%;
     min-height: 600px;
-    /* background: rgba( 255, 255, 255, 0.1 ); */
     background: rgba(240, 40, 40, 0.1);
     box-shadow: 0 25px 45px rgba( 0, 0, 0, 0.1 );
     border: 1px solid rgba( 255, 255, 255, 0.5 );
@@ -416,7 +341,6 @@ header {
     z-index: 1;
     padding: 20px;
     backdrop-filter: blur( 25px );
-
     right: 20px;
     top: 110px;
  }
@@ -424,7 +348,6 @@ header {
     color: #fff;
 }
 .edit_closeButtonArea {
-    /* background-color: #3b5998; */
     height: 60px;
     width: 50px;
     float: right;

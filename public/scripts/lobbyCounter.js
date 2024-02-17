@@ -5,20 +5,20 @@
 CLEAR_TOKEN = "authorization=";
 HOST_URL = "http://127.0.0.1:8888/index";
 
-// 頭像menu
-var graph_o = document.querySelector( ".graph_o" ); 
+// 頭像 menu
+var graph_o = document.querySelector( ".graph_o" ); // 取 class
 graph_o.addEventListener( "click", function() {
     this.classList.toggle( "active" );
 });
 
-// 新增好友輸入框
-var add_box = document.querySelector( ".add_box" ); 
-add_box.addEventListener( "click", function() {
-    var addBtn = document.getElementsByClassName( "addBox_input" )[ 0 ];
-    if ( addBtn.style.display === "none" || addBtn.style.display === "" ) {
-        addBtn.style.display = "block";
+// 頭像 menu 底下的, 新增好友
+var addFriendBtn = document.querySelector( "#menu_addFriend" ); // 取 id
+addFriendBtn.addEventListener( "click", function() {
+    var addNewFriendWindow = document.getElementsByClassName( "addNewFriendWindow" )[ 0 ];
+    if ( addNewFriendWindow.style.display === "none" || addNewFriendWindow.style.display === "" ) {
+        addNewFriendWindow.style.display = "block";
     } else {
-        addBtn.style.display = "none";
+        addNewFriendWindow.style.display = "none";
     }
 });
 
@@ -34,7 +34,7 @@ let addFriendUsername = addBuddyFromUsername;
 let uploadProfile = uploadProfileData;
 let loadingProfile = loadingProfileData;
 
-function newFriend() {
+function newFriend() { // onclick功能, 寫在lobby.html
     var addFriendName = document.getElementById( "addFriendName" );
     if ( emailCorrect( addFriendName.value ) ) {
         alert( "email Ok." );
@@ -123,9 +123,18 @@ function setProfile( userProfile ) {
 } 
 
 /* *********#*********#*********#*********#*********#
+ *					 動態新增好友清單				   *
+ #*********#*********#*********#*********#********* */
+ function dynamicallyAddBuddyList() {
+    var div = document.querySelector( ".container_left .box" );
+    div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar4.png"></div><div class="content"><h2 class="rank"><small>#</small>11</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
+    div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar4.png"></div><div class="content"><h2 class="rank"><small>#</small>12</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
+ }
+
+/* *********#*********#*********#*********#*********#
  *					   Menu 選單				     *
  #*********#*********#*********#*********#********* */
- // Edit
+ // edit
  let editButton = document.getElementById( "menu_edit" );
  editButton.onclick = () => {
     let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
@@ -141,8 +150,8 @@ function setProfile( userProfile ) {
     let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
     editWindow.style.display = "none";
  }
-
- // Logout
+ 
+ // logout
  let logoutButton = document.getElementById( "menu_logout" );
  logoutButton.onclick = () => {
      document.cookie = CLEAR_TOKEN;
@@ -156,3 +165,4 @@ function setProfile( userProfile ) {
  displayMonth();
  displayDay();
  displayProfile();
+//  dynamicallyAddBuddyList();
