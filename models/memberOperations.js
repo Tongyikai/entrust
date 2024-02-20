@@ -143,9 +143,7 @@ function getAva64AndPos( name, callback ) { // 取得名字人的 avatar64code &
                 console.log( result );
                 console.log( "∅ undefined" );
             } else {
-                // console.log( result );
-                // console.log( "a64code: " + result[ 0 ].avatar64code );
-                // console.log( "jobTitle: " + result[ 0 ].jobTitle );
+                console.log( result );
                 a = result[ 0 ].avatar64code;
                 j = result[ 0 ].jobTitle;
             }
@@ -167,13 +165,11 @@ function createNewFriend( tokenName, newFriendsName, callback ) {
                 console.log( "∅ undefined * create a new tables, first times add buddy." );
                 // 取得 名字人的 頭像和職稱 再建立一個新的資料表
                 getAva64AndPos( newFriendsName, ( avatar64code, jobTitle ) => {
-                    // console.log( "修改 -> 取得 名字人的 頭像: " + avatar64code );
-                    // console.log( "修改 -> 取得 名字人的 職稱:" + jobTitle );
                     let person = [ { name: newFriendsName, avatar64code: avatar64code, jobTitle: jobTitle } ];
                     var userObj = { owner: tokenName, buddyList: person };
                     buddyListCollection.insertOne( userObj, ( err, res ) => {
                         if ( err ) throw err;
-                        // console.log( res );
+                        console.log( res );
                         client.close();
                         callback();
                     });
@@ -189,7 +185,7 @@ function createNewFriend( tokenName, newFriendsName, callback ) {
                     var updateStr = { $set: { buddyList: person } };
                     buddyListCollection.updateOne( whereStr, updateStr, ( err, res ) => {
                         if ( err ) throw err;
-                        // console.log( res );
+                        console.log( res );
                         client.close();
                         callback();
                     });
@@ -217,9 +213,24 @@ function updateProfileData( username, avatar64code, familyName, givenName, birth
 }
 
 function getProfileData( username, callback ) {
+    terminalInformation( "Get Profile." );
     var profileData = { avatar64code: "" };
+    var buddyListData = [];
     client.connect( err => {
         if ( err ) throw err;
+        // 取得好友清單
+        const buddyListCollection = client.db( config.mongodb.database ).collection( config.mongodb.buddy_Collection );
+        buddyListCollection.find( { owner: username } ).toArray( function( err, result ) {
+            if ( err ) throw err;
+            if ( result[ 0 ] != undefined ) {
+                buddyListData = result[ 0 ].buddyList;
+                console.log( "Buddy List length: " + buddyListData.length );
+                console.log( "Show Object Element, Buddy List: " + Object.keys( buddyListData[ 0 ] ) );
+            } else {
+                console.log( "I have no friends. I haven't had any friends: 🥲" );
+            }
+        });
+        // 取得使用者自己的個人資料
         const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
         membersCollection.find( { username: username } ).toArray( ( err, result ) => {
             if ( err ) throw err;
@@ -227,11 +238,11 @@ function getProfileData( username, callback ) {
                 console.log( result );
                 console.log( "∅ undefined" );
             } else {
-                console.log( "member username: " + result[ 0 ].username );
+                console.log( "Get profile from ->member username: " + result[ 0 ].username );
                 profileData.avatar64code = result[ 0 ].avatar64code;
             }
             client.close();
-            callback( profileData );
+            callback( profileData, buddyListData );
         });
     });
 }

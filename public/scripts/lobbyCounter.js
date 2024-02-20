@@ -71,6 +71,8 @@ var loadFile = function( event ) {
         cancelUploadAvatar(); // 取消頭像
     } else {
         // avatar = uploadAvatar;
+
+
     }
 }
 
@@ -118,17 +120,34 @@ function displayProfile() {
 }
 
 // 個人資料顯示 將Server給的資料 放置對的地方
-function setProfile( userProfile ) {
-    document.getElementById( "menuAvatar" ).src = userProfile.avatar64code;
+function setProfile( profileData, buddyListData ) {
+    document.getElementById( "menuAvatar" ).src = profileData.avatar64code;
+    var count = buddyListData.length;
+    for ( var i = 0; i < count; i++ ) {
+        dynamicallyAddBuddyList( buddyListData[ i ].name, buddyListData[ i ].avatar64code, buddyListData[ i ].jobTile, i );
+    }
 } 
 
 /* *********#*********#*********#*********#*********#
  *					 動態新增好友清單				   *
  #*********#*********#*********#*********#********* */
- function dynamicallyAddBuddyList() {
+ function dynamicallyAddBuddyList( name, avatar64code, jobTile, ordinalNumber ) {
     var div = document.querySelector( ".container_left .box" );
+    var count = ordinalNumber + 1;
+    div.innerHTML += '<div class="list">' +
+                         '<div class="imgBx">' +
+                             '<img src="' + avatar64code + '">' +
+                         '</div>' +
+                         '<div class="content">' +
+                             '<h2 class="rank"><small>#</small>' + count + '</h2>' +
+                             '<h4>' + name + '</h4>' +
+                             '<p>' + jobTile + '</p>' +
+                         '</div>' +
+                     '</div>';
+    /*
     div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar2.png"></div><div class="content"><h2 class="rank"><small>#</small>11</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
     div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar.png"></div><div class="content"><h2 class="rank"><small>#</small>12</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
+    */
  }
 
 /* *********#*********#*********#*********#*********#
@@ -165,4 +184,3 @@ function setProfile( userProfile ) {
  displayMonth();
  displayDay();
  displayProfile();
- dynamicallyAddBuddyList();

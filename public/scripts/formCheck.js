@@ -95,7 +95,6 @@ function checkProfileData( form ) {
     var safeBall = 9;
 
     if ( checkBlankInTheWord( userData.familyName ) ) {
-        // alert( "Family Name: Do not include whitespace characters in the text" );
         alert( "Family Name: Words include blank" );
         safeBall--;
 
@@ -109,7 +108,6 @@ function checkProfileData( form ) {
     }
     
     if ( checkBlankInTheWord( userData.givenName ) ) {
-        // alert( "Given Name: Do not include whitespace characters in the text" );
         alert( "Given Name: Words include blank" );
         safeBall--;
 

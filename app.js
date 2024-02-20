@@ -50,8 +50,6 @@ http.createServer( function( request, response ) {
 		} else if ( request.url === "/addBuddy" ) {
 			console.log( "Request [ addBuddy ]: " );
 			console.log( post );
-			// console.log( post.indexOf( "email=" ) );
-			// console.log( post.indexOf( "username=" ) );
 			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
 			userController.addBuddy( token, post, ( isFinished ) => {
 				response.writeHead( 200, { "Content-Type": "application/json" } );
@@ -62,9 +60,9 @@ http.createServer( function( request, response ) {
 		} else if ( request.url === "/loadingProfileData" ) {
 			console.log( "Request [ loadingProfileData ]: " );
 			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
-			userController.loadingProfile( token, ( profileData ) => {
+			userController.loadingProfile( token, ( profileData, buddyListData ) => {
 				response.writeHead( 200, { "Content-Type": "application/json" } );
-				response.write( JSON.stringify( { profileData: profileData } ) );
+				response.write( JSON.stringify( { profileData: profileData, buddyListData: buddyListData } ) );
 				response.end();
 			});
 		}
@@ -84,8 +82,6 @@ http.createServer( function( request, response ) {
 		// 解析傳入數據
 		form.parse( request, ( err, fields, files ) => {
 			if ( err ) throw err;
-			// console.log( fields, '....Form Fields ****' );
-			// console.log( files, '....Form Files ****' );
 			userController.updateProfile( token, fields, files, () => {
 				response.writeHead( 200, { "Content-Type": "application/json" } );
 				response.write( JSON.stringify( { updateProfile: "finished" } ) );

@@ -29,9 +29,10 @@ httpRequest.onload = function() {
 
         // 取得個人資料
         if (  jsonObject[ "profileData" ] != undefined ) { 
-            // alert( "Server: response profile" );
             let setProfileData = setProfile; // 引用外部 script "lobbyCounter.js"
-            setProfileData( jsonObject.profileData );
+            setProfileData( jsonObject.profileData, jsonObject.buddyListData );
+            // console.log( "profileData: " + jsonObject.profileData );
+            // console.log( "buddyListData: " + jsonObject.buddyListData );
             return;
         }
 
@@ -48,6 +49,7 @@ httpRequest.onload = function() {
             case "NotOkay":
                 alert( "Token Authentication Failed: " + jsonObject.authorization );
                 break;
+
             default:
                 document.cookie = "authorization=" + jsonObject.authorization;
                 loginAuthorization();
