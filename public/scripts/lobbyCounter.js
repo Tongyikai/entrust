@@ -103,7 +103,7 @@ function displayDay() {
     document.getElementById( "edit_dayBox" ).innerHTML = options;
 }
 
-// 監聽 form 編輯視窗
+// 編輯個人資料 提交
 window.addEventListener( "load", () => {
     const form = document.getElementById( "edit_profileForm" );
     form.addEventListener( "submit", ( event ) => {
@@ -127,8 +127,8 @@ function setProfile( userProfile ) {
  #*********#*********#*********#*********#********* */
  function dynamicallyAddBuddyList() {
     var div = document.querySelector( ".container_left .box" );
-    div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar4.png"></div><div class="content"><h2 class="rank"><small>#</small>11</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
-    div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar4.png"></div><div class="content"><h2 class="rank"><small>#</small>12</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
+    div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar2.png"></div><div class="content"><h2 class="rank"><small>#</small>11</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
+    div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar.png"></div><div class="content"><h2 class="rank"><small>#</small>12</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
  }
 
 /* *********#*********#*********#*********#*********#
@@ -165,4 +165,4 @@ function setProfile( userProfile ) {
  displayMonth();
  displayDay();
  displayProfile();
-//  dynamicallyAddBuddyList();
+ dynamicallyAddBuddyList();

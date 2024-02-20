@@ -82,16 +82,17 @@ function checkProfileData( form ) {
       yearOfBirth: form[ 5 ].value,
      monthOfBirth: form[ 6 ].value,
        dayOfBirth: form[ 7 ].value,
-           stayAt: form[ 10 ].value,
-         hometown: form[ 11 ].value,
-           mobile: form[ 12 ].value,
-               fb: form[ 13 ].value
+         jobTitle: form[ 10 ].value,
+           stayAt: form[ 11 ].value,
+         hometown: form[ 12 ].value,
+           mobile: form[ 13 ].value,
+               fb: form[ 14 ].value
     };
 
     const YEAR_CHARACTER = "Year";
     const MONTH_CHARACTER = "Month";
     const DAY_CHARACTER = "Day";
-    var safeBall = 8;
+    var safeBall = 9;
 
     if ( checkBlankInTheWord( userData.familyName ) ) {
         // alert( "Family Name: Do not include whitespace characters in the text" );
@@ -142,6 +143,11 @@ function checkProfileData( form ) {
         safeBall--;
     }
 
+    if ( checkNameLengthFormat( userData.jobTitle ) ) {
+        alert( "Stay at: Text exceeds 24 characters" );
+        safeBall--;
+    }
+
     if ( checkNameLengthFormat( userData.stayAt ) ) {
         alert( "Stay at: Text exceeds 24 characters" );
         safeBall--;
@@ -157,7 +163,7 @@ function checkProfileData( form ) {
         safeBall--;
     } 
 
-    if ( safeBall < 8 ) {
+    if ( safeBall < 9 ) {
         alert( "Form table cannot be sent" );
         return false;
     } else {

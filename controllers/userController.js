@@ -18,7 +18,6 @@ function userLogin( username, password, callback ) {
             // 使用者可以登入, 產生一個 token 回傳給使用者
             let generateToken = tokenOperations.getToken( username );
             callback( generateToken );
-
         } else {
             callback( "empty" ); // 使用者不存在, 回傳 empty, client 會拿到物件 authorization: empty
         }
@@ -58,14 +57,12 @@ function addBuddy( userToken, friendData, callback ) {
     if ( friendData.indexOf( "email=" ) == 0 ) { // 資料是 email 的格式, 查詢 email 的使用者名稱
         var email = friendData.replace( "email=", "" );
         console.log( "add friend email: " + email );
-
-        memberOperations.QueryTheUsernameOfEmail( email, ( username ) => {
+        memberOperations.queryTheUsernameOfEmail( email, ( username ) => {
             switch ( username ) {
                 case "undefined":
                     console.log( "Not found: " + username );
                     callback( false );
                     break;
-            
                 default:
                     console.log( "Add new buddy from email." );
                     memberOperations.createNewFriend( tokenName, username, () => {
@@ -76,14 +73,12 @@ function addBuddy( userToken, friendData, callback ) {
     } else if ( friendData.indexOf( "username=" ) == 0 ) { // 資料是 username 的格式, 查詢名稱是否存在
         var username = friendData.replace( "username=", "" );
         console.log( "add friend username: " + username );
-
         memberOperations.queryUsername( username, ( exists ) => {
             switch ( exists ) {
                 case false:
                     console.log( "Not found: " + username );
                     callback( false );
                     break;
-                
                 default:
                     console.log( "Add new buddy from username." );
                     memberOperations.createNewFriend( tokenName, username, () => {
@@ -94,7 +89,6 @@ function addBuddy( userToken, friendData, callback ) {
     } else {
         console.log( "err: " + friendData );
     }
-    // console.log( tokenOperations.whoIsThisToken( userToken ) );
 }
 
 function updateProfile( userToken, fields, files, callback ) {
@@ -104,8 +98,7 @@ function updateProfile( userToken, fields, files, callback ) {
     if ( files.avatar.size > 0 ) {
         avatar64code = base64( files );
     }
-
-    memberOperations.updateProfileData( tokenName, avatar64code, fields.familyName, fields.givenName, birth, fields.gender, fields.currentCity, fields.hometown, fields.mobileNumber, fields.facebook, () => { 
+    memberOperations.updateProfileData( tokenName, avatar64code, fields.familyName, fields.givenName, birth, fields.gender, fields.jobTitle, fields.currentCity, fields.hometown, fields.mobileNumber, fields.facebook, () => { 
         callback();
     });
 }

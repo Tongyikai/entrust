@@ -7,7 +7,6 @@ const formidable = require( "formidable" );
 
 http.createServer( function( request, response ) {
     let post = "";
-
 	request.on( "data", function( chunk ) {
 		post += chunk;
 		// console.log( "/* *********#*********#*********#*********#*********#" );
@@ -87,7 +86,6 @@ http.createServer( function( request, response ) {
 			if ( err ) throw err;
 			// console.log( fields, '....Form Fields ****' );
 			// console.log( files, '....Form Files ****' );
-
 			userController.updateProfile( token, fields, files, () => {
 				response.writeHead( 200, { "Content-Type": "application/json" } );
 				response.write( JSON.stringify( { updateProfile: "finished" } ) );
