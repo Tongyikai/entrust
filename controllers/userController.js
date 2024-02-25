@@ -7,7 +7,8 @@ module.exports = {
     userRegister,
     tokenLogin,
     addBuddy,
-    updateProfile
+    updateProfile,
+    loadingProfile
 }
 
 function userLogin( username, password, callback ) {
@@ -17,7 +18,6 @@ function userLogin( username, password, callback ) {
             // 使用者可以登入, 產生一個 token 回傳給使用者
             let generateToken = tokenOperations.getToken( username );
             callback( generateToken );
-
         } else {
             callback( "empty" ); // 使用者不存在, 回傳 empty, client 會拿到物件 authorization: empty
         }
@@ -30,10 +30,12 @@ function userRegister( username, emailAddress, password, callback ) {
         if ( usernameExists ) {
             // 使用者名稱存在, 不能建立新會員
 
+
         } else if ( memberOperations.queryEmail( emailAddress, ( emailExists ) => {
             if ( emailExists ) {
                 // email存在, 不能建立新會員
                 
+
             } else {
                 // 驗證可以, 建立新會員
                 memberOperations.createNewMember( username, emailAddress, password, () => {
@@ -52,48 +54,53 @@ function tokenLogin( token, callback ) {
     }
 }
 
-function addBuddy( userToken, friendData, callback ) {
+async function addBuddy( userToken, friendData, callback ) { // 使函數異步,在呼叫函數時在其前面加上 await, 訪問 mongodb 就可以回傳 boolean
     let tokenName = tokenOperations.whoIsThisToken( userToken );
-    if ( friendData.indexOf( "email=" ) == 0 ) { // 資料是 email 的格式, 查詢 email 的使用者名稱
+
+    if ( friendData.indexOf( "email=" ) == 0 ) { // 資料是 email 的格式
         var email = friendData.replace( "email=", "" );
         console.log( "add friend email: " + email );
+        const name = await memberOperations.queryTheUsernameOfEmail( email ); // 取得email的username
+        if ( name == "undefined" ) { // 查詢不到email的username
+            callback( false );
+        } else {
+            const response = await memberOperations.queryNameOfBuddyList( tokenName, name ); // 檢查自己的好友名單,是否已經存在此人
+            console.log( "Check buddyList exist?: " + response );
+            if ( response ) { // 存在就不執行
+                console.log( "Already friend: " + response );
+                callback( false );
+            } else {
+                console.log( "Add new buddy from email." );
+                memberOperations.createNewFriend( tokenName, name, () => {
+                    callback( true );
+                });
+            }
+        }
+    }
 
-        memberOperations.QueryTheUsernameOfEmail( email, ( username ) => {
-            switch ( username ) {
-                case "undefined":
-                    console.log( "Not found: " + username );
-                    callback( false );
-                    break;
-            
-                default:
-                    console.log( "Add new buddy from email." );
-                    memberOperations.createNewFriend( tokenName, username, () => {
-                        callback( true );
-                    });
-            } 
-        });
-    } else if ( friendData.indexOf( "username=" ) == 0 ) { // 資料是 username 的格式, 查詢名稱是否存在
+    if ( friendData.indexOf( "username=" ) == 0 ) { // 資料是 username 的格式
         var username = friendData.replace( "username=", "" );
         console.log( "add friend username: " + username );
-
-        memberOperations.queryUsername( username, ( exists ) => {
-            switch ( exists ) {
-                case false:
-                    console.log( "Not found: " + username );
-                    callback( false );
-                    break;
-                
-                default:
-                    console.log( "Add new buddy from username." );
-                    memberOperations.createNewFriend( tokenName, username, () => {
-                        callback( true );
-                    });
-            } 
-        });
-    } else {
-        console.log( "err: " + friendData );
+        const response = await memberOperations.queryNameOfBuddyList( tokenName, username ); // 檢查自己的好友名單,是否已經存在此人
+        if ( response ) {
+            console.log( "Check buddyList exist?: " + response );
+            callback( false );
+        } else {
+            memberOperations.queryUsername( username, ( exists ) => { // 查詢名稱是否存在
+                switch ( exists ) {
+                    case false:
+                        console.log( "Not found: " + username );
+                        callback( false );
+                        break;
+                    default:
+                        console.log( "Add new buddy from username." );
+                        memberOperations.createNewFriend( tokenName, username, () => {
+                            callback( true );
+                        });
+                }
+            });
+        }
     }
-    // console.log( tokenOperations.whoIsThisToken( userToken ) );
 }
 
 function updateProfile( userToken, fields, files, callback ) {
@@ -102,41 +109,15 @@ function updateProfile( userToken, fields, files, callback ) {
     var avatar64code = "0";
     if ( files.avatar.size > 0 ) {
         avatar64code = base64( files );
-        // console.log( "[ base64code ]: " + base64code );
-        // console.log( files );
     }
+    memberOperations.updateProfileData( tokenName, avatar64code, fields.familyName, fields.givenName, birth, fields.gender, fields.jobTitle, fields.currentCity, fields.hometown, fields.mobileNumber, fields.facebook, () => { 
+        callback();
+    });
+}
 
-    memberOperations.updateProfileData( tokenName, 
-                                     avatar64code,
-                                fields.familyName, 
-                                 fields.givenName,
-                                            birth,
-                                    fields.gender,
-                               fields.currentCity,
-                                  fields.hometown,
-                              fields.mobileNumber,
-                                  fields.facebook, 
-                                          () => {
-                                            callback();
-                                        });
-
-    /*
-    console.log( "-----------------	Profile Information	-------------------" );
-    console.log( "Family Name: " + fields.familyName + "\n" +
-                 "Given name: " + fields.givenName + "\n" +
-                 "Nickname: " + fields.nickname + "\n" +
-                 "Birth: " + fields.yearOfBirth + "/" + fields.monthOfBirth + "/" + fields.dayOfBirth + "\n" +
-                 "Gender: " + fields.gender + "\n" +
-                 "Current City: " + fields.currentCity + "\n" +
-                 "Hometown:" + fields.hometown + "\n" +
-                 "Mobile Number: " + fields.mobileNumber + "\n" +
-                 "FB: " + fields.facebook
-    );
-    console.log( "-----------------	Image Information	-------------------" );
-    console.log( "files photo : " + files.avatar );
-    console.log( "files photo name: " + files.avatar.name );
-    console.log( "files photo type: " + files.avatar.type );
-    console.log( "files photo size: " + files.avatar.size );
-    console.log( "base64code: " + base64code );
-    console.log( "-----------------	 Information End	-------------------" );*/
+function loadingProfile( userToken, callback ) {
+    let tokenName = tokenOperations.whoIsThisToken( userToken );
+    memberOperations.getProfileData( tokenName, ( profileData, buddyListData ) => {
+        callback( profileData, buddyListData );
+    });
 }

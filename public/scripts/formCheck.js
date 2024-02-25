@@ -73,14 +73,8 @@ function checkDateOfBirth( year, month, day ) {
 }
 
 function checkProfileData( form ) {
-     // test
-    let uploadAvatar = document.getElementById( "edit_uploadAvatar" );
-    let x12x = document.getElementById( "x12x" );
-    x12x.src = URL.createObjectURL( uploadAvatar.files[0] );
-    alert(uploadAvatar.files[0]);
-    // test
 
-    userData = {
+    userData = { // 從 form 表單 取出要的資料
         avatarImg: form[ 0 ].value,
        familyName: form[ 2 ].value,
         givenName: form[ 3 ].value,
@@ -88,101 +82,90 @@ function checkProfileData( form ) {
       yearOfBirth: form[ 5 ].value,
      monthOfBirth: form[ 6 ].value,
        dayOfBirth: form[ 7 ].value,
-           stayAt: form[ 10 ].value,
-         hometown: form[ 11 ].value,
-           mobile: form[ 12 ].value,
-               fb: form[ 13 ].value
+         jobTitle: form[ 10 ].value,
+           stayAt: form[ 11 ].value,
+         hometown: form[ 12 ].value,
+           mobile: form[ 13 ].value,
+               fb: form[ 14 ].value
     };
 
     const YEAR_CHARACTER = "Year";
     const MONTH_CHARACTER = "Month";
     const DAY_CHARACTER = "Day";
-    var safeBall = 8;
+    var safeBall = 9;
 
     if ( checkBlankInTheWord( userData.familyName ) ) {
-        // alert( "Family Name: Do not include whitespace characters in the text" );
-        alert( 'Family Name:文字中包含空白' );
+        alert( "Family Name: Words include blank" );
         safeBall--;
 
     } else if ( checkIncludeNumber( userData.familyName ) ) {
-        alert( 'Family Name:不能有數字' );
+        alert( "Family Name: Cannot have numbers" );
         safeBall--;
 
     } else if ( checkNameLengthFormat( userData.familyName ) ) {
-        alert( 'Family Name:文字超過24字元' );
+        alert( "Family Name: Text exceeds 24 characters" );
         safeBall--;
     }
     
     if ( checkBlankInTheWord( userData.givenName ) ) {
-        // alert( "Given Name: Do not include whitespace characters in the text" );
-        alert( 'Given Name:文字中包含空白' );
+        alert( "Given Name: Words include blank" );
         safeBall--;
 
     } else if ( checkIncludeNumber( userData.givenName ) ) {
-        alert( 'Given Name:不能有數字' );
+        alert( "Given Name: Cannot have numbers" );
         safeBall--;
 
     } else if ( checkNameLengthFormat( userData.givenName ) ) {
-        alert( 'Given Name:文字超過24字元' );
+        alert( "Given Name: Text exceeds 24 characters" );
         safeBall--;
     }
 
     if ( checkNameLengthFormat( userData.nickname ) ) {
-        alert( 'Nickname:文字超過24字元' );
+        alert( "Nickname: Text exceeds 24 characters" );
         safeBall--;
     }
 
     if ( userData.yearOfBirth != YEAR_CHARACTER && userData.monthOfBirth != MONTH_CHARACTER && userData.dayOfBirth != DAY_CHARACTER ) {
         if ( checkDateOfBirth( userData.yearOfBirth, userData.monthOfBirth, userData.dayOfBirth ) ) {
-            console.log( "出生 - 修改 可以" );
             // alert( "出生 - 修改 可以" );
 
         } else {
             safeBall--;
-            alert( "出生 - 不是正確的日期" );
+            alert( "Birth: Not the correct date" );
         }
     } else if ( userData.yearOfBirth == YEAR_CHARACTER && userData.monthOfBirth == MONTH_CHARACTER && userData.dayOfBirth == DAY_CHARACTER ) {
-        console.log( "出生 - 不修改" );
         // alert( "出生 - 不修改" );
 
     } else {
-        alert( "出生 - 請輸入完整的出生日期" );
+        alert( "Birth: Please enter complete date of birth" );
+        safeBall--;
+    }
+
+    if ( checkNameLengthFormat( userData.jobTitle ) ) {
+        alert( "Stay at: Text exceeds 24 characters" );
         safeBall--;
     }
 
     if ( checkNameLengthFormat( userData.stayAt ) ) {
-        alert( 'Stay at:文字超過24字元' );
+        alert( "Stay at: Text exceeds 24 characters" );
         safeBall--;
     }
 
     if ( checkNameLengthFormat( userData.hometown ) ) {
-        alert( 'Hometown:文字超過24字元' );
+        alert( "Hometown: Text exceeds 24 characters" );
         safeBall--;
     }
 
     if ( userData.fb.length > 100 ) {
-        alert( "Fb字元長度超過100:" + userData.fb.length );
+        alert( "Facebook: Text exceeds 100 characters-" + userData.fb.length );
         safeBall--;
     } 
 
-    if ( safeBall < 8 ) {
-        alert( "資料不能送出");
+    if ( safeBall < 9 ) {
+        alert( "Form table cannot be sent" );
         return false;
     } else {
         // alert( "送出修改");
         return true;
     }
-
-    // alert( userData[ 'avatarImg' ] + "\n" +
-    //        userData[ 'familyName' ] + "\n" +
-    //        userData[ 'givenName' ] + "\n" +
-    //        userData[ 'nickname' ] + "\n" +
-    //        userData[ 'birthYear' ] + "\n" +
-    //        userData[ 'birthMonth' ] + "\n" +
-    //        userData[ 'birthDay' ] 
-    //        );
-
-    // alert( form.gender[ 0 ].checked + "\n" + 
-    //        form.gender[ 1 ].checked
-    //        );
 }

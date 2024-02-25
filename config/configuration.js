@@ -13,5 +13,6 @@ module.exports = {
       members_Collection:   process.env.MEMBERS_COLLECTION,
         buddy_Collection:   process.env.BUDDY_COLLECTION
     },
-                 JWT_KEY:   process.env.JWT_KEY
+                 JWT_KEY:   process.env.JWT_KEY,
+          DEFAULT_AVATAR:   process.env.DEFAULT_AVATAR_IMAGE
 }

@@ -5,20 +5,20 @@
 CLEAR_TOKEN = "authorization=";
 HOST_URL = "http://127.0.0.1:8888/index";
 
-// 頭像menu
-var graph_o = document.querySelector( ".graph_o" ); 
+// 頭像 menu
+var graph_o = document.querySelector( ".graph_o" ); // 取 class
 graph_o.addEventListener( "click", function() {
     this.classList.toggle( "active" );
 });
 
-// 新增好友輸入框
-var add_box = document.querySelector( ".add_box" ); 
-add_box.addEventListener( "click", function() {
-    var addBtn = document.getElementsByClassName( "addBox_input" )[ 0 ];
-    if ( addBtn.style.display == "none" || addBtn.style.display == "" ) {
-        addBtn.style.display = "block";
+// 頭像 menu 底下的, 新增好友
+var addFriendBtn = document.querySelector( "#menu_addFriend" ); // 取 id
+addFriendBtn.addEventListener( "click", function() {
+    var addNewFriendWindow = document.getElementsByClassName( "addNewFriendWindow" )[ 0 ];
+    if ( addNewFriendWindow.style.display === "none" || addNewFriendWindow.style.display === "" ) {
+        addNewFriendWindow.style.display = "block";
     } else {
-        addBtn.style.display = "none";
+        addNewFriendWindow.style.display = "none";
     }
 });
 
@@ -32,8 +32,9 @@ let checkProfile = checkProfileData;
 let addFriendEmail = addBuddyFromEmail;
 let addFriendUsername = addBuddyFromUsername;
 let uploadProfile = uploadProfileData;
+let loadingProfile = loadingProfileData;
 
-function newFriend() {
+function newFriend() { // onclick功能, 寫在lobby.html
     var addFriendName = document.getElementById( "addFriendName" );
     if ( emailCorrect( addFriendName.value ) ) {
         alert( "email Ok." );
@@ -70,6 +71,8 @@ var loadFile = function( event ) {
         cancelUploadAvatar(); // 取消頭像
     } else {
         // avatar = uploadAvatar;
+
+
     }
 }
 
@@ -102,7 +105,7 @@ function displayDay() {
     document.getElementById( "edit_dayBox" ).innerHTML = options;
 }
 
-// 監聽 form 編輯視窗
+// 編輯個人資料 提交
 window.addEventListener( "load", () => {
     const form = document.getElementById( "edit_profileForm" );
     form.addEventListener( "submit", ( event ) => {
@@ -111,12 +114,68 @@ window.addEventListener( "load", () => {
     });
 });
 
-// Logout
-let logoutButton = document.getElementById( "logout" );
-logoutButton.onclick = () => {
-    document.cookie = CLEAR_TOKEN;
-    window.location.href = HOST_URL;
+// 取得個人資料
+function displayProfile() {
+    loadingProfile();
 }
+
+// 個人資料顯示 將Server給的資料 放置對的地方
+function setProfile( profileData, buddyListData ) {
+    document.getElementById( "menuAvatar" ).src = profileData.avatar64code;
+    var count = buddyListData.length;
+    for ( var i = 0; i < count; i++ ) {
+        dynamicallyAddBuddyList( buddyListData[ i ].username, buddyListData[ i ].avatar64code, buddyListData[ i ].jobTitle, i );
+    }
+} 
+
+/* *********#*********#*********#*********#*********#
+ *					 動態新增好友清單				   *
+ #*********#*********#*********#*********#********* */
+ function dynamicallyAddBuddyList( name, avatar64code, jobTitle, ordinalNumber ) {
+    var div = document.querySelector( ".container_left .box" );
+    var count = ordinalNumber + 1;
+    div.innerHTML += '<div class="list">' +
+                         '<div class="imgBx">' +
+                             '<img src="' + avatar64code + '">' +
+                         '</div>' +
+                         '<div class="content">' +
+                             '<h2 class="rank"><small>#</small>' + count + '</h2>' +
+                             '<h4>' + name + '</h4>' +
+                             '<p>' + jobTitle + '</p>' +
+                         '</div>' +
+                     '</div>';
+    /*
+    div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar2.png"></div><div class="content"><h2 class="rank"><small>#</small>11</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
+    div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar.png"></div><div class="content"><h2 class="rank"><small>#</small>12</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
+    */
+ }
+
+/* *********#*********#*********#*********#*********#
+ *					   Menu 選單				     *
+ #*********#*********#*********#*********#********* */
+ // edit
+ let editButton = document.getElementById( "menu_edit" );
+ editButton.onclick = () => {
+    let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
+    if ( editWindow.style.display === "none" ) {
+        editWindow.style.display = "block";
+    } else {
+        editWindow.style.display = "none";
+    }
+ }
+ // edit_closeButton
+ let edit_closeButton = document.getElementsByClassName( "edit_closeButton" )[ 0 ];
+ edit_closeButton.onclick = () => {
+    let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
+    editWindow.style.display = "none";
+ }
+ 
+ // logout
+ let logoutButton = document.getElementById( "menu_logout" );
+ logoutButton.onclick = () => {
+     document.cookie = CLEAR_TOKEN;
+     window.location.href = HOST_URL;
+ }
 
 /* *********#*********#*********#*********#*********#
  *					畫面載入執行的功能				   *
@@ -124,3 +183,4 @@ logoutButton.onclick = () => {
  displayYear();
  displayMonth();
  displayDay();
+ displayProfile();

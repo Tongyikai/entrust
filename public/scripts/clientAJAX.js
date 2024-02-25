@@ -15,17 +15,26 @@ httpRequest.onload = function() {
         }
 
         if ( jsonObject.addBuddy == true ) {
-            alert( "🫱🏻‍🫲🏽New Buddy!" );
+            alert( "🫱🏻‍🫲🏽 New Buddy!" );
             return;
         } else if ( jsonObject.addBuddy == false ) {
-            alert( "😞Not found!" );
+            alert( "Not found! or Already friends" );
             return;
         }
 
         if ( jsonObject.updateProfile == "finished" ) {
-            alert( "📝Update Profile!" );
+            alert( "📝 Update Profile!" );
             return;
-        }  
+        }
+
+        // 取得個人資料
+        if (  jsonObject[ "profileData" ] != undefined ) { 
+            let setProfileData = setProfile; // 引用外部 script "lobbyCounter.js"
+            setProfileData( jsonObject.profileData, jsonObject.buddyListData );
+            // console.log( "profileData: " + jsonObject.profileData );
+            // console.log( "buddyListData: " + jsonObject.buddyListData );
+            return;
+        }
 
         switch( jsonObject.authorization ) {
             case "empty":
@@ -40,6 +49,7 @@ httpRequest.onload = function() {
             case "NotOkay":
                 alert( "Token Authentication Failed: " + jsonObject.authorization );
                 break;
+
             default:
                 document.cookie = "authorization=" + jsonObject.authorization;
                 loginAuthorization();
@@ -100,4 +110,11 @@ function uploadProfileData( form ) {
     httpRequest.open( "POST", "http://127.0.0.1:8888/updateProfile" );
     httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
     httpRequest.send( FD );
+}
+
+function loadingProfileData() {
+    var cookieValue = document.cookie.replace( AUTHORIZATION_FORMAT, "$1" );
+    httpRequest.open( "POST", "http://127.0.0.1:8888/loadingProfileData", false );
+    httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue );
+    httpRequest.send();
 }

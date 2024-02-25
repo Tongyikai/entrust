@@ -9,7 +9,6 @@ module.exports = {
 
 function getToken( username ) {
     terminalInformation( "generate new key" );
-    
     const token = jwt.sign( { algorithm: "HS256", exp: Math.floor( Date.now() / 1000 ) + ( 60 * 60 ), username: username }, config.JWT_KEY );
     console.log( "generate token: " + token );
     return token;
@@ -17,7 +16,6 @@ function getToken( username ) {
 
 function tokenExist( token ) {
     terminalInformation( "Is exist Token?" );
-    
     let decoded;
     let tokenCorrect;
     jwt.verify( token, config.JWT_KEY, err => {
@@ -36,7 +34,6 @@ function tokenExist( token ) {
 
 function whoIsThisToken( token ) {
     terminalInformation( "Who is this Token?" );
-    
     let decoded;
     let who = "????";
     jwt.verify( token, config.JWT_KEY, err => {

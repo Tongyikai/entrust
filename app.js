@@ -7,16 +7,15 @@ const formidable = require( "formidable" );
 
 http.createServer( function( request, response ) {
     let post = "";
-
 	request.on( "data", function( chunk ) {
 		post += chunk;
-		// console.log( "/* *********#*********#*********#*********#*********#" );
-		// console.log( " *                       POST                       *" );
-		// console.log( " #*********#*********#*********#*********#********* */" );
 	});
 
+    /* *********#*********#*********#*********#*********#
+	 *                       POST                       * 
+	 #*********#*********#*********#*********#********* */
 	request.on( "end", function() {
-		if ( request.url === "/SignIn" ) {
+		if ( request.url === "/SignIn" ) { // ==會做轉換型別的動作, === 不會有轉換型別的問題 (int) 1 === (String) "1" 會是 false
 			post = querystring.parse( post );
             console.log( "Request [ Sign In ]: " );
 			console.log( post );
@@ -51,8 +50,6 @@ http.createServer( function( request, response ) {
 		} else if ( request.url === "/addBuddy" ) {
 			console.log( "Request [ addBuddy ]: " );
 			console.log( post );
-			// console.log( post.indexOf( "email=" ) );
-			// console.log( post.indexOf( "username=" ) );
 			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
 			userController.addBuddy( token, post, ( isFinished ) => {
 				response.writeHead( 200, { "Content-Type": "application/json" } );
@@ -60,6 +57,14 @@ http.createServer( function( request, response ) {
 				response.end();
 			});
 
+		} else if ( request.url === "/loadingProfileData" ) {
+			console.log( "Request [ loadingProfileData ]: " );
+			const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
+			userController.loadingProfile( token, ( profileData, buddyListData ) => {
+				response.writeHead( 200, { "Content-Type": "application/json" } );
+				response.write( JSON.stringify( { profileData: profileData, buddyListData: buddyListData } ) );
+				response.end();
+			});
 		}
     });
 
@@ -77,9 +82,6 @@ http.createServer( function( request, response ) {
 		// 解析傳入數據
 		form.parse( request, ( err, fields, files ) => {
 			if ( err ) throw err;
-			// console.log( fields, '....Form Fields ****' );
-			// console.log( files, '....Form Files ****' );
-
 			userController.updateProfile( token, fields, files, () => {
 				response.writeHead( 200, { "Content-Type": "application/json" } );
 				response.write( JSON.stringify( { updateProfile: "finished" } ) );
@@ -89,7 +91,7 @@ http.createServer( function( request, response ) {
 	}
    
 	/* *********#*********#*********#*********#*********#
-	 *					      URL 					    *
+	 *					      GET 					    *
 	 #*********#*********#*********#*********#********* */
     if ( request.url === "/" ) {
         sendFileContent( response, "views/index.html", "text/html" );
