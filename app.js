@@ -9,13 +9,13 @@ http.createServer( function( request, response ) {
     let post = "";
 	request.on( "data", function( chunk ) {
 		post += chunk;
-		// console.log( "/* *********#*********#*********#*********#*********#" );
-		// console.log( " *                       POST                       *" );
-		// console.log( " #*********#*********#*********#*********#********* */" );
 	});
 
+    /* *********#*********#*********#*********#*********#
+	 *                       POST                       * 
+	 #*********#*********#*********#*********#********* */
 	request.on( "end", function() {
-		if ( request.url === "/SignIn" ) {
+		if ( request.url === "/SignIn" ) { // ==會做轉換型別的動作, === 不會有轉換型別的問題 (int) 1 === (String) "1" 會是 false
 			post = querystring.parse( post );
             console.log( "Request [ Sign In ]: " );
 			console.log( post );
@@ -91,7 +91,7 @@ http.createServer( function( request, response ) {
 	}
    
 	/* *********#*********#*********#*********#*********#
-	 *					      URL 					    *
+	 *					      GET 					    *
 	 #*********#*********#*********#*********#********* */
     if ( request.url === "/" ) {
         sendFileContent( response, "views/index.html", "text/html" );

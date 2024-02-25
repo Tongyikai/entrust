@@ -124,14 +124,14 @@ function setProfile( profileData, buddyListData ) {
     document.getElementById( "menuAvatar" ).src = profileData.avatar64code;
     var count = buddyListData.length;
     for ( var i = 0; i < count; i++ ) {
-        dynamicallyAddBuddyList( buddyListData[ i ].name, buddyListData[ i ].avatar64code, buddyListData[ i ].jobTile, i );
+        dynamicallyAddBuddyList( buddyListData[ i ].username, buddyListData[ i ].avatar64code, buddyListData[ i ].jobTitle, i );
     }
 } 
 
 /* *********#*********#*********#*********#*********#
  *					 動態新增好友清單				   *
  #*********#*********#*********#*********#********* */
- function dynamicallyAddBuddyList( name, avatar64code, jobTile, ordinalNumber ) {
+ function dynamicallyAddBuddyList( name, avatar64code, jobTitle, ordinalNumber ) {
     var div = document.querySelector( ".container_left .box" );
     var count = ordinalNumber + 1;
     div.innerHTML += '<div class="list">' +
@@ -141,7 +141,7 @@ function setProfile( profileData, buddyListData ) {
                          '<div class="content">' +
                              '<h2 class="rank"><small>#</small>' + count + '</h2>' +
                              '<h4>' + name + '</h4>' +
-                             '<p>' + jobTile + '</p>' +
+                             '<p>' + jobTitle + '</p>' +
                          '</div>' +
                      '</div>';
     /*

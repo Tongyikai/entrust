@@ -16,6 +16,7 @@ module.exports = {
     queryUsernameAndPassword,
     queryEmail,
     queryTheUsernameOfEmail,
+    queryNameOfBuddyList,
     createNewMember,
     createNewFriend,
     updateProfileData,
@@ -85,9 +86,10 @@ function queryEmail( emailAddress, callback ) {
     });
 }
 
-function queryTheUsernameOfEmail( emailAddress, callback ) {
+function queryTheUsernameOfEmail( emailAddress ) { // 查詢此 email 的使用者名稱
     terminalInformation( "Query email. for username" );
     var username = "undefined";
+    /*
     client.connect( err => {
         if ( err ) throw err;
         const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
@@ -103,7 +105,94 @@ function queryTheUsernameOfEmail( emailAddress, callback ) {
             client.close();
             callback( username );
         });
+    });*/
+
+
+
+    return new Promise( ( resolve, reject ) => { // 將函數內的程式碼包裝在 Promise 中, 就可以回傳 boolean
+        client.connect( err => {
+            if ( err ) throw err;
+            const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
+            membersCollection.find( { email: emailAddress } ).toArray( ( err, result ) => {
+                if ( err ) throw err;
+                if ( result[ 0 ] == undefined ) {
+                    console.log( result );
+                    console.log( emailAddress + "===> undefined" );
+                } else {
+                    console.log( emailAddress + "===> username: " + result[ 0 ].username );
+                    username = result[ 0 ].username;
+                }
+                client.close();
+                resolve( username );
+            });
+        });
     });
+}
+
+function queryNameOfBuddyList( tokenName, username ) {
+    terminalInformation( "Does this name exist?" );
+    var nameExist = false;
+
+    return new Promise( ( resolve, reject ) => { // 將函數內的程式碼包裝在 Promise 中, 就可以回傳 boolean
+        client.connect( err => {
+            if ( err ) throw err;
+            const buddyListCollection = client.db( config.mongodb.database ).collection( config.mongodb.buddy_Collection );
+            buddyListCollection.find( { owner: tokenName } ).toArray( ( err, result ) => {
+                if ( err ) throw err;
+                // console.log( result );
+                // console.log( result[ 0 ] );
+  
+                if ( result == undefined ) {
+                    console.log( "ABCD" );
+                }
+
+                if ( result[ 0 ] == undefined ) {
+                    console.log( "BuddyList=undefined, first time" );
+                }
+
+                if ( result[ 0 ] != undefined ) {
+                    let buddy = result[ 0 ].buddyList;
+                    for ( var i = 0; i < buddy.length; i++ ) {
+                        console.log( "Inquire name: " + buddy[ i ].username + " <=conform to=> " + username );
+                        if ( buddy[ i ].username == username ) {
+                            nameExist = true;
+                            console.log( "⭐️Inquire name: " + buddy[ i ].username + "⭐️" );
+                        }
+                    }
+                }
+                client.close();
+                resolve( nameExist );
+            }); 
+        });
+    });
+
+    /*
+    client.connect( err => {
+        if ( err ) throw err;
+        const buddyListCollection = client.db( config.mongodb.database ).collection( config.mongodb.buddy_Collection );
+        buddyListCollection.find( { owner: tokenName } ).toArray( ( err, result ) => {
+            if ( err ) throw err;
+            console.log( result );
+            let buddy = result[ 0 ].buddyList;
+            for ( var i = 0; i < buddy.length; i++ ) {
+                console.log( "Inquire name: " + buddy[ i ].username + " <=conform to=> " + username );
+                if ( buddy[ i ].username == username ) {
+                    nameExist = true;
+                    client.close();
+                    resolve( nameExist );
+                }
+            }
+        });
+        // buddyListCollection.find( { buddyList: [ { username: "Catherine59" } ] } ).toArray( ( err, result ) => {
+        //     if ( err ) throw err;
+        //     console.log( result );
+        // }); 
+
+        buddyListCollection.find( { "buddyList.username": "John59" }, { "_id": 0, "owner": 1, "buddyList": 0 } ).toArray( ( err, result ) => { // 資料表有 John59 都會被找出來
+            if ( err ) throw err;
+            console.log( result );
+        });
+    });*/
 }
 
 function createNewMember( username, emailAddress, password, callback ) {
@@ -143,7 +232,7 @@ function getAva64AndPos( name, callback ) { // 取得名字人的 avatar64code &
                 console.log( result );
                 console.log( "∅ undefined" );
             } else {
-                console.log( result );
+                // console.log( result );
                 a = result[ 0 ].avatar64code;
                 j = result[ 0 ].jobTitle;
             }
@@ -165,7 +254,7 @@ function createNewFriend( tokenName, newFriendsName, callback ) {
                 console.log( "∅ undefined * create a new tables, first times add buddy." );
                 // 取得 名字人的 頭像和職稱 再建立一個新的資料表
                 getAva64AndPos( newFriendsName, ( avatar64code, jobTitle ) => {
-                    let person = [ { name: newFriendsName, avatar64code: avatar64code, jobTitle: jobTitle } ];
+                    let person = [ { username: newFriendsName, avatar64code: avatar64code, jobTitle: jobTitle } ];
                     var userObj = { owner: tokenName, buddyList: person };
                     buddyListCollection.insertOne( userObj, ( err, res ) => {
                         if ( err ) throw err;
@@ -180,7 +269,7 @@ function createNewFriend( tokenName, newFriendsName, callback ) {
                 getAva64AndPos( newFriendsName, ( avatar64code, jobTitle ) => {
                     var person = [];
                     person = result[ 0 ].buddyList;
-                    person.push( { name: newFriendsName, avatar64code: avatar64code, jobTitle: jobTitle } );
+                    person.push( { username: newFriendsName, avatar64code: avatar64code, jobTitle: jobTitle } );
                     var whereStr = { owner: tokenName };
                     var updateStr = { $set: { buddyList: person } };
                     buddyListCollection.updateOne( whereStr, updateStr, ( err, res ) => {

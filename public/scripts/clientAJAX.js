@@ -18,7 +18,7 @@ httpRequest.onload = function() {
             alert( "🫱🏻‍🫲🏽 New Buddy!" );
             return;
         } else if ( jsonObject.addBuddy == false ) {
-            alert( "😞 Not found!" );
+            alert( "Not found! or Already friends" );
             return;
         }
 

@@ -54,42 +54,52 @@ function tokenLogin( token, callback ) {
     }
 }
 
-function addBuddy( userToken, friendData, callback ) {
+async function addBuddy( userToken, friendData, callback ) { // 使函數異步,在呼叫函數時在其前面加上 await, 訪問 mongodb 就可以回傳 boolean
     let tokenName = tokenOperations.whoIsThisToken( userToken );
-    if ( friendData.indexOf( "email=" ) == 0 ) { // 資料是 email 的格式, 查詢 email 的使用者名稱
+
+    if ( friendData.indexOf( "email=" ) == 0 ) { // 資料是 email 的格式
         var email = friendData.replace( "email=", "" );
         console.log( "add friend email: " + email );
-        memberOperations.queryTheUsernameOfEmail( email, ( username ) => {
-            switch ( username ) {
-                case "undefined":
-                    console.log( "Not found: " + username );
-                    callback( false );
-                    break;
-                default:
-                    console.log( "Add new buddy from email." );
-                    memberOperations.createNewFriend( tokenName, username, () => {
-                        callback( true );
-                    });
-            } 
-        });
-    } else if ( friendData.indexOf( "username=" ) == 0 ) { // 資料是 username 的格式, 查詢名稱是否存在
+        const name = await memberOperations.queryTheUsernameOfEmail( email ); // 取得email的username
+        if ( name == "undefined" ) { // 查詢不到email的username
+            callback( false );
+        } else {
+            const response = await memberOperations.queryNameOfBuddyList( tokenName, name ); // 檢查自己的好友名單,是否已經存在此人
+            console.log( "Check buddyList exist?: " + response );
+            if ( response ) { // 存在就不執行
+                console.log( "Already friend: " + response );
+                callback( false );
+            } else {
+                console.log( "Add new buddy from email." );
+                memberOperations.createNewFriend( tokenName, name, () => {
+                    callback( true );
+                });
+            }
+        }
+    }
+
+    if ( friendData.indexOf( "username=" ) == 0 ) { // 資料是 username 的格式
         var username = friendData.replace( "username=", "" );
         console.log( "add friend username: " + username );
-        memberOperations.queryUsername( username, ( exists ) => {
-            switch ( exists ) {
-                case false:
-                    console.log( "Not found: " + username );
-                    callback( false );
-                    break;
-                default:
-                    console.log( "Add new buddy from username." );
-                    memberOperations.createNewFriend( tokenName, username, () => {
-                        callback( true );
-                    });
-            } 
-        });
-    } else {
-        console.log( "err: " + friendData );
+        const response = await memberOperations.queryNameOfBuddyList( tokenName, username ); // 檢查自己的好友名單,是否已經存在此人
+        if ( response ) {
+            console.log( "Check buddyList exist?: " + response );
+            callback( false );
+        } else {
+            memberOperations.queryUsername( username, ( exists ) => { // 查詢名稱是否存在
+                switch ( exists ) {
+                    case false:
+                        console.log( "Not found: " + username );
+                        callback( false );
+                        break;
+                    default:
+                        console.log( "Add new buddy from username." );
+                        memberOperations.createNewFriend( tokenName, username, () => {
+                            callback( true );
+                        });
+                }
+            });
+        }
     }
 }
 
