@@ -303,7 +303,8 @@ body {
 .container_middle .box {
     position: absolute;
     width: 72%;
-    min-height: 600px;
+    /* min-height: 600px; */
+    min-height: 700px;
     background: rgba( 255, 255, 255, 0.1 );
     box-shadow: 0 25px 45px rgba( 0, 0, 0, 0.1 );
     border: 1px solid rgba( 255, 255, 255, 0.5 );
@@ -331,7 +332,7 @@ body {
  .editWindow .box {
     position: absolute;
     width: 72%;
-    min-height: 600px;
+    /* min-height: 600px; */
     background: rgba( 255, 255, 255, 0.1 );
     box-shadow: 0 25px 45px rgba( 0, 0, 0, 0.1 );
     border: 1px solid rgba( 255, 255, 255, 0.5 );

@@ -73,7 +73,6 @@ function checkDateOfBirth( year, month, day ) {
 }
 
 function checkProfileData( form ) {
-
     userData = { // 從 form 表單 取出要的資料
         avatarImg: form[ 0 ].value,
        familyName: form[ 2 ].value,
@@ -82,11 +81,11 @@ function checkProfileData( form ) {
       yearOfBirth: form[ 5 ].value,
      monthOfBirth: form[ 6 ].value,
        dayOfBirth: form[ 7 ].value,
-         jobTitle: form[ 10 ].value,
-           stayAt: form[ 11 ].value,
-         hometown: form[ 12 ].value,
-           mobile: form[ 13 ].value,
-               fb: form[ 14 ].value
+         jobTitle: form[ 11 ].value,
+           stayAt: form[ 12 ].value,
+         hometown: form[ 13 ].value,
+           mobile: form[ 14 ].value,
+               fb: form[ 15 ].value
     };
 
     const YEAR_CHARACTER = "Year";

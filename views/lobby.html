@@ -132,11 +132,11 @@
                             <table>
                                 <tbody>    
                                     <tr>                
-                                        <td style="width:150px">
-                                            <label for="avatar"><h4>Upload Avatar</h4></label>
-                                        </td>
                                         <td>
-                                            <input type="file" id="edit_uploadAvatar" name="avatar" accept="image/png, image/jpeg" onchange="loadFile(event)">
+                                            <label class="input-sizer">                                            
+                                                <span>Image: </span>
+                                                <input type="file" id="edit_uploadAvatar" name="avatar" accept="image/png, image/jpeg" onchange="loadFile(event)" placeholder="Upload Avatar">
+                                            </label>
                                         </td>
                                         <td>
                                             <button type="button" onclick="cancelUploadAvatar()" style="width: 20px;">x</button>
@@ -144,93 +144,87 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label><h4>Family Name</h4></label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="edit_familyName" name="familyName" style="width: 200px;">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label><h4>Given Name</h4></label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="edit_givenName" name="givenName" style="width: 200px;">
+                                            <label class="input-sizer">
+                                                <span>Input: </span>
+                                                <input  type="text" id="edit_familyName" name="familyName" placeholder="Family Name">
+                                            </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label><h4>Nickname</h4></label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="edit_nickname" name="nickname" style="width: 200px;">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label><h4>Date Of Birth</h4></label>
-                                        </td>
-                                        <td>
-                                            <select id="edit_yearBox" class="year" name="yearOfBirth">
-                                                <option value="year">Year</option>
-                                            </select>
-                                            <select id="edit_monthBox" class="month" name="monthOfBirth">
-                                                <option value="month">Month</option>
-                                            </select>
-                                            <select id="edit_dayBox" class="day" name="dayOfBirth">
-                                                <option value="day">Day</option>
-                                            </select><br>
+                                            <label class="input-sizer">
+                                                <span>Input: </span>
+                                                <input type="text" id="edit_givenName" name="givenName" placeholder="Given Name">
+                                            </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label><h4>Gender</h4></label>
-                                        </td>
-                                        <td>
-                                            <input class="male" id="edit_male" type="radio" name="gender" value="male">Male
-                                            <input class="female" id="edit_female" type="radio" name="gender" value="female" checked>Female
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <label><h4>Job Title</h4></label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="edit_jobTitle" style="width: 200px;" name="jobTitle" placeholder="Beekeeper">
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <label><h4>Stay at</h4></label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="edit_currentCity" style="width: 200px;" name="currentCity" placeholder="Hollywood">
+                                            <label class="input-sizer">
+                                                <span>Input: </span>
+                                                <input type="text" id="edit_nickname" name="nickname" placeholder="Nickname">
+                                            </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label><h4>Hometown</h4></label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="edit_hometown" style="width: 200px;" name="hometown" placeholder="Florida">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label><h4>Mobile</h4></label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="edit_mobileNumber" style="width: 200px;" name="mobileNumber" placeholder="954-920-3500" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                            <label class="input-sizer">
+                                                <span>Date Of Birth: </span>
+                                                <select id="edit_yearBox" class="year" name="yearOfBirth"><option value="year">Year</option></select>
+                                                <select id="edit_monthBox" class="month" name="monthOfBirth"><option value="month">Month</option></select>
+                                                <select id="edit_dayBox" class="day" name="O"><option value="day">Day</option></select>
+                                            </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label><h4>Facebook</h4></label>
+                                            <label class="input-sizer">
+                                                <span>Gender: </span>
+                                                <select id="edit_gender" class="gender" name="gender">
+                                                    <option value="male">Male</option>
+                                                    <option value="female">Female</option>
+                                                </select>
+                                            </label>
                                         </td>
+                                    </tr>
+                                    <tr>
                                         <td>
-                                            <input type="text" id="edit_facebook" style="width: 200px;" name="facebook">
+                                            <label class="input-sizer">
+                                                <span>Job Title: </span>
+                                                <input type="text" id="edit_jobTitle" name="jobTitle" placeholder="Beekeeper">
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="input-sizer">
+                                                <span>Stay at: </span>
+                                                <input type="text" id="edit_currentCity" name="currentCity" placeholder="Hollywood">
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="input-sizer">
+                                                <span>Hometown: </span>
+                                                <input type="text" id="edit_hometown" name="hometown" placeholder="Florida">
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="input-sizer">
+                                                <span>Mobile: </span>
+                                                <input type="text" id="edit_mobileNumber" name="mobileNumber" placeholder="954-920-3500" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="input-sizer">
+                                                <span>Facebook: </span>
+                                                <input type="text" id="edit_facebook" name="facebook">
+                                            </label>
                                         </td>
                                     </tr>
                                 </tbody>
