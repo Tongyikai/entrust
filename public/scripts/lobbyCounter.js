@@ -155,12 +155,15 @@ function setProfile( profileData, buddyListData ) {
  #*********#*********#*********#*********#********* */
  // edit
  let editButton = document.getElementById( "menu_edit" );
+ let middleWindow = document.getElementsByClassName( "container_middle" )[ 0 ];
  editButton.onclick = () => {
     let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
     if ( editWindow.style.display === "none" ) {
         editWindow.style.display = "block";
+        middleWindow.style.display = "none";
     } else {
         editWindow.style.display = "none";
+        middleWindow.style.display = "block";
     }
  }
  // edit_closeButton
@@ -168,6 +171,7 @@ function setProfile( profileData, buddyListData ) {
  edit_closeButton.onclick = () => {
     let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
     editWindow.style.display = "none";
+    middleWindow.style.display = "block";
  }
  
  // logout
