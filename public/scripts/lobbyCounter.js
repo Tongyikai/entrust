@@ -119,19 +119,25 @@ function displayProfile() {
     loadingProfile();
 }
 
-// 個人資料顯示 將Server給的資料 放置對的地方
-function setProfile( profileData, buddyListData ) {
+/* *********#*********#*********#*********#*********#
+ *				 外部引用 clientAJAX.js				  *
+ #*********#*********#*********#*********#********* */
+function setProfile( profileData, buddyListData ) { // 個人資料顯示 將Server給的資料 放置對的地方
     document.getElementById( "menuAvatar" ).src = profileData.avatar64code;
     var count = buddyListData.length;
     for ( var i = 0; i < count; i++ ) {
-        dynamicallyAddBuddyList( buddyListData[ i ].username, buddyListData[ i ].avatar64code, buddyListData[ i ].jobTitle, i );
+        dynamicallyAddBuddyList( buddyListData[ i ].familyName, buddyListData[ i ].givenName, buddyListData[ i ].nickname, buddyListData[ i ].avatar64code, buddyListData[ i ].jobTitle, i );
     }
 } 
 
 /* *********#*********#*********#*********#*********#
  *					 動態新增好友清單				   *
  #*********#*********#*********#*********#********* */
- function dynamicallyAddBuddyList( name, avatar64code, jobTitle, ordinalNumber ) {
+ function dynamicallyAddBuddyList( familyName, givenName, nickname, avatar64code, jobTitle, ordinalNumber ) {
+    var name = givenName + " " + familyName + "(" + nickname + ")";
+    if ( familyName == "" || givenName == "" || nickname == "" ) {
+        name = "NONAME";
+    }
     var div = document.querySelector( ".container_left .box" );
     var count = ordinalNumber + 1;
     div.innerHTML += '<div class="list">' +
