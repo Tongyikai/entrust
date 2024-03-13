@@ -11,9 +11,9 @@ http.createServer( function( request, response ) {
 		post += chunk;
 	});
 
-    /* *********#*********#*********#*********#*********#
-	 *                       POST                       * 
-	 #*********#*********#*********#*********#********* */
+	/* *********#*********#*********#*********#*********#
+	*                       POST                       * 
+	#*********#*********#*********#*********#********* */
 	request.on( "end", function() {
 		if ( request.url === "/SignIn" ) { // ==會做轉換型別的動作, === 不會有轉換型別的問題 (int) 1 === (String) "1" 會是 false
 			post = querystring.parse( post );
@@ -69,8 +69,8 @@ http.createServer( function( request, response ) {
     });
 
 	/* *********#*********#*********#*********#*********#
-	 *					     Form  					    *
-	 #*********#*********#*********#*********#********* */
+	*					     Form  					   *
+	#*********#*********#*********#*********#********* */
 	if ( request.url === "/updateProfile" && request.method.toLowerCase() === "post" ) {
 		console.log( "Request [ updateProfile ]: " );
 		const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
@@ -91,8 +91,8 @@ http.createServer( function( request, response ) {
 	}
    
 	/* *********#*********#*********#*********#*********#
-	 *					      GET 					    *
-	 #*********#*********#*********#*********#********* */
+	*					      GET 					   *
+	#*********#*********#*********#*********#********* */
     if ( request.url === "/" ) {
         sendFileContent( response, "views/index.html", "text/html" );
 		console.log( "**** FRONTPAGE - REQUEST ****" );
@@ -136,8 +136,8 @@ http.createServer( function( request, response ) {
 console.log( "**** Server running at http://127.0.0.1:8888 ****" );
 
 /* *********#*********#*********#*********#*********#
- *					    METHOD 					    *
- #*********#*********#*********#*********#********* */
+*					    METHOD 					   *
+#*********#*********#*********#*********#********* */
 function sendFileContent( response, fileName, contentType ) {
 	fs.readFile( fileName, function( err, data ) {
 		if( err ) {

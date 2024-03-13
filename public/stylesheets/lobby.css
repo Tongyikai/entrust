@@ -45,8 +45,8 @@ header {
     z-index: 2;
 }
 /* *********#*********#*********#*********#*********#
- *					    頭像menu 					 *
- #*********#*********#*********#*********#********* */
+*					    頭像menu 					 *
+#*********#*********#*********#*********#********* */
 /* 大於(>)就是選取底下直接的子元素 */
 .navbar > ul { 
     display: flex;
@@ -112,8 +112,8 @@ header {
 	display: flex;
 }
 /* *********#*********#*********#*********#*********#
- *          三大瀏覽器的滾動條都隱藏，並且可以捲動        *
- #*********#*********#*********#*********#********* */
+*          三大瀏覽器的滾動條都隱藏，並且可以捲動         *
+#*********#*********#*********#*********#********* */
 html {
     overflow: -moz-hidden-unscrollable;
     height: 100%;
@@ -128,8 +128,8 @@ body {
 	overflow: auto;
 }
 /* *********#*********#*********#*********#*********#
- *					container_left 					*
- #*********#*********#*********#*********#********* */
+*					container_left 					*
+#*********#*********#*********#*********#********* */
 .container_left .box {
     position: absolute;
     min-width: 400px;
@@ -221,8 +221,8 @@ body {
     color: #333;
 }
 /* *********#*********#*********#*********#*********#
- *              add-button 白色泡泡框                 *
- #*********#*********#*********#*********#********* */
+*              add-button 白色泡泡框                 *
+#*********#*********#*********#*********#********* */
 .addNewFriendWindow {
     position: relative;
     right: -330px;
@@ -235,9 +235,9 @@ body {
     z-index: 2;
 }
 /* *********#*********#*********#*********#*********#
- *			      add-button 影子輸入框	              *
- #*********#*********#*********#*********#********* */
- .input-sizer {
+*			      add-button 影子輸入框	              *
+#*********#*********#*********#*********#********* */
+.input-sizer {
     display: inline-grid;
     vertical-align: top;
     align-items: center;
@@ -321,12 +321,11 @@ body {
     left: 148px;
 }
 /* *********#*********#*********#*********#*********#
- *				   container_middle 			    *
- #*********#*********#*********#*********#********* */
+*				   container_middle 			    *
+#*********#*********#*********#*********#********* */
 .container_middle .box {
     position: absolute;
     width: 72%;
-    /* min-height: 600px; */
     min-height: 700px;
     background: rgba( 255, 255, 255, 0.1 );
     box-shadow: 0 25px 45px rgba( 0, 0, 0, 0.1 );
@@ -344,15 +343,32 @@ body {
     color: #fff;
     margin-bottom: 20px;
 }
-.container_middle_footer {
+/* *********#*********#*********#*********#*********#
+*				     container_club 			    *
+#*********#*********#*********#*********#********* */
+.container_club .box {
     position: absolute;
-    top: 95%;
-    right: 20%;
+    width: 72%;
+    min-height: 700px;
+    background: rgba( 255, 255, 255, 0.1 );
+    box-shadow: 0 25px 45px rgba( 0, 0, 0, 0.1 );
+    border: 1px solid rgba( 255, 255, 255, 0.5 );
+    border-right: 1px solid rgba( 255, 255, 255, 0.2 );
+    border-bottom: 1px solid rgba( 255, 255, 255, 0.2 );
+    border-radius: 40px;
+    z-index: 1;
+    padding: 20px;
+    backdrop-filter: blur( 25px );
+    right: 20px;
+    top: 110px;
+}
+.container_club .box td {
+    color: #fff;
 }
 /* *********#*********#*********#*********#*********#
- *				      editWindow		            *
- #*********#*********#*********#*********#********* */
- .editWindow .box {
+*				      editWindow		            *
+#*********#*********#*********#*********#********* */
+.editWindow .box {
     position: absolute;
     width: 72%;
     /* min-height: 600px; */
@@ -367,11 +383,14 @@ body {
     backdrop-filter: blur( 25px );
     right: 20px;
     top: 110px;
- }
+}
 .editWindow .box td {
     color: #fff;
 }
-.edit_closeButtonArea {
+/* *********#*********#*********#*********#*********#
+*				      closeButton		            *
+#*********#*********#*********#*********#********* */
+.closeButton {
     height: 60px;
     width: 50px;
     float: right;
@@ -382,16 +401,24 @@ body {
     right: 1%;
     position: absolute;
 }
-.edit_closeButton {
+.closeBtn {
     color: #fff;
     float: right;
     font-size: 28px;
     font-weight: bold;
     padding-right: 50%;
 }
-.edit_closeButton:hover,
-.edit_closeButton:focus {
+.closeBtn:hover,
+.closeBtn:focus {
     color: #b2e43d;
     text-decoration: none;
     cursor: pointer;
+}
+/* *********#*********#*********#*********#*********#
+*				container_middle_footer 			*
+#*********#*********#*********#*********#********* */
+.container_middle_footer {
+    position: absolute;
+    top: 95%;
+    right: 20%;
 }

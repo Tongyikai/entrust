@@ -89,25 +89,6 @@ function queryEmail( emailAddress, callback ) {
 function queryTheUsernameOfEmail( emailAddress ) { // 查詢此 email 的使用者名稱
     terminalInformation( "Query email. for username" );
     var username = "undefined";
-    /*
-    client.connect( err => {
-        if ( err ) throw err;
-        const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
-        membersCollection.find( { email: emailAddress } ).toArray( ( err, result ) => {
-            if ( err ) throw err;
-            if ( result[ 0 ] == undefined ) {
-                console.log( result );
-                console.log( "∅ undefined" );
-            } else {
-                console.log( "member username: " + result[ 0 ].username );
-                username = result[ 0 ].username;
-            }
-            client.close();
-            callback( username );
-        });
-    });*/
-
-
 
     return new Promise( ( resolve, reject ) => { // 將函數內的程式碼包裝在 Promise 中, 就可以回傳 boolean
         client.connect( err => {
@@ -143,7 +124,7 @@ function queryNameOfBuddyList( tokenName, username ) {
                 // console.log( result[ 0 ] );
   
                 if ( result == undefined ) {
-                    console.log( "ABCD" );
+                    console.log( "result == undefined" );
                 }
 
                 if ( result[ 0 ] == undefined ) {
@@ -165,34 +146,6 @@ function queryNameOfBuddyList( tokenName, username ) {
             }); 
         });
     });
-
-    /*
-    client.connect( err => {
-        if ( err ) throw err;
-        const buddyListCollection = client.db( config.mongodb.database ).collection( config.mongodb.buddy_Collection );
-        buddyListCollection.find( { owner: tokenName } ).toArray( ( err, result ) => {
-            if ( err ) throw err;
-            console.log( result );
-            let buddy = result[ 0 ].buddyList;
-            for ( var i = 0; i < buddy.length; i++ ) {
-                console.log( "Inquire name: " + buddy[ i ].username + " <=conform to=> " + username );
-                if ( buddy[ i ].username == username ) {
-                    nameExist = true;
-                    client.close();
-                    resolve( nameExist );
-                }
-            }
-        });
-        // buddyListCollection.find( { buddyList: [ { username: "Catherine59" } ] } ).toArray( ( err, result ) => {
-        //     if ( err ) throw err;
-        //     console.log( result );
-        // }); 
-
-        buddyListCollection.find( { "buddyList.username": "John59" }, { "_id": 0, "owner": 1, "buddyList": 0 } ).toArray( ( err, result ) => { // 資料表有 John59 都會被找出來
-            if ( err ) throw err;
-            console.log( result );
-        });
-    });*/
 }
 
 function createNewMember( username, emailAddress, password, callback ) {
