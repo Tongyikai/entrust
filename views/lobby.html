@@ -52,7 +52,7 @@
                         <h3>All Friends</h3>
                         <!-- <h3>動態新增好友清單</h3> -->
 
-                        <div class="list">
+                        <div class="list" onclick="inviteMember( this )" id="hellooo">
                             <div class="imgBx">
                                 <img src="public/images/BillyJoel.png">
                                 <!-- <img src="../public/images/Billy_Joel.png"> -->
@@ -152,6 +152,12 @@
                                                 <input type="text" id="circle_dues" name="circle_dues" placeholder="$10,000" onblur="this.value = '$' + convertNumberIntoThousands( this.value )">
                                             </label>
                                         </td>
+                                        <td>
+                                            <label class="input-sizer">
+                                                <span>Amount: </span>
+                                                <input type="text" id="circle_amount" placeholder="$0" disabled="disabled">
+                                            </label>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -165,13 +171,37 @@
                                         <td>
                                             <label class="input-sizer stacked">
                                                 <span>Bulletin Board: </span>
-                                                <textarea oninput="this.parentNode.dataset.value = this.value" rows="1" placeholder="Ideas"></textarea>
+                                                <textarea oninput="this.parentNode.dataset.value = this.value" rows="1" placeholder="Ideas" maxlength="150"></textarea>
                                             </label>
                                         </td>
-                                        <td>
-                                            <label class="input-sizer">
-                                                <span>Invited Members: </span>
-                                            </label>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="buddyCircle">
+                                            <h3>TAP FRIENDS LABEL</h3>
+                                            <div class="buddyLabel">
+                                                <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
+                                                <a>Billy Joel</a> 
+                                            </div>
+                                            <div class="buddyLabel">
+                                                <img class="buddyLabelAvatar" src="public/images/MarkZuckerberg.png">
+                                                <a>Mark Zuckerberg</a> 
+                                            </div>
+                                            <div class="buddyLabel">
+                                                <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
+                                                <a>Timothée Chalamet</a> 
+                                            </div>
+                                            <div class="buddyLabel">
+                                                <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
+                                                <a>Stephen McKinley Henderson</a> 
+                                            </div>
+                                            <div class="buddyLabel">
+                                                <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
+                                                <a>Ji-eun Lee(IU)</a> 
+                                            </div>
+                                            <div class="buddyLabel">
+                                                <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
+                                                <a>ABCDEFGHIJKLMNOPQRSTUVWXYZ</a> 
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -314,13 +344,15 @@
             </div>
 
             <div class="container_middle_footer">
-                <h3>Copyright @ 2023 Financial Technology Company. All Right Reserved.</h3>
-                <h3>&copy; 2024 HowY'allDoing.com</h3>
+                <!-- <h3>Copyright @ 2023 Financial Technology Company. All Right Reserved.</h3>
+                <h3>&copy; 2024 HowY'allDoing.com</h3> -->
             </div>
         </section>
 
         <section>
             <footer>
+                <h3>Copyright @ 2023 Financial Technology Company. All Right Reserved.</h3>
+                <h3>&copy; 2024 HowY'allDoing.com</h3>
                 <p>A B C D</p>
                 <p>E F G H</p>
                 <p>I J K L M N</p>

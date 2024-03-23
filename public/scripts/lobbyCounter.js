@@ -132,6 +132,28 @@ function convertNumberIntoThousands( value ) {
     }
 }
 
+// 邀請成為成員
+function inviteMember( obj ) {
+    // 取得好友視窗底下的標籤內容 DOM(Document Object Model)
+    console.log( "點擊好友: " + obj );
+    console.log( "點擊好友,圖檔: " + obj.children[ 0 ].children[ 0 ].src ); // img
+    console.log( "點擊好友,名字: " + obj.children[ 1 ].children[ 1 ].textContent ); // 名字
+    console.log( "點擊好友,編號: " + obj.children[ 1 ].children[ 0 ].textContent ); // #編號
+    var imgData = obj.children[ 0 ].children[ 0 ].src;
+    var name = obj.children[ 1 ].children[ 1 ].textContent;
+    var number = obj.children[ 1 ].children[ 0 ].textContent;
+    var td = document.querySelector( ".container_club .box .buddyCircle" );
+    td.innerHTML += '<div class="buddyLabel">' +
+                        '<img class="buddyLabelAvatar" src="' + imgData + '">' +
+                            '<a>' + name + '</a>' +
+                    '</div>&emsp;';
+
+    // <div class="buddyLabel">
+    // <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
+    // <a>Billy Joel</a> 
+    // </div>
+}
+
 /* *********#*********#*********#*********#*********#
 *				 外部引用 clientAJAX.js				  *
 #*********#*********#*********#*********#********* */
@@ -139,6 +161,7 @@ function setProfile( profileData, buddyListData ) { // 個人資料顯示 將Ser
     document.getElementById( "menuAvatar" ).src = profileData.avatar64code;
     var count = buddyListData.length;
     for ( var i = 0; i < count; i++ ) {
+        // console.log( buddyListData[ i ]  );
         dynamicallyAddBuddyList( buddyListData[ i ].familyName, buddyListData[ i ].givenName, buddyListData[ i ].nickname, buddyListData[ i ].avatar64code, buddyListData[ i ].jobTitle, i );
     }
 }
@@ -153,7 +176,7 @@ function dynamicallyAddBuddyList( familyName, givenName, nickname, avatar64code,
     }
     var div = document.querySelector( ".container_left .box" );
     var count = ordinalNumber + 1;
-    div.innerHTML += '<div class="list">' +
+    div.innerHTML += '<div class="list" onclick="inviteMember( this )">' +
                          '<div class="imgBx">' +
                              '<img src="' + avatar64code + '">' +
                          '</div>' +
