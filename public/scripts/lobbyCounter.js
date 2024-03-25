@@ -132,7 +132,7 @@ function convertNumberIntoThousands( value ) {
     }
 }
 
-// 邀請成為成員
+// 邀請成為Circle成員
 function inviteMember( obj ) {
     // 取得好友視窗底下的標籤內容 DOM(Document Object Model)
     console.log( "點擊好友: " + obj );
@@ -143,7 +143,7 @@ function inviteMember( obj ) {
     var name = obj.children[ 1 ].children[ 1 ].textContent;
     var number = obj.children[ 1 ].children[ 0 ].textContent;
     var td = document.querySelector( ".container_club .box .buddyCircle" );
-    td.innerHTML += '<div class="buddyLabel">' +
+    td.innerHTML += '<div class="buddyLabel" onclick="removeLabel( this )">' +
                         '<img class="buddyLabelAvatar" src="' + imgData + '">' +
                             '<a>' + name + '</a>' +
                     '</div>&emsp;';
@@ -154,11 +154,17 @@ function inviteMember( obj ) {
     // </div>
 }
 
+function removeLabel( obj ) {
+    obj.remove();
+}
+
 /* *********#*********#*********#*********#*********#
 *				 外部引用 clientAJAX.js				  *
 #*********#*********#*********#*********#********* */
+let buddyData; // 好友資料, 給其他 method 使用
 function setProfile( profileData, buddyListData ) { // 個人資料顯示 將Server給的資料 放置對的地方
     document.getElementById( "menuAvatar" ).src = profileData.avatar64code;
+    buddyData = buddyListData;
     var count = buddyListData.length;
     for ( var i = 0; i < count; i++ ) {
         // console.log( buddyListData[ i ]  );
