@@ -17,8 +17,8 @@
                     <div class="navbar">
                         <ul>
                             <li class="graph_o">
-                                <img class="menuAvatar" src="public/images/avatar3.png" alt="profile_img" id="menuAvatar">
-                                <!-- <img src="../public/images/avatar3.png" alt="profile_img"> -->
+                                <img class="menuAvatar" src="public/images/avatar.png" alt="profile_img" id="menuAvatar">
+                                <!-- <img src="../public/images/avatar.png" alt="profile_img"> -->
                             
                                 <div class="menu">
                                     <!-- <div class="menu_left">
@@ -34,7 +34,7 @@
                                         <ul>
                                             <li id="menu_edit">Edit</li>
                                             <li id="menu_addFriend">+Friend</li>
-                                            <li>HCE</li>
+                                            <li id="menu_club">Club</li>
                                             <li>Settings</li>
                                             <li id="menu_logout">Logout</li>
                                         </ul>
@@ -52,7 +52,7 @@
                         <h3>All Friends</h3>
                         <!-- <h3>動態新增好友清單</h3> -->
 
-                        <div class="list">
+                        <div class="list" onclick="inviteMember( this )">
                             <div class="imgBx">
                                 <img src="public/images/BillyJoel.png">
                                 <!-- <img src="../public/images/Billy_Joel.png"> -->
@@ -64,7 +64,7 @@
                             </div>
                         </div>                        
 
-                        <div class="list">
+                        <div class="list" onclick="inviteMember( this )">
                             <div class="imgBx">
                                 <img src="public/images/DonHenley.png">
                                 <!-- <img src="../public/images/avatar4.png"> -->
@@ -76,7 +76,7 @@
                             </div>
                         </div>
 
-                        <div class="list">
+                        <div class="list" onclick="inviteMember( this )">
                             <div class="imgBx">
                                 <img src="public/images/ElonMusk.png">
                                 <!-- <img src="../public/images/avatar5.png"> -->
@@ -89,7 +89,7 @@
                         </div>
 
                                                 
-                        <div class="list">
+                        <div class="list" onclick="inviteMember( this )">
                             <div class="imgBx">
                                 <img src="public/images/JackMa.png">
                                 <!-- <img src="../public/images/avatar4.png"> -->
@@ -101,7 +101,7 @@
                             </div>
                         </div>
 
-                        <div class="list">
+                        <div class="list" onclick="inviteMember( this )">
                             <div class="imgBx">
                                 <img src="public/images/MarkZuckerberg.png">
                                 <!-- <img src="../public/images/avatar5.png"> -->
@@ -120,7 +120,96 @@
             <div class="container_middle">
                 <main>
                     <div class="box">
-                        <h3>Operating platform</h3>
+                        <h3>LeaderBoard</h3>
+                    </div>
+                </main>
+            </div>
+
+            <div class="container_club" style="display: none;">
+                <main>
+                    <div class="box">
+                        <form id="create_circle">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label class="input-sizer">
+                                                <span>Circle Name: </span>
+                                                <input type="text" id="circle_name" name="circle_name" placeholder="Fraternity">
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="input-sizer">
+                                                <span>Created On: </span>
+                                                <input type="text" id="created_on" placeholder="" disabled="disabled">
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="input-sizer">
+                                                <span>Dues</span>
+                                                <input type="text" id="circle_dues" name="circle_dues" placeholder="$10,000" onblur="this.value = '$' + convertNumberIntoThousands( this.value )">
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="input-sizer">
+                                                <span>Amount: </span>
+                                                <input type="text" id="circle_amount" placeholder="$0" disabled="disabled">
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="input-sizer">
+                                                <span>Payment Cycle(Week)</span>
+                                                <input type="text" id="circle_paymentCycle" name="circle_paymentCycle" placeholder="2">
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="input-sizer stacked">
+                                                <span>Bulletin Board: </span>
+                                                <textarea oninput="this.parentNode.dataset.value = this.value" rows="1" placeholder="Ideas" maxlength="150"></textarea>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="buddyCircle">
+                                            <h3>FRIENDS LABEL</h3>
+                                            <div class="buddyLabel" onclick="removeLabel( this )">
+                                                <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
+                                                <a>Billy Joel</a> 
+                                            </div>
+                                            <div class="buddyLabel" onclick="removeLabel( this )">
+                                                <img class="buddyLabelAvatar" src="public/images/MarkZuckerberg.png">
+                                                <a>Mark Zuckerberg</a> 
+                                            </div>
+                                            <div class="buddyLabel" onclick="removeLabel( this )">
+                                                <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
+                                                <a>Timothée Chalamet</a> 
+                                            </div>
+                                            <div class="buddyLabel" onclick="removeLabel( this )">
+                                                <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
+                                                <a>Stephen McKinley Henderson</a> 
+                                            </div>
+                                            <div class="buddyLabel" onclick="removeLabel( this )">
+                                                <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
+                                                <a>Ji-eun Lee(IU)</a> 
+                                            </div>
+                                            <div class="buddyLabel" onclick="removeLabel( this )">
+                                                <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
+                                                <a>ABCDEFGHIJKLMNOPQRSTUVWXYZ</a> 
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="closeButton" id="club_closeButton">
+                                <span class="closeBtn">&times;</span>
+                            </div>
+                        </form>
                     </div>
                 </main>
             </div>
@@ -132,11 +221,11 @@
                             <table>
                                 <tbody>    
                                     <tr>                
-                                        <td style="width:150px">
-                                            <label for="avatar"><h4>Upload Avatar</h4></label>
-                                        </td>
                                         <td>
-                                            <input type="file" id="edit_uploadAvatar" name="avatar" accept="image/png, image/jpeg" onchange="loadFile(event)">
+                                            <label class="input-sizer">                                            
+                                                <span>Image: </span>
+                                                <input type="file" id="edit_uploadAvatar" name="avatar" accept="image/png, image/jpeg" onchange="loadFile(event)" placeholder="Upload Avatar">
+                                            </label>
                                         </td>
                                         <td>
                                             <button type="button" onclick="cancelUploadAvatar()" style="width: 20px;">x</button>
@@ -144,102 +233,96 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label><h4>Family Name</h4></label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="edit_familyName" name="familyName" style="width: 200px;">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label><h4>Given Name</h4></label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="edit_givenName" name="givenName" style="width: 200px;">
+                                            <label class="input-sizer">
+                                                <span>Family Name: </span>
+                                                <input  type="text" id="edit_familyName" name="familyName" placeholder="Family Name">
+                                            </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label><h4>Nickname</h4></label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="edit_nickname" name="nickname" style="width: 200px;">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label><h4>Date Of Birth</h4></label>
-                                        </td>
-                                        <td>
-                                            <select id="edit_yearBox" class="year" name="yearOfBirth">
-                                                <option value="year">Year</option>
-                                            </select>
-                                            <select id="edit_monthBox" class="month" name="monthOfBirth">
-                                                <option value="month">Month</option>
-                                            </select>
-                                            <select id="edit_dayBox" class="day" name="dayOfBirth">
-                                                <option value="day">Day</option>
-                                            </select><br>
+                                            <label class="input-sizer">
+                                                <span>Given Name: </span>
+                                                <input type="text" id="edit_givenName" name="givenName" placeholder="Given Name">
+                                            </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label><h4>Gender</h4></label>
-                                        </td>
-                                        <td>
-                                            <input class="male" id="edit_male" type="radio" name="gender" value="male">Male
-                                            <input class="female" id="edit_female" type="radio" name="gender" value="female" checked>Female
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <label><h4>Job Title</h4></label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="edit_jobTitle" style="width: 200px;" name="jobTitle" placeholder="Beekeeper">
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <label><h4>Stay at</h4></label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="edit_currentCity" style="width: 200px;" name="currentCity" placeholder="Hollywood">
+                                            <label class="input-sizer">
+                                                <span>Nickname: </span>
+                                                <input type="text" id="edit_nickname" name="nickname" placeholder="Nickname">
+                                            </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label><h4>Hometown</h4></label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="edit_hometown" style="width: 200px;" name="hometown" placeholder="Florida">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label><h4>Mobile</h4></label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="edit_mobileNumber" style="width: 200px;" name="mobileNumber" placeholder="954-920-3500" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                            <label class="input-sizer">
+                                                <span>Date Of Birth: </span>
+                                                <select id="edit_yearBox" class="year" name="yearOfBirth"><option value="year">Year</option></select>
+                                                <select id="edit_monthBox" class="month" name="monthOfBirth"><option value="month">Month</option></select>
+                                                <select id="edit_dayBox" class="day" name="dayOfBirth"><option value="day">Day</option></select>
+                                            </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label><h4>Facebook</h4></label>
+                                            <label class="input-sizer">
+                                                <span>Gender: </span>
+                                                <select id="edit_gender" class="gender" name="gender">
+                                                    <option value="male">Male</option>
+                                                    <option value="female">Female</option>
+                                                </select>
+                                            </label>
                                         </td>
+                                    </tr>
+                                    <tr>
                                         <td>
-                                            <input type="text" id="edit_facebook" style="width: 200px;" name="facebook">
+                                            <label class="input-sizer">
+                                                <span>Job Title: </span>
+                                                <input type="text" id="edit_jobTitle" name="jobTitle" placeholder="Beekeeper">
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="input-sizer">
+                                                <span>Stay at: </span>
+                                                <input type="text" id="edit_currentCity" name="currentCity" placeholder="Hollywood">
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="input-sizer">
+                                                <span>Hometown: </span>
+                                                <input type="text" id="edit_hometown" name="hometown" placeholder="Florida">
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="input-sizer">
+                                                <span>Mobile: </span>
+                                                <input type="text" id="edit_mobileNumber" name="mobileNumber" placeholder="954-920-3500" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="input-sizer">
+                                                <span>Facebook: </span>
+                                                <input type="text" id="edit_facebook" name="facebook">
+                                            </label>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div class="edit_footer">
-                                <input class="edit_update_button" style="font-size: 1em;" type="submit" value="submit">&nbsp<input style="font-size: 1em;" type="reset" value="reset">
+                                <input class="edit_update_button" style="font-size: 1em;" type="submit" value="Submit">&nbsp<input style="font-size: 1em;" type="reset" value="Reset">
                             </div>
-                            <div class="edit_closeButtonArea">
-                                <span class="edit_closeButton">&times;</span>
+                            <div class="closeButton" id="edit_closeButton">
+                                <span class="closeBtn">&times;</span>
                             </div>
                         </form>
                     </div>
@@ -252,22 +335,24 @@
                         <form action="#">
                             <label class="input-sizer">                                            
                                 <span>Input: </span>
-                                <input id="addFriendName" type="text" onInput="this.parentNode.dataset.value = this.value" size="4" placeholder="username or email">
+                                <input id="addFriendName" type="text" onInput="this.parentNode.dataset.value = this.value" size="4" placeholder="Username Or Email">
                             </label>
-                            <input type="button" value="Invite Friends" onclick="newFriend();">
+                            <input type="button" value="Invite Friend" onclick="newFriend();">
                         </form>
                     </li>
                 </ul>
             </div>
 
             <div class="container_middle_footer">
-                <h3>Copyright @ 2023 Financial Technology Company. All Right Reserved.</h3>
-                <h3>&copy; 2024 HowY'allDoing.com</h3>
+                <!-- <h3>Copyright @ 2023 Financial Technology Company. All Right Reserved.</h3>
+                <h3>&copy; 2024 HowY'allDoing.com</h3> -->
             </div>
         </section>
 
         <section>
             <footer>
+                <h3>Copyright @ 2023 Financial Technology Company. All Right Reserved.</h3>
+                <h3>&copy; 2024 HowY'allDoing.com</h3>
                 <p>A B C D</p>
                 <p>E F G H</p>
                 <p>I J K L M N</p>

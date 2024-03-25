@@ -119,22 +119,70 @@ function displayProfile() {
     loadingProfile();
 }
 
-// 個人資料顯示 將Server給的資料 放置對的地方
-function setProfile( profileData, buddyListData ) {
-    document.getElementById( "menuAvatar" ).src = profileData.avatar64code;
-    var count = buddyListData.length;
-    for ( var i = 0; i < count; i++ ) {
-        dynamicallyAddBuddyList( buddyListData[ i ].username, buddyListData[ i ].avatar64code, buddyListData[ i ].jobTitle, i );
+// 金額數值加千分位符號
+function convertNumberIntoThousands( value ) {
+    if ( value ) {
+        value += "";
+        var arr = value.split( "." ); 
+        var re = /(\d{1,3})(?=(\d{3})+$)/g;
+        
+        return arr[ 0 ].replace( re, "$1," ) + ( arr.length == 2 ? "." + arr[ 1 ] : "" );
+    } else {
+        return ''
     }
-} 
+}
+
+// 邀請成為Circle成員
+function inviteMember( obj ) {
+    // 取得好友視窗底下的標籤內容 DOM(Document Object Model)
+    console.log( "點擊好友: " + obj );
+    console.log( "點擊好友,圖檔: " + obj.children[ 0 ].children[ 0 ].src ); // img
+    console.log( "點擊好友,名字: " + obj.children[ 1 ].children[ 1 ].textContent ); // 名字
+    console.log( "點擊好友,編號: " + obj.children[ 1 ].children[ 0 ].textContent ); // #編號
+    var imgData = obj.children[ 0 ].children[ 0 ].src;
+    var name = obj.children[ 1 ].children[ 1 ].textContent;
+    var number = obj.children[ 1 ].children[ 0 ].textContent;
+    var td = document.querySelector( ".container_club .box .buddyCircle" );
+    td.innerHTML += '<div class="buddyLabel" onclick="removeLabel( this )">' +
+                        '<img class="buddyLabelAvatar" src="' + imgData + '">' +
+                            '<a>' + name + '</a>' +
+                    '</div>&emsp;';
+
+    // <div class="buddyLabel">
+    // <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
+    // <a>Billy Joel</a> 
+    // </div>
+}
+
+function removeLabel( obj ) {
+    obj.remove();
+}
 
 /* *********#*********#*********#*********#*********#
- *					 動態新增好友清單				   *
- #*********#*********#*********#*********#********* */
- function dynamicallyAddBuddyList( name, avatar64code, jobTitle, ordinalNumber ) {
+*				 外部引用 clientAJAX.js				  *
+#*********#*********#*********#*********#********* */
+let buddyData; // 好友資料, 給其他 method 使用
+function setProfile( profileData, buddyListData ) { // 個人資料顯示 將Server給的資料 放置對的地方
+    document.getElementById( "menuAvatar" ).src = profileData.avatar64code;
+    buddyData = buddyListData;
+    var count = buddyListData.length;
+    for ( var i = 0; i < count; i++ ) {
+        // console.log( buddyListData[ i ]  );
+        dynamicallyAddBuddyList( buddyListData[ i ].familyName, buddyListData[ i ].givenName, buddyListData[ i ].nickname, buddyListData[ i ].avatar64code, buddyListData[ i ].jobTitle, i );
+    }
+}
+
+/* *********#*********#*********#*********#*********#
+*					 動態新增好友清單				   *
+#*********#*********#*********#*********#********* */
+function dynamicallyAddBuddyList( familyName, givenName, nickname, avatar64code, jobTitle, ordinalNumber ) {
+    var name = givenName + " " + familyName + "(" + nickname + ")";
+    if ( familyName == "" || givenName == "" || nickname == "" ) {
+        name = "NONAME";
+    }
     var div = document.querySelector( ".container_left .box" );
     var count = ordinalNumber + 1;
-    div.innerHTML += '<div class="list">' +
+    div.innerHTML += '<div class="list" onclick="inviteMember( this )">' +
                          '<div class="imgBx">' +
                              '<img src="' + avatar64code + '">' +
                          '</div>' +
@@ -148,39 +196,78 @@ function setProfile( profileData, buddyListData ) {
     div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar2.png"></div><div class="content"><h2 class="rank"><small>#</small>11</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
     div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar.png"></div><div class="content"><h2 class="rank"><small>#</small>12</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
     */
- }
+}
 
 /* *********#*********#*********#*********#*********#
- *					   Menu 選單				     *
- #*********#*********#*********#*********#********* */
- // edit
- let editButton = document.getElementById( "menu_edit" );
- editButton.onclick = () => {
+*					 動態顯示創立日期				   *
+#*********#*********#*********#*********#********* */
+function dynamicallyDate() {
+    const monthNamesEn = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    n =  new Date();
+    y = n.getFullYear();
+    m = monthNamesEn[ n.getMonth() + 1 ];
+    d = n.getDate();
+    document.getElementById( "created_on" ).placeholder = d + "/" + m + "/" + y;
+}
+
+/* *********#*********#*********#*********#*********#
+*					   Menu 選單				     *
+#*********#*********#*********#*********#********* */
+let middleWindow = document.getElementsByClassName( "container_middle" )[ 0 ];
+// edit
+let editButton = document.getElementById( "menu_edit" );
+editButton.onclick = () => {
     let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
     if ( editWindow.style.display === "none" ) {
         editWindow.style.display = "block";
+        middleWindow.style.display = "none";
     } else {
         editWindow.style.display = "none";
+        middleWindow.style.display = "block";
     }
- }
- // edit_closeButton
- let edit_closeButton = document.getElementsByClassName( "edit_closeButton" )[ 0 ];
- edit_closeButton.onclick = () => {
+}
+// club
+let clubButton = document.getElementById( "menu_club" );
+clubButton.onclick = () => {
+    let clubWindow =  document.getElementsByClassName( "container_club" )[ 0 ];
+    if ( clubWindow.style.display === "none" ) {
+        clubWindow.style.display = "block";
+        middleWindow.style.display = "none";
+    } else {
+        clubWindow.style.display = "none";
+        middleWindow.style.display = "block";
+    }
+}
+// edit_closeButton
+let edit_closeButton = document.getElementById( "edit_closeButton" );
+edit_closeButton.onclick = () => {
     let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
     editWindow.style.display = "none";
- }
+    middleWindow.style.display = "block";
+}
+// club_closeButton
+let club_closeButton = document.getElementById( "club_closeButton" );
+club_closeButton.onclick = () => {
+    let clubWindow =  document.getElementsByClassName( "container_club" )[ 0 ];
+    clubWindow.style.display = "none";
+    middleWindow.style.display = "block";
+}
  
- // logout
- let logoutButton = document.getElementById( "menu_logout" );
- logoutButton.onclick = () => {
+// logout
+let logoutButton = document.getElementById( "menu_logout" );
+logoutButton.onclick = () => {
      document.cookie = CLEAR_TOKEN;
      window.location.href = HOST_URL;
- }
+}
 
 /* *********#*********#*********#*********#*********#
- *					畫面載入執行的功能				   *
- #*********#*********#*********#*********#********* */
- displayYear();
- displayMonth();
- displayDay();
- displayProfile();
+*					畫面載入執行的功能				   *
+#*********#*********#*********#*********#********* */
+displayYear();
+displayMonth();
+displayDay();
+displayProfile();
+dynamicallyDate();

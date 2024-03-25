@@ -110,7 +110,7 @@ function updateProfile( userToken, fields, files, callback ) {
     if ( files.avatar.size > 0 ) {
         avatar64code = base64( files );
     }
-    memberOperations.updateProfileData( tokenName, avatar64code, fields.familyName, fields.givenName, birth, fields.gender, fields.jobTitle, fields.currentCity, fields.hometown, fields.mobileNumber, fields.facebook, () => { 
+    memberOperations.updateProfileData( tokenName, avatar64code, fields.familyName, fields.givenName, fields.nickname, birth, fields.gender, fields.jobTitle, fields.currentCity, fields.hometown, fields.mobileNumber, fields.facebook, () => { 
         callback();
     });
 }
