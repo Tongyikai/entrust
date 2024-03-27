@@ -133,20 +133,38 @@ function convertNumberIntoThousands( value ) {
 }
 
 // 邀請成為Circle成員
-function inviteMember( obj ) {
-    // 取得好友視窗底下的標籤內容 DOM(Document Object Model)
-    console.log( "點擊好友: " + obj );
-    console.log( "點擊好友,圖檔: " + obj.children[ 0 ].children[ 0 ].src ); // img
-    console.log( "點擊好友,名字: " + obj.children[ 1 ].children[ 1 ].textContent ); // 名字
-    console.log( "點擊好友,編號: " + obj.children[ 1 ].children[ 0 ].textContent ); // #編號
+var circleMember = []; // 存放的是buddyData的序號
+function inviteMember( obj ) { // 取得好友視窗底下的標籤內容 DOM(Document Object Model)
+    // console.log( "點擊好友,取得自己物件:" + obj );
+    // console.log( "點擊好友,取得圖檔: " + obj.children[ 0 ].children[ 0 ].src ); 
+    // console.log( "點擊好友,取得名字: " + obj.children[ 1 ].children[ 1 ].textContent ); 
+    // console.log( "點擊好友,取得編號: " + obj.children[ 1 ].children[ 0 ].textContent );
+    
     var imgData = obj.children[ 0 ].children[ 0 ].src;
     var name = obj.children[ 1 ].children[ 1 ].textContent;
-    var number = obj.children[ 1 ].children[ 0 ].textContent;
-    var td = document.querySelector( ".container_club .box .buddyCircle" );
-    td.innerHTML += '<div class="buddyLabel" onclick="removeLabel( this )">' +
-                        '<img class="buddyLabelAvatar" src="' + imgData + '">' +
+    var number = obj.children[ 1 ].children[ 0 ].textContent; 
+    var ordinalNum = number.substring( 1 ); // 把編號#, 移除
+    ordinalNum--; // 減1, 為buddyData的陣列位置
+
+    // console.log( "number: " + ordinalNum);
+
+    // 尋找是否有符合的元素
+    // console.log( "Circle成員存在?: " + circleMember.indexOf( ordinalNum ) );
+
+    
+    if ( circleMember.indexOf( ordinalNum ) == -1 ) { // Circle沒有邀請為成員, 可以加入
+        // console.log( "++" );
+        circleMember.push( ordinalNum );
+
+        // 手創標籤內容
+        var td = document.querySelector( ".container_club .box .buddyCircle" );
+        td.innerHTML += '<div class="buddyLabel" id="' + ordinalNum + '"onclick="removeLabel( this )">' +
+                            '<img class="buddyLabelAvatar" src="' + imgData + '">' +
                             '<a>' + name + '</a>' +
-                    '</div>&emsp;';
+                        '</div>&emsp;';
+    }
+
+    console.log( "加入circle(序號): " + circleMember );
 
     // <div class="buddyLabel">
     // <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
@@ -155,14 +173,20 @@ function inviteMember( obj ) {
 }
 
 function removeLabel( obj ) {
+    console.log( "id=" + obj.id );
+    let ordinalNum = obj.id;
+    circleMember = circleMember.filter( function( item ) { // 陣列中刪除特定元素
+        return item != ordinalNum;
+    });
+    console.log( "刪除後circle(序號): " + circleMember );
     obj.remove();
 }
 
 /* *********#*********#*********#*********#*********#
 *				 外部引用 clientAJAX.js				  *
 #*********#*********#*********#*********#********* */
-let buddyData; // 好友資料, 給其他 method 使用
-function setProfile( profileData, buddyListData ) { // 個人資料顯示 將Server給的資料 放置對的地方
+let buddyData; // 好友資料, 給其他 method 使用, 頁面載入就會執行(就有資料)
+function setProfile( profileData, buddyListData ) { // 個人資料顯示
     document.getElementById( "menuAvatar" ).src = profileData.avatar64code;
     buddyData = buddyListData;
     var count = buddyListData.length;
@@ -181,7 +205,7 @@ function dynamicallyAddBuddyList( familyName, givenName, nickname, avatar64code,
         name = "NONAME";
     }
     var div = document.querySelector( ".container_left .box" );
-    var count = ordinalNumber + 1;
+    var count = ordinalNumber + 1; // 陣列位置+1 變編號
     div.innerHTML += '<div class="list" onclick="inviteMember( this )">' +
                          '<div class="imgBx">' +
                              '<img src="' + avatar64code + '">' +

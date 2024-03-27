@@ -437,6 +437,7 @@ body {
     align-items: center;
     min-height: 20px;
     display: inline-block;
+    color: black;
 }
 .buddyLabel a {
     padding-top: 10px;
