@@ -128,7 +128,7 @@
             <div class="container_club" style="display: none;">
                 <main>
                     <div class="box">
-                        <form id="create_circle">
+                        <form id="create_circleForm">
                             <table>
                                 <tbody>
                                     <tr>
@@ -171,23 +171,28 @@
                                         <td>
                                             <label class="input-sizer stacked">
                                                 <span>Bulletin Board: </span>
-                                                <textarea oninput="this.parentNode.dataset.value = this.value" rows="1" placeholder="Ideas" maxlength="150"></textarea>
+                                                <textarea name="circle_textarea" oninput="this.parentNode.dataset.value = this.value" rows="1" placeholder="Ideas" maxlength="150"></textarea>
                                             </label>
+                                        </td>
+                                        <td>
+                                            <input type="hidden" id="circle_token" name="token">
+                                            <input type="hidden" id="circle_inviteMember" name="inviteMember">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2" class="buddyCircle">
                                             <h3>CLICK FRIENDS LIST INVITE TO BECOME A MEMBER</h3>
 
-                                            <!-- <div class="buddyLabel" id="1098" onclick="removeLabel( this )">
+                                            <div for="text1" class="buddyLabel" id="1098" name="circle_member" onclick="removeLabel( this )">
                                                 <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
                                                 <a>Billy Joel</a> 
                                             </div>
-                                            <div class="buddyLabel" id="1102" onclick="removeLabel( this )">
+                                            <div class="buddyLabel" id="1102" name="circle_member" onclick="removeLabel( this )">
                                                 <img class="buddyLabelAvatar" src="public/images/MarkZuckerberg.png">
                                                 <a>Mark Zuckerberg</a> 
                                             </div>
-                                            <div class="buddyLabel" onclick="removeLabel( this )">
+
+                                            <!-- <div class="buddyLabel" onclick="removeLabel( this )">
                                                 <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
                                                 <a>Timothée Chalamet</a> 
                                             </div>
@@ -208,6 +213,9 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="circle_footer">
+                                <input class="circle_confirm_button" style="font-size: 1em;" type="submit" value="Submit">
+                            </div>
                             <div class="closeButton" id="club_closeButton">
                                 <span class="closeBtn">&times;</span>
                             </div>

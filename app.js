@@ -89,6 +89,21 @@ http.createServer( function( request, response ) {
 			});
 		});
 	}
+
+	if ( request.url === "/createCircle" && request.method.toLowerCase() === "post" ) {
+		console.log( "Request [ createCircle ]: " );
+		const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
+		let form = new formidable.IncomingForm();
+		
+		
+		form.parse( request, ( err, fields, files ) => {
+			if ( err ) throw err;
+			console.log( "===== fields: " );
+			console.log( fields );
+			console.log( "===== files:" );
+			console.log( files );
+		});
+	}
    
 	/* *********#*********#*********#*********#*********#
 	*					      GET 					   *

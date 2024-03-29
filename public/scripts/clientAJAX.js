@@ -118,3 +118,17 @@ function loadingProfileData() {
     httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue );
     httpRequest.send();
 }
+
+function circleData( form ) {
+    var cookieValue = document.cookie.replace( AUTHORIZATION_FORMAT, "$1" );
+    const FD = new FormData( form );
+    httpRequest.addEventListener( "load", function( event ) {
+        // alert( "Server: " + event.target.responseText );
+    });
+    httpRequest.addEventListener( "error", function( event ) {
+        alert( "Oops! Something went wrong..." + event );
+    });
+    httpRequest.open( "POST", "http://127.0.0.1:8888/createCircle" );
+    httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
+    httpRequest.send( FD );
+}

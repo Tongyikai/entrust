@@ -33,6 +33,7 @@ let addFriendEmail = addBuddyFromEmail;
 let addFriendUsername = addBuddyFromUsername;
 let uploadProfile = uploadProfileData;
 let loadingProfile = loadingProfileData;
+let createCircle = circleData;
 
 function newFriend() { // onclick功能, 寫在lobby.html
     var addFriendName = document.getElementById( "addFriendName" );
@@ -105,12 +106,34 @@ function displayDay() {
     document.getElementById( "edit_dayBox" ).innerHTML = options;
 }
 
-// 編輯個人資料 提交
+// edit表單_提交
 window.addEventListener( "load", () => {
     const form = document.getElementById( "edit_profileForm" );
     form.addEventListener( "submit", ( event ) => {
         event.preventDefault();
         if ( checkProfile( form ) ) uploadProfile( form );
+    });
+});
+
+// circle表單_提交
+window.addEventListener( "load", () => {
+    const form = document.getElementById( "create_circleForm" );
+    form.addEventListener( "submit", ( event ) => {
+        event.preventDefault();
+
+        let cookieValue = document.cookie.replace( /(?:(?:^|.*;\s*)authorization\s*\=\s*([^;]*).*$)|^.*$/, "$1" );
+        document.getElementById( "circle_token" ).value = cookieValue; // 隱藏欄位給自己的token
+        document.getElementById( "circle_inviteMember" ).value = ""; // 隱藏欄位清空
+
+        var inviteMember = [];
+        for ( var i = 0; i < circleMember.length; i++ ) { // 取得邀請成員的username
+            // console.log( buddyData[ circleMember[ i ] ].username );
+            inviteMember[ i ] = buddyData[ circleMember[ i ] ].username;
+        }
+        document.getElementById( "circle_inviteMember" ).value = inviteMember; // 邀請成員的username 放到隱藏欄位裡
+        // console.log( inviteMember );
+        // console.log( document.getElementById( "circle_inviteMember" ).value );
+        createCircle( form );
     });
 });
 
@@ -135,45 +158,28 @@ function convertNumberIntoThousands( value ) {
 // 邀請成為Circle成員
 var circleMember = []; // 存放的是buddyData的序號
 function inviteMember( obj ) { // 取得好友視窗底下的標籤內容 DOM(Document Object Model)
-    // console.log( "點擊好友,取得自己物件:" + obj );
-    // console.log( "點擊好友,取得圖檔: " + obj.children[ 0 ].children[ 0 ].src ); 
-    // console.log( "點擊好友,取得名字: " + obj.children[ 1 ].children[ 1 ].textContent ); 
-    // console.log( "點擊好友,取得編號: " + obj.children[ 1 ].children[ 0 ].textContent );
-    
-    var imgData = obj.children[ 0 ].children[ 0 ].src;
-    var name = obj.children[ 1 ].children[ 1 ].textContent;
-    var number = obj.children[ 1 ].children[ 0 ].textContent; 
+    let imgData = obj.children[ 0 ].children[ 0 ].src; // 取得圖檔
+    let name = obj.children[ 1 ].children[ 1 ].textContent; // 取得名字
+    let number = obj.children[ 1 ].children[ 0 ].textContent; // #取得編號
     var ordinalNum = number.substring( 1 ); // 把編號#, 移除
     ordinalNum--; // 減1, 為buddyData的陣列位置
 
-    // console.log( "number: " + ordinalNum);
-
     // 尋找是否有符合的元素
-    // console.log( "Circle成員存在?: " + circleMember.indexOf( ordinalNum ) );
-
-    
     if ( circleMember.indexOf( ordinalNum ) == -1 ) { // Circle沒有邀請為成員, 可以加入
         // console.log( "++" );
         circleMember.push( ordinalNum );
 
         // 手創標籤內容
         var td = document.querySelector( ".container_club .box .buddyCircle" );
-        td.innerHTML += '<div class="buddyLabel" id="' + ordinalNum + '"onclick="removeLabel( this )">' +
+        td.innerHTML += '<div class="buddyLabel" id="' + ordinalNum + '" name="circle_member" onclick="removeLabel( this )">' +
                             '<img class="buddyLabelAvatar" src="' + imgData + '">' +
                             '<a>' + name + '</a>' +
                         '</div>&emsp;';
     }
-
     console.log( "加入circle(序號): " + circleMember );
-
-    // <div class="buddyLabel">
-    // <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
-    // <a>Billy Joel</a> 
-    // </div>
 }
 
 function removeLabel( obj ) {
-    console.log( "id=" + obj.id );
     let ordinalNum = obj.id;
     circleMember = circleMember.filter( function( item ) { // 陣列中刪除特定元素
         return item != ordinalNum;
@@ -216,10 +222,6 @@ function dynamicallyAddBuddyList( familyName, givenName, nickname, avatar64code,
                              '<p>' + jobTitle + '</p>' +
                          '</div>' +
                      '</div>';
-    /*
-    div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar2.png"></div><div class="content"><h2 class="rank"><small>#</small>11</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
-    div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar.png"></div><div class="content"><h2 class="rank"><small>#</small>12</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
-    */
 }
 
 /* *********#*********#*********#*********#*********#
