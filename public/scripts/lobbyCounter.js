@@ -176,7 +176,7 @@ function inviteMember( obj ) { // 取得好友視窗底下的標籤內容 DOM(Do
                             '<a>' + name + '</a>' +
                         '</div>&emsp;';
     }
-    console.log( "加入circle(序號): " + circleMember );
+    console.log( "join circle(Ordinal): " + circleMember );
 }
 
 function removeLabel( obj ) {
@@ -184,7 +184,7 @@ function removeLabel( obj ) {
     circleMember = circleMember.filter( function( item ) { // 陣列中刪除特定元素
         return item != ordinalNum;
     });
-    console.log( "刪除後circle(序號): " + circleMember );
+    console.log( "delete circle(Ordinal): " + circleMember );
     obj.remove();
 }
 

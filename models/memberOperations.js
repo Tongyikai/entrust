@@ -20,7 +20,8 @@ module.exports = {
     createNewMember,
     createNewFriend,
     updateProfileData,
-    getProfileData
+    getProfileData,
+    createCircleForm
 }
 
 function queryUsername( username, callback ) {
@@ -289,6 +290,47 @@ function getProfileData( username, callback ) {
             client.close();
             callback( profileData, buddyListData );
         });
+    });
+}
+
+// 數字、字串前補0
+// code : 你輸入的資料(字串、數字)
+// dataLength : 資料補0後的長度
+function LeadingZero( code, dataLength ) {
+    var str = Array( 10 ).join( '0' ) + code;
+    return str.slice( 0 - dataLength );
+}
+
+function generatedSerialNumber() {
+    var y = new Date().getFullYear();
+    y = y % 2000;
+    var m = new Date().getMonth();
+    m = LeadingZero( m, 2 );
+    var d = new Date().getDay();
+    d = LeadingZero( d , 2 );
+    var h = new Date().getHours();
+    h = LeadingZero( h, 2 );
+    var mm = new Date().getMinutes();
+    var ss = new Date().getSeconds();
+    var str = "cf" + y + m + d + h + mm + ss;
+    // console.log("year=" + y);
+    // console.log("month=" + m);
+    // console.log("day=" + d);
+    // console.log("hour=" + h);
+    // console.log("minute=" + mm);
+    // console.log("second=" + ss);
+    // console.log(str);
+    return str;
+}
+
+function createCircleForm() {
+    terminalInformation( "Create a Circle Form." );
+    client.connect( err => {
+        if ( err ) throw err;
+        const circleCollection = client.db( config.mongodb.database ).collection( config.mongodb.circle_Collection );
+        const serialNumber = generatedSerialNumber();
+        console.log(serialNumber);
+        var userObj = { serialNumber: serialNumber };
     });
 }
 

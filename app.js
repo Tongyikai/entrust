@@ -12,7 +12,7 @@ http.createServer( function( request, response ) {
 	});
 
 	/* *********#*********#*********#*********#*********#
-	*                       POST                       * 
+	*                       POST                        * 
 	#*********#*********#*********#*********#********* */
 	request.on( "end", function() {
 		if ( request.url === "/SignIn" ) { // ==會做轉換型別的動作, === 不會有轉換型別的問題 (int) 1 === (String) "1" 會是 false
@@ -69,12 +69,11 @@ http.createServer( function( request, response ) {
     });
 
 	/* *********#*********#*********#*********#*********#
-	*					     Form  					   *
+	*					     Form  					    *
 	#*********#*********#*********#*********#********* */
 	if ( request.url === "/updateProfile" && request.method.toLowerCase() === "post" ) {
 		console.log( "Request [ updateProfile ]: " );
 		const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
-
 		// 實例化一個傳入表單
 		let form = new formidable.IncomingForm();
 		// 設置文件存儲目錄
@@ -93,20 +92,19 @@ http.createServer( function( request, response ) {
 	if ( request.url === "/createCircle" && request.method.toLowerCase() === "post" ) {
 		console.log( "Request [ createCircle ]: " );
 		const token = request.headers[ "authorization" ].replace( "Bearer ", "" );
+		// 實例化一個傳入表單
 		let form = new formidable.IncomingForm();
-		
-		
+		// 設置文件存儲目錄
+		form.uploadDir = "./uploadDir";
+		// 解析傳入數據
 		form.parse( request, ( err, fields, files ) => {
 			if ( err ) throw err;
-			console.log( "===== fields: " );
-			console.log( fields );
-			console.log( "===== files:" );
-			console.log( files );
+			userController.createCircle( token, fields );
 		});
 	}
    
 	/* *********#*********#*********#*********#*********#
-	*					      GET 					   *
+	*					      GET 					    *
 	#*********#*********#*********#*********#********* */
     if ( request.url === "/" ) {
         sendFileContent( response, "views/index.html", "text/html" );
@@ -151,7 +149,7 @@ http.createServer( function( request, response ) {
 console.log( "**** Server running at http://127.0.0.1:8888 ****" );
 
 /* *********#*********#*********#*********#*********#
-*					    METHOD 					   *
+*					    METHOD 					    *
 #*********#*********#*********#*********#********* */
 function sendFileContent( response, fileName, contentType ) {
 	fs.readFile( fileName, function( err, data ) {
