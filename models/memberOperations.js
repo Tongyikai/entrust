@@ -301,6 +301,7 @@ function LeadingZero( code, dataLength ) {
     return str.slice( 0 - dataLength );
 }
 
+var lastSerialNumber;
 function generatedSerialNumber() {
     var y = new Date().getFullYear();
     y = y % 2000;
@@ -312,25 +313,25 @@ function generatedSerialNumber() {
     h = LeadingZero( h, 2 );
     var mm = new Date().getMinutes();
     var ss = new Date().getSeconds();
-    var str = "cf" + y + m + d + h + mm + ss;
-    // console.log("year=" + y);
-    // console.log("month=" + m);
-    // console.log("day=" + d);
-    // console.log("hour=" + h);
-    // console.log("minute=" + mm);
-    // console.log("second=" + ss);
-    // console.log(str);
-    return str;
+    var number = y + m + d + h + mm + ss;
+    if ( lastSerialNumber == number ) number++;
+    lastSerialNumber = number;
+    return "cf" + number;
 }
 
-function createCircleForm() {
+function createCircleForm( tokenName, fields ) {
     terminalInformation( "Create a Circle Form." );
     client.connect( err => {
         if ( err ) throw err;
         const circleCollection = client.db( config.mongodb.database ).collection( config.mongodb.circle_Collection );
         const serialNumber = generatedSerialNumber();
-        console.log(serialNumber);
-        var userObj = { serialNumber: serialNumber };
+        var userObj = { serialNumber: serialNumber, circleName: fields.circle_name, circleDues: fields.circle_dues, circlePaymentCycle: fields.circle_paymentCycle, circleTextarea: fields.circle_textarea, founder: tokenName, member: fields.inviteMember };
+        circleCollection.insertOne( userObj, ( err, res ) => {
+            if ( err ) throw err;
+            console.log( res );
+            console.log( "* Create a Circle Form *" );
+            client.close();
+        });
     });
 }
 
