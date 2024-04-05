@@ -27,6 +27,11 @@ httpRequest.onload = function() {
             return;
         }
 
+        if ( jsonObject.createCircle == "finished" ) {
+            alert( "📜 Create Circle!" );
+            return;
+        }
+
         // 取得個人資料
         if (  jsonObject[ "profileData" ] != undefined ) { 
             let setProfileData = setProfile; // 引用外部 script "lobbyCounter.js"

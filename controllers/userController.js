@@ -125,7 +125,9 @@ function loadingProfile( userToken, callback ) {
 
 function createCircle( userToken, fields, callback ) {
     let tokenName = tokenOperations.whoIsThisToken( userToken );
-    memberOperations.createCircleForm( tokenName, fields );
     console.log( "===== fields: " );
     console.log( fields );
+    memberOperations.createCircleForm( tokenName, fields, () => {
+        callback();
+    });
 }

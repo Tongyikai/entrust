@@ -131,8 +131,8 @@ window.addEventListener( "load", () => {
             inviteMember[ i ] = buddyData[ circleMember[ i ] ].username;
         }
         document.getElementById( "circle_inviteMember" ).value = inviteMember; // 邀請成員的username 放到隱藏欄位裡
-        // console.log( inviteMember );
-        // console.log( document.getElementById( "circle_inviteMember" ).value );
+        console.log( inviteMember );
+        console.log( document.getElementById( "circle_inviteMember" ).value );
         createCircle( form );
     });
 });

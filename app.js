@@ -99,7 +99,11 @@ http.createServer( function( request, response ) {
 		// 解析傳入數據
 		form.parse( request, ( err, fields, files ) => {
 			if ( err ) throw err;
-			userController.createCircle( token, fields );
+			userController.createCircle( token, fields, () => {
+				response.writeHead( 200, { "Content-Type": "application/json" } );
+				response.write( JSON.stringify( { createCircle: "finished" } ) );
+				response.end();
+			});
 		});
 	}
    
