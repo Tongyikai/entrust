@@ -320,7 +320,7 @@ function generatedSerialNumber() {
 }
 
 // Circle的邀請成員們, 寫入一個unread訊息
-function unreadMessages( serialNumber, recipient ) {
+function unreadMessages( serialNumber, recipient, callback ) {
     terminalInformation( "Make Unread Message Notifications." );
     var arr = recipient.split(','); // 陣列字串分割成陣列
     console.log( "recipient: " + arr );
@@ -343,7 +343,8 @@ function unreadMessages( serialNumber, recipient ) {
                 membersCollection.updateOne( whereStr, updateStr, ( err, res ) => {
                     if ( err ) throw err;
                     // console.log( res );
-                    client.close();
+                    // client.close();
+                    callback();
                 });
             }
         });
@@ -361,8 +362,10 @@ function createCircleForm( tokenName, fields, callback ) {
             if ( err ) throw err;
             console.log( res );
             console.log( "* Create a Circle Form *" );
-            unreadMessages( serialNumber, fields.inviteMember );
-            callback();
+            unreadMessages( serialNumber, fields.inviteMember, () => {
+                client.close();
+                callback();
+            });
         });
     });
 }

@@ -28,6 +28,7 @@ let nameLengthCorrect = checkNameLengthFormat;
 let includeSymbolsCorrect = checkIncludeSymbolsFormat;
 let usernameCorrect = checkUsernameFormat;
 let checkProfile = checkProfileData;
+let checkCircle = checkCircleData;
 // 引用外部 script "clientAJAX.js"
 let addFriendEmail = addBuddyFromEmail;
 let addFriendUsername = addBuddyFromUsername;
@@ -131,9 +132,11 @@ window.addEventListener( "load", () => {
             inviteMember[ i ] = buddyData[ circleMember[ i ] ].username;
         }
         document.getElementById( "circle_inviteMember" ).value = inviteMember; // 邀請成員的username 放到隱藏欄位裡
-        console.log( inviteMember );
-        console.log( document.getElementById( "circle_inviteMember" ).value );
-        createCircle( form );
+        console.log( "inviteMember: " + inviteMember );
+        // console.log( document.getElementById( "circle_inviteMember" ).value );
+
+        checkCircle( form );
+        // if ( checkCircle( form ) ) createCircle( form );
     });
 });
 
@@ -143,16 +146,28 @@ function displayProfile() {
 }
 
 // 金額數值加千分位符號
+var dues = 0;
 function convertNumberIntoThousands( value ) {
+    dues = value;
     if ( value ) {
         value += "";
         var arr = value.split( "." ); 
         var re = /(\d{1,3})(?=(\d{3})+$)/g;
-        
+        totalAmount(); // 跟新總金額
         return arr[ 0 ].replace( re, "$1," ) + ( arr.length == 2 ? "." + arr[ 1 ] : "" );
     } else {
         return ''
     }
+}
+
+// 輸入金額或邀請成員都會計算一次總金額
+function totalAmount() {
+    let howManyPeople = circleMember.length;
+    var multiply = dues * howManyPeople;
+    multiply += "";
+    var arr = multiply.split( "." );
+    var re = /(\d{1,3})(?=(\d{3})+$)/g;
+    document.getElementById( "circle_amount" ).value = "$" + arr[ 0 ].replace( re, "$1," ) + ( arr.length == 2 ? "." + arr[ 1 ] : "" );
 }
 
 // 邀請成為Circle成員
@@ -176,7 +191,8 @@ function inviteMember( obj ) { // 取得好友視窗底下的標籤內容 DOM(Do
                             '<a>' + name + '</a>' +
                         '</div>&emsp;';
     }
-    console.log( "join circle(Ordinal): " + circleMember );
+    totalAmount();
+    console.log( "Join circle(Ordinal): " + circleMember );
 }
 
 function removeLabel( obj ) {
@@ -184,8 +200,9 @@ function removeLabel( obj ) {
     circleMember = circleMember.filter( function( item ) { // 陣列中刪除特定元素
         return item != ordinalNum;
     });
-    console.log( "delete circle(Ordinal): " + circleMember );
+    console.log( "Delete circle(Ordinal): " + circleMember );
     obj.remove();
+    totalAmount();
 }
 
 /* *********#*********#*********#*********#*********#
