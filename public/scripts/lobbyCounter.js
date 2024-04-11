@@ -5,7 +5,17 @@
 CLEAR_TOKEN = "authorization=";
 HOST_URL = "http://127.0.0.1:8888/index";
 
-// 頭像 menu
+/* *********#*********#*********#*********#*********#
+*					  Notify Bell 				    *
+#*********#*********#*********#*********#********* */
+var graph_bell = document.querySelector( ".graph_bell" ); // 取 class
+graph_bell.addEventListener( "click", function() {
+    this.classList.toggle( "active" );
+});
+
+/* *********#*********#*********#*********#*********#
+*					   Menu 選單				     *
+#*********#*********#*********#*********#********* */
 var graph_o = document.querySelector( ".graph_o" ); // 取 class
 graph_o.addEventListener( "click", function() {
     this.classList.toggle( "active" );
@@ -21,6 +31,53 @@ addFriendBtn.addEventListener( "click", function() {
         addNewFriendWindow.style.display = "none";
     }
 });
+
+let middleWindow = document.getElementsByClassName( "container_middle" )[ 0 ];
+// edit
+let editButton = document.getElementById( "menu_edit" );
+editButton.onclick = () => {
+    let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
+    if ( editWindow.style.display === "none" ) {
+        editWindow.style.display = "block";
+        middleWindow.style.display = "none";
+    } else {
+        editWindow.style.display = "none";
+        middleWindow.style.display = "block";
+    }
+}
+// club
+let clubButton = document.getElementById( "menu_club" );
+clubButton.onclick = () => {
+    let clubWindow =  document.getElementsByClassName( "container_club" )[ 0 ];
+    if ( clubWindow.style.display === "none" ) {
+        clubWindow.style.display = "block";
+        middleWindow.style.display = "none";
+    } else {
+        clubWindow.style.display = "none";
+        middleWindow.style.display = "block";
+    }
+}
+// edit_closeButton
+let edit_closeButton = document.getElementById( "edit_closeButton" );
+edit_closeButton.onclick = () => {
+    let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
+    editWindow.style.display = "none";
+    middleWindow.style.display = "block";
+}
+// club_closeButton
+let club_closeButton = document.getElementById( "club_closeButton" );
+club_closeButton.onclick = () => {
+    let clubWindow =  document.getElementsByClassName( "container_club" )[ 0 ];
+    clubWindow.style.display = "none";
+    middleWindow.style.display = "block";
+}
+ 
+// logout
+let logoutButton = document.getElementById( "menu_logout" );
+logoutButton.onclick = () => {
+     document.cookie = CLEAR_TOKEN;
+     window.location.href = HOST_URL;
+}
 
 // 引用外部 script "formCheck.js"
 let emailCorrect = checkEmailFormat;
@@ -153,7 +210,7 @@ function convertNumberIntoThousands( value ) {
         value += "";
         var arr = value.split( "." ); 
         var re = /(\d{1,3})(?=(\d{3})+$)/g;
-        totalAmount(); // 跟新總金額
+        totalAmount(); // 更新總金額
         return arr[ 0 ].replace( re, "$1," ) + ( arr.length == 2 ? "." + arr[ 1 ] : "" );
     } else {
         return ''
@@ -191,7 +248,7 @@ function inviteMember( obj ) { // 取得好友視窗底下的標籤內容 DOM(Do
                             '<a>' + name + '</a>' +
                         '</div>&emsp;';
     }
-    totalAmount();
+    totalAmount(); // 更新總金額
     console.log( "Join circle(Ordinal): " + circleMember );
 }
 
@@ -254,56 +311,6 @@ function dynamicallyDate() {
     m = monthNamesEn[ n.getMonth() + 1 ];
     d = n.getDate();
     document.getElementById( "created_on" ).placeholder = d + "/" + m + "/" + y;
-}
-
-/* *********#*********#*********#*********#*********#
-*					   Menu 選單				     *
-#*********#*********#*********#*********#********* */
-let middleWindow = document.getElementsByClassName( "container_middle" )[ 0 ];
-// edit
-let editButton = document.getElementById( "menu_edit" );
-editButton.onclick = () => {
-    let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
-    if ( editWindow.style.display === "none" ) {
-        editWindow.style.display = "block";
-        middleWindow.style.display = "none";
-    } else {
-        editWindow.style.display = "none";
-        middleWindow.style.display = "block";
-    }
-}
-// club
-let clubButton = document.getElementById( "menu_club" );
-clubButton.onclick = () => {
-    let clubWindow =  document.getElementsByClassName( "container_club" )[ 0 ];
-    if ( clubWindow.style.display === "none" ) {
-        clubWindow.style.display = "block";
-        middleWindow.style.display = "none";
-    } else {
-        clubWindow.style.display = "none";
-        middleWindow.style.display = "block";
-    }
-}
-// edit_closeButton
-let edit_closeButton = document.getElementById( "edit_closeButton" );
-edit_closeButton.onclick = () => {
-    let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
-    editWindow.style.display = "none";
-    middleWindow.style.display = "block";
-}
-// club_closeButton
-let club_closeButton = document.getElementById( "club_closeButton" );
-club_closeButton.onclick = () => {
-    let clubWindow =  document.getElementsByClassName( "container_club" )[ 0 ];
-    clubWindow.style.display = "none";
-    middleWindow.style.display = "block";
-}
- 
-// logout
-let logoutButton = document.getElementById( "menu_logout" );
-logoutButton.onclick = () => {
-     document.cookie = CLEAR_TOKEN;
-     window.location.href = HOST_URL;
 }
 
 /* *********#*********#*********#*********#*********#
