@@ -260,7 +260,7 @@ function updateProfileData( username, avatar64code, familyName, givenName, nickn
 
 function getProfileData( username, callback ) {
     terminalInformation( "Get Profile." );
-    var profileData = { avatar64code: "" };
+    var profileData = { avatar64code: "", unreadMessage: [] };
     var buddyListData = [];
     client.connect( err => {
         if ( err ) throw err;
@@ -286,6 +286,7 @@ function getProfileData( username, callback ) {
             } else {
                 console.log( "Get profile from ->member username: " + result[ 0 ].username );
                 profileData.avatar64code = result[ 0 ].avatar64code;
+                profileData.unreadMessage = result[ 0 ].unreadMessage;
             }
             client.close();
             callback( profileData, buddyListData );

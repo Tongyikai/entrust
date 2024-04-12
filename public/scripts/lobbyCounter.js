@@ -281,6 +281,8 @@ function unreadNotification( bool ) {
 #*********#*********#*********#*********#********* */
 let buddyData; // 好友資料, 給其他 method 使用, 頁面載入就會執行(就有資料)
 function setProfile( profileData, buddyListData ) { // 個人資料顯示
+    console.log( "===== profile =====" );
+    console.log( profileData );
     document.getElementById( "menuAvatar" ).src = profileData.avatar64code;
     buddyData = buddyListData;
     var count = buddyListData.length;

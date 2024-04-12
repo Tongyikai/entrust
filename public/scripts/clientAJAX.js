@@ -80,7 +80,7 @@ function userRegister( username, email, password ) {
 
 function loginAuthorization() {
     var cookieValue = document.cookie.replace( AUTHORIZATION_FORMAT, "$1" );
-    console.log( "拿到認證: " + cookieValue );
+    console.log( "Token: " + cookieValue );
 
     if ( cookieValue !== "" ) { // 如果authorization有值，傳給伺服器認證
         httpRequest.open( "POST", "http://127.0.0.1:8888/logInWithToken", false );
