@@ -168,3 +168,49 @@ function checkProfileData( form ) {
         return true;
     }
 }
+
+function checkCircleData( form ) {
+    let count = document.getElementsByClassName("buddyCircle")[0].getElementsByTagName("div").length; // 成員人數
+    console.log( "===== Circle form =====" );
+    console.log( "Circle name: " + form[ 0 ].value );
+    // console.log( form[ 1 ].value );
+    console.log( "Dues: " + form[ 2 ].value );
+    console.log( "Amount: " + form[ 3 ].value );
+    console.log( "Payment cycle: " + form[ 4 ].value );
+    console.log( "Bulletin board: " + form[ 5 ].value );
+    circleData = { // 從 form 表單 取出要的資料
+           circleName: form[ 0 ].value,
+                 dues: form[ 2 ].value,
+               amount: form[ 3 ].value,
+         paymentCycle: form[ 4 ].value,
+        bulletinBoard: form[ 5 ].value
+    };
+    var safeBall = 4;
+
+    if ( checkNameLengthFormat( circleData.circleName ) ) {
+        alert( "Circle Name: Text exceeds 24 characters" );
+        safeBall--;
+    }
+
+    if ( circleData.dues == 0 || circleData.dues >= 1000000 ) {
+        alert( "Dues too much or $ = 0" );
+        safeBall--;
+    }
+
+    if ( circleData.paymentCycle > 4 || circleData.paymentCycle == 0 ) {
+        alert( "Less than 5 weeks or weeks = 0" );
+        safeBall--;
+    }
+
+    if ( count == 0 ) {
+        alert( "Need to invite someone" );
+        safeBall--;
+    }
+
+    if ( safeBall < 4 ) {
+        alert( "Form table cannot be sent" );
+        return false;
+    } else {
+        return true;
+    }
+}

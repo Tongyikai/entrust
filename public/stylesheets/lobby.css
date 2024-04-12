@@ -45,6 +45,88 @@ header {
     z-index: 2;
 }
 /* *********#*********#*********#*********#*********#
+*					  Notify Bell					*
+#*********#*********#*********#*********#********* */
+.notify{ 
+    position: relative;
+    left: 42%; /* 靠近menu */
+}
+.notify > ul { 
+    display: flex;
+	align-items: center;
+}
+.notify ul li.graph_bell {
+    margin-left: 25px;
+	cursor: pointer;
+	color: #fff;
+	font-size: 20px;
+	position: relative;
+}
+.notify ul li.graph_bell:hover {
+    color: #e9a914;
+}
+.notify ul li img {
+    width: 35px;
+	vertical-align: middle;
+    /* 人形頭像 menu 圓形 */
+    display:inline-block;
+    margin: 5px auto;
+    width: 35px;
+    height: 35px;
+    border-radius: 100px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    /* background-color:#b2e43d; */
+}
+.notify ul li .mailElement {
+    opacity: 0;
+    left: 38px;
+    top: -16px;
+    position: relative;
+    margin:5px auto;
+    width:15px;
+    height:15px;
+    background-color: #e84393;
+}
+.notify .msg {
+    position: absolute;
+    width: 380px;
+    right: -25px;
+    top: 47px;
+    display: flex;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0px 0px 3px rgba( 0, 0, 0, 0.25 );
+    display: none;
+}
+/* .notify .msg .msg_title {
+    background: rgb( 218, 168, 168 );
+	padding: 15px 20px;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+} */
+/* .notify .msg .msg_title li {
+    color: #fff;
+} */
+.notify .msg .msg_content {
+    padding: 15px 20px;
+}
+.notify .msg li {
+	margin-bottom: 10px;
+	color: #868686;
+}
+.notify .msg:before {
+	content: "";
+	position: absolute;
+	top: -20px;
+	right: 30px;
+	border: 10px solid;
+	border-color: transparent transparent #fff transparent;
+}
+.notify .graph_bell.active .msg {
+	display: flex;
+}
+/* *********#*********#*********#*********#*********#
 *					    頭像menu 					 *
 #*********#*********#*********#*********#********* */
 /* 大於(>)就是選取底下直接的子元素 */
@@ -437,6 +519,7 @@ body {
     align-items: center;
     min-height: 20px;
     display: inline-block;
+    color: black;
 }
 .buddyLabel a {
     padding-top: 10px;

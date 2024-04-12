@@ -20,7 +20,8 @@ module.exports = {
     createNewMember,
     createNewFriend,
     updateProfileData,
-    getProfileData
+    getProfileData,
+    createCircleForm
 }
 
 function queryUsername( username, callback ) {
@@ -156,7 +157,7 @@ function createNewMember( username, emailAddress, password, callback ) {
         const dateTime = new Date().toLocaleString( "zh-TW", { timeZone: "Asia/Taipei" } ); // 取得目前的時間+台北的時區(存入資料庫才是會當地的時間)
         const encryptionPassword = encryption( password ); // 加密
         const unfilled = "";
-        var userObj = { username: username, email: emailAddress, password: encryptionPassword, createDate: dateTime, avatar64code: config.DEFAULT_AVATAR, familyName: unfilled, givenName: unfilled, nickname: unfilled, birth: unfilled, gender: unfilled, jobTitle: unfilled, currentCity: unfilled, hometown: unfilled, mobileNumber: unfilled, facebook: unfilled };
+        var userObj = { username: username, email: emailAddress, password: encryptionPassword, createDate: dateTime, avatar64code: config.DEFAULT_AVATAR, familyName: unfilled, givenName: unfilled, nickname: unfilled, birth: unfilled, gender: unfilled, jobTitle: unfilled, currentCity: unfilled, hometown: unfilled, mobileNumber: unfilled, facebook: unfilled, unreadMessage: [] };
         membersCollection.insertOne( userObj, ( err, res ) => {
             if ( err ) throw err;
             console.log( res );
@@ -288,6 +289,83 @@ function getProfileData( username, callback ) {
             }
             client.close();
             callback( profileData, buddyListData );
+        });
+    });
+}
+
+// 數字、字串前補0
+// code : 你輸入的資料(字串、數字)
+// dataLength : 資料補0後的長度
+function LeadingZero( code, dataLength ) {
+    var str = Array( 10 ).join( '0' ) + code;
+    return str.slice( 0 - dataLength );
+}
+
+var lastSerialNumber;
+function generatedSerialNumber() {
+    var y = new Date().getFullYear();
+    y = y % 2000;
+    var m = new Date().getMonth();
+    m = LeadingZero( m, 2 );
+    var d = new Date().getDay();
+    d = LeadingZero( d , 2 );
+    var h = new Date().getHours();
+    h = LeadingZero( h, 2 );
+    var mm = new Date().getMinutes();
+    var ss = new Date().getSeconds();
+    var number = y + m + d + h + mm + ss;
+    if ( lastSerialNumber == number ) number++;
+    lastSerialNumber = number;
+    return "cf" + number;
+}
+
+// Circle的邀請成員們, 寫入一個unread訊息
+function unreadMessages( serialNumber, recipient, callback ) {
+    terminalInformation( "Make Unread Message Notifications." );
+    var arr = recipient.split(','); // 陣列字串分割成陣列
+    console.log( "recipient: " + arr );
+    const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
+
+    for ( let i = 0; i < arr.length; i ++ ) {
+        // console.log( "username: " + arr[ i ] );
+        membersCollection.find( { username: arr[ i ] } ).toArray( ( err, result ) => {
+            if ( err ) throw err;
+            if ( result[ 0 ] == undefined ) {
+                console.log( result );
+                console.log( "∅ username not found" );
+            } else {
+                // console.log( "username found: " + result[ 0 ].username );
+                var whereStr = { username: result[ 0 ].username };
+                var message = [];
+                message = result[ 0 ].unreadMessage;
+                message.push( serialNumber );
+                var updateStr = { $set: { unreadMessage: message } };
+                membersCollection.updateOne( whereStr, updateStr, ( err, res ) => {
+                    if ( err ) throw err;
+                    // console.log( res );
+                    // client.close();
+                    callback();
+                });
+            }
+        });
+    }
+}
+
+function createCircleForm( tokenName, fields, callback ) {
+    terminalInformation( "Create a Circle Form." );
+    client.connect( err => {
+        if ( err ) throw err;
+        const circleCollection = client.db( config.mongodb.database ).collection( config.mongodb.circle_Collection );
+        var serialNumber = generatedSerialNumber();
+        var userObj = { serialNumber: serialNumber, circleName: fields.circle_name, circleDues: fields.circle_dues, circlePaymentCycle: fields.circle_paymentCycle, circleTextarea: fields.circle_textarea, founder: tokenName, member: fields.inviteMember };
+        circleCollection.insertOne( userObj, ( err, res ) => {
+            if ( err ) throw err;
+            console.log( res );
+            console.log( "* Create a Circle Form *" );
+            unreadMessages( serialNumber, fields.inviteMember, () => {
+                client.close();
+                callback();
+            });
         });
     });
 }

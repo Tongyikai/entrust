@@ -5,7 +5,17 @@
 CLEAR_TOKEN = "authorization=";
 HOST_URL = "http://127.0.0.1:8888/index";
 
-// 頭像 menu
+/* *********#*********#*********#*********#*********#
+*					  Notify Bell 				    *
+#*********#*********#*********#*********#********* */
+var graph_bell = document.querySelector( ".graph_bell" ); // 取 class
+graph_bell.addEventListener( "click", function() {
+    this.classList.toggle( "active" );
+});
+
+/* *********#*********#*********#*********#*********#
+*					   Menu 選單				     *
+#*********#*********#*********#*********#********* */
 var graph_o = document.querySelector( ".graph_o" ); // 取 class
 graph_o.addEventListener( "click", function() {
     this.classList.toggle( "active" );
@@ -22,17 +32,66 @@ addFriendBtn.addEventListener( "click", function() {
     }
 });
 
+let middleWindow = document.getElementsByClassName( "container_middle" )[ 0 ];
+// edit
+let editButton = document.getElementById( "menu_edit" );
+editButton.onclick = () => {
+    let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
+    if ( editWindow.style.display === "none" ) {
+        editWindow.style.display = "block";
+        middleWindow.style.display = "none";
+    } else {
+        editWindow.style.display = "none";
+        middleWindow.style.display = "block";
+    }
+}
+// club
+let clubButton = document.getElementById( "menu_club" );
+clubButton.onclick = () => {
+    let clubWindow =  document.getElementsByClassName( "container_club" )[ 0 ];
+    if ( clubWindow.style.display === "none" ) {
+        clubWindow.style.display = "block";
+        middleWindow.style.display = "none";
+    } else {
+        clubWindow.style.display = "none";
+        middleWindow.style.display = "block";
+    }
+}
+// edit_closeButton
+let edit_closeButton = document.getElementById( "edit_closeButton" );
+edit_closeButton.onclick = () => {
+    let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
+    editWindow.style.display = "none";
+    middleWindow.style.display = "block";
+}
+// club_closeButton
+let club_closeButton = document.getElementById( "club_closeButton" );
+club_closeButton.onclick = () => {
+    let clubWindow =  document.getElementsByClassName( "container_club" )[ 0 ];
+    clubWindow.style.display = "none";
+    middleWindow.style.display = "block";
+}
+ 
+// logout
+let logoutButton = document.getElementById( "menu_logout" );
+logoutButton.onclick = () => {
+     document.cookie = CLEAR_TOKEN;
+     window.location.href = HOST_URL;
+}
+
 // 引用外部 script "formCheck.js"
 let emailCorrect = checkEmailFormat;
 let nameLengthCorrect = checkNameLengthFormat;
 let includeSymbolsCorrect = checkIncludeSymbolsFormat;
 let usernameCorrect = checkUsernameFormat;
 let checkProfile = checkProfileData;
+let checkCircle = checkCircleData;
 // 引用外部 script "clientAJAX.js"
 let addFriendEmail = addBuddyFromEmail;
 let addFriendUsername = addBuddyFromUsername;
 let uploadProfile = uploadProfileData;
 let loadingProfile = loadingProfileData;
+let createCircle = circleData;
 
 function newFriend() { // onclick功能, 寫在lobby.html
     var addFriendName = document.getElementById( "addFriendName" );
@@ -105,7 +164,7 @@ function displayDay() {
     document.getElementById( "edit_dayBox" ).innerHTML = options;
 }
 
-// 編輯個人資料 提交
+// edit表單_提交
 window.addEventListener( "load", () => {
     const form = document.getElementById( "edit_profileForm" );
     form.addEventListener( "submit", ( event ) => {
@@ -114,55 +173,114 @@ window.addEventListener( "load", () => {
     });
 });
 
+// circle表單_提交
+window.addEventListener( "load", () => {
+    const form = document.getElementById( "create_circleForm" );
+    form.addEventListener( "submit", ( event ) => {
+        event.preventDefault();
+
+        let cookieValue = document.cookie.replace( /(?:(?:^|.*;\s*)authorization\s*\=\s*([^;]*).*$)|^.*$/, "$1" );
+        document.getElementById( "circle_token" ).value = cookieValue; // 隱藏欄位給自己的token
+        document.getElementById( "circle_inviteMember" ).value = ""; // 隱藏欄位清空
+
+        var inviteMember = [];
+        for ( var i = 0; i < circleMember.length; i++ ) { // 取得邀請成員的username
+            // console.log( buddyData[ circleMember[ i ] ].username );
+            inviteMember[ i ] = buddyData[ circleMember[ i ] ].username;
+        }
+        document.getElementById( "circle_inviteMember" ).value = inviteMember; // 邀請成員的username 放到隱藏欄位裡
+        console.log( "inviteMember: " + inviteMember );
+        // console.log( document.getElementById( "circle_inviteMember" ).value );
+
+        checkCircle( form );
+        // if ( checkCircle( form ) ) createCircle( form );
+    });
+});
+
 // 取得個人資料
 function displayProfile() {
     loadingProfile();
 }
 
+/* *********#*********#*********#*********#*********#
+ *				   Circle視窗裡的功能 				  *
+ #*********#*********#*********#*********#********* */
 // 金額數值加千分位符號
+var dues = 0;
 function convertNumberIntoThousands( value ) {
+    dues = value;
     if ( value ) {
         value += "";
         var arr = value.split( "." ); 
         var re = /(\d{1,3})(?=(\d{3})+$)/g;
-        
+        totalAmount(); // 更新總金額
         return arr[ 0 ].replace( re, "$1," ) + ( arr.length == 2 ? "." + arr[ 1 ] : "" );
     } else {
         return ''
     }
 }
 
-// 邀請成為Circle成員
-function inviteMember( obj ) {
-    // 取得好友視窗底下的標籤內容 DOM(Document Object Model)
-    console.log( "點擊好友: " + obj );
-    console.log( "點擊好友,圖檔: " + obj.children[ 0 ].children[ 0 ].src ); // img
-    console.log( "點擊好友,名字: " + obj.children[ 1 ].children[ 1 ].textContent ); // 名字
-    console.log( "點擊好友,編號: " + obj.children[ 1 ].children[ 0 ].textContent ); // #編號
-    var imgData = obj.children[ 0 ].children[ 0 ].src;
-    var name = obj.children[ 1 ].children[ 1 ].textContent;
-    var number = obj.children[ 1 ].children[ 0 ].textContent;
-    var td = document.querySelector( ".container_club .box .buddyCircle" );
-    td.innerHTML += '<div class="buddyLabel" onclick="removeLabel( this )">' +
-                        '<img class="buddyLabelAvatar" src="' + imgData + '">' +
-                            '<a>' + name + '</a>' +
-                    '</div>&emsp;';
+// 輸入金額或邀請成員都會計算一次總金額
+function totalAmount() {
+    let howManyPeople = circleMember.length;
+    var multiply = dues * howManyPeople;
+    multiply += "";
+    var arr = multiply.split( "." );
+    var re = /(\d{1,3})(?=(\d{3})+$)/g;
+    document.getElementById( "circle_amount" ).value = "$" + arr[ 0 ].replace( re, "$1," ) + ( arr.length == 2 ? "." + arr[ 1 ] : "" );
+}
 
-    // <div class="buddyLabel">
-    // <img class="buddyLabelAvatar" src="public/images/BillyJoel.png">
-    // <a>Billy Joel</a> 
-    // </div>
+// 邀請成為Circle成員
+var circleMember = []; // 存放的是buddyData的序號
+function inviteMember( obj ) { // 取得好友視窗底下的標籤內容 DOM(Document Object Model)
+    let imgData = obj.children[ 0 ].children[ 0 ].src; // 取得圖檔
+    let name = obj.children[ 1 ].children[ 1 ].textContent; // 取得名字
+    let number = obj.children[ 1 ].children[ 0 ].textContent; // #取得編號
+    var ordinalNum = number.substring( 1 ); // 把編號#, 移除
+    ordinalNum--; // 減1, 為buddyData的陣列位置
+
+    // 尋找是否有符合的元素
+    if ( circleMember.indexOf( ordinalNum ) == -1 ) { // Circle沒有邀請為成員, 可以加入
+        // console.log( "++" );
+        circleMember.push( ordinalNum );
+
+        // 手創標籤內容
+        var td = document.querySelector( ".container_club .box .buddyCircle" );
+        td.innerHTML += '<div class="buddyLabel" id="' + ordinalNum + '" name="circle_member" onclick="removeLabel( this )">' +
+                            '<img class="buddyLabelAvatar" src="' + imgData + '">' +
+                            '<a>' + name + '</a>' +
+                        '</div>&emsp;';
+    }
+    totalAmount(); // 更新總金額
+    console.log( "Join circle(Ordinal): " + circleMember );
 }
 
 function removeLabel( obj ) {
+    let ordinalNum = obj.id;
+    circleMember = circleMember.filter( function( item ) { // 陣列中刪除特定元素
+        return item != ordinalNum;
+    });
+    console.log( "Delete circle(Ordinal): " + circleMember );
     obj.remove();
+    totalAmount();
 }
 
 /* *********#*********#*********#*********#*********#
-*				 外部引用 clientAJAX.js				  *
+*				    通知訊息 (mail開關) 			  *
 #*********#*********#*********#*********#********* */
-let buddyData; // 好友資料, 給其他 method 使用
-function setProfile( profileData, buddyListData ) { // 個人資料顯示 將Server給的資料 放置對的地方
+function unreadNotification( bool ) {
+    var e = document.getElementById( "mailElement" );
+    if ( bool ) {
+        e.style.opacity = 1;
+    } else {
+        e.style.opacity = 0;
+    }
+}
+/* *********#*********#*********#*********#*********#
+*				 給外部引用 clientAJAX.js			  *
+#*********#*********#*********#*********#********* */
+let buddyData; // 好友資料, 給其他 method 使用, 頁面載入就會執行(就有資料)
+function setProfile( profileData, buddyListData ) { // 個人資料顯示
     document.getElementById( "menuAvatar" ).src = profileData.avatar64code;
     buddyData = buddyListData;
     var count = buddyListData.length;
@@ -181,7 +299,7 @@ function dynamicallyAddBuddyList( familyName, givenName, nickname, avatar64code,
         name = "NONAME";
     }
     var div = document.querySelector( ".container_left .box" );
-    var count = ordinalNumber + 1;
+    var count = ordinalNumber + 1; // 陣列位置+1 變編號
     div.innerHTML += '<div class="list" onclick="inviteMember( this )">' +
                          '<div class="imgBx">' +
                              '<img src="' + avatar64code + '">' +
@@ -192,10 +310,6 @@ function dynamicallyAddBuddyList( familyName, givenName, nickname, avatar64code,
                              '<p>' + jobTitle + '</p>' +
                          '</div>' +
                      '</div>';
-    /*
-    div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar2.png"></div><div class="content"><h2 class="rank"><small>#</small>11</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
-    div.innerHTML += '<div class="list"><div class="imgBx"><img src="public/images/avatar.png"></div><div class="content"><h2 class="rank"><small>#</small>12</h2><h4>Liza Koshy</h4><p>YouTuber/Social Media Personality</p></div></div>';
-    */
 }
 
 /* *********#*********#*********#*********#*********#
@@ -211,56 +325,6 @@ function dynamicallyDate() {
     m = monthNamesEn[ n.getMonth() + 1 ];
     d = n.getDate();
     document.getElementById( "created_on" ).placeholder = d + "/" + m + "/" + y;
-}
-
-/* *********#*********#*********#*********#*********#
-*					   Menu 選單				     *
-#*********#*********#*********#*********#********* */
-let middleWindow = document.getElementsByClassName( "container_middle" )[ 0 ];
-// edit
-let editButton = document.getElementById( "menu_edit" );
-editButton.onclick = () => {
-    let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
-    if ( editWindow.style.display === "none" ) {
-        editWindow.style.display = "block";
-        middleWindow.style.display = "none";
-    } else {
-        editWindow.style.display = "none";
-        middleWindow.style.display = "block";
-    }
-}
-// club
-let clubButton = document.getElementById( "menu_club" );
-clubButton.onclick = () => {
-    let clubWindow =  document.getElementsByClassName( "container_club" )[ 0 ];
-    if ( clubWindow.style.display === "none" ) {
-        clubWindow.style.display = "block";
-        middleWindow.style.display = "none";
-    } else {
-        clubWindow.style.display = "none";
-        middleWindow.style.display = "block";
-    }
-}
-// edit_closeButton
-let edit_closeButton = document.getElementById( "edit_closeButton" );
-edit_closeButton.onclick = () => {
-    let editWindow = document.getElementsByClassName( "editWindow" )[ 0 ];
-    editWindow.style.display = "none";
-    middleWindow.style.display = "block";
-}
-// club_closeButton
-let club_closeButton = document.getElementById( "club_closeButton" );
-club_closeButton.onclick = () => {
-    let clubWindow =  document.getElementsByClassName( "container_club" )[ 0 ];
-    clubWindow.style.display = "none";
-    middleWindow.style.display = "block";
-}
- 
-// logout
-let logoutButton = document.getElementById( "menu_logout" );
-logoutButton.onclick = () => {
-     document.cookie = CLEAR_TOKEN;
-     window.location.href = HOST_URL;
 }
 
 /* *********#*********#*********#*********#*********#

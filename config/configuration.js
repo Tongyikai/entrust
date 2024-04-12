@@ -11,7 +11,8 @@ module.exports = {
                 password:   process.env.DATABASE_PASSWORD,
                 database:   process.env.DATABASE,
       members_Collection:   process.env.MEMBERS_COLLECTION,
-        buddy_Collection:   process.env.BUDDY_COLLECTION
+        buddy_Collection:   process.env.BUDDY_COLLECTION,
+       circle_Collection:   process.env.CIRCLE_COLLECTION
     },
                  JWT_KEY:   process.env.JWT_KEY,
           DEFAULT_AVATAR:   process.env.DEFAULT_AVATAR_IMAGE

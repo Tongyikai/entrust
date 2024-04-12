@@ -8,7 +8,8 @@ module.exports = {
     tokenLogin,
     addBuddy,
     updateProfile,
-    loadingProfile
+    loadingProfile,
+    createCircle
 }
 
 function userLogin( username, password, callback ) {
@@ -119,5 +120,14 @@ function loadingProfile( userToken, callback ) {
     let tokenName = tokenOperations.whoIsThisToken( userToken );
     memberOperations.getProfileData( tokenName, ( profileData, buddyListData ) => {
         callback( profileData, buddyListData );
+    });
+}
+
+function createCircle( userToken, fields, callback ) {
+    let tokenName = tokenOperations.whoIsThisToken( userToken );
+    console.log( "===== fields: " );
+    console.log( fields );
+    memberOperations.createCircleForm( tokenName, fields, () => {
+        callback();
     });
 }

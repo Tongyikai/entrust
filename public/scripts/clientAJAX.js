@@ -27,6 +27,11 @@ httpRequest.onload = function() {
             return;
         }
 
+        if ( jsonObject.createCircle == "finished" ) {
+            alert( "📜 Create Circle!" );
+            return;
+        }
+
         // 取得個人資料
         if (  jsonObject[ "profileData" ] != undefined ) { 
             let setProfileData = setProfile; // 引用外部 script "lobbyCounter.js"
@@ -117,4 +122,18 @@ function loadingProfileData() {
     httpRequest.open( "POST", "http://127.0.0.1:8888/loadingProfileData", false );
     httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue );
     httpRequest.send();
+}
+
+function circleData( form ) {
+    var cookieValue = document.cookie.replace( AUTHORIZATION_FORMAT, "$1" );
+    const FD = new FormData( form );
+    httpRequest.addEventListener( "load", function( event ) {
+        // alert( "Server: " + event.target.responseText );
+    });
+    httpRequest.addEventListener( "error", function( event ) {
+        alert( "Oops! Something went wrong..." + event );
+    });
+    httpRequest.open( "POST", "http://127.0.0.1:8888/createCircle" );
+    httpRequest.setRequestHeader( "Authorization", "Bearer " + cookieValue  );
+    httpRequest.send( FD );
 }
