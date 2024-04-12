@@ -79,7 +79,7 @@ header {
     /* background-color:#b2e43d; */
 }
 .notify ul li .mailElement {
-    /* display: none; */
+    opacity: 0;
     left: 38px;
     top: -16px;
     position: relative;

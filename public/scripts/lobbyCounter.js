@@ -202,6 +202,9 @@ function displayProfile() {
     loadingProfile();
 }
 
+/* *********#*********#*********#*********#*********#
+ *				   Circle視窗裡的功能 				  *
+ #*********#*********#*********#*********#********* */
 // 金額數值加千分位符號
 var dues = 0;
 function convertNumberIntoThousands( value ) {
@@ -263,7 +266,18 @@ function removeLabel( obj ) {
 }
 
 /* *********#*********#*********#*********#*********#
-*				 外部引用 clientAJAX.js				  *
+*				    通知訊息 (mail開關) 			  *
+#*********#*********#*********#*********#********* */
+function unreadNotification( bool ) {
+    var e = document.getElementById( "mailElement" );
+    if ( bool ) {
+        e.style.opacity = 1;
+    } else {
+        e.style.opacity = 0;
+    }
+}
+/* *********#*********#*********#*********#*********#
+*				 給外部引用 clientAJAX.js			  *
 #*********#*********#*********#*********#********* */
 let buddyData; // 好友資料, 給其他 method 使用, 頁面載入就會執行(就有資料)
 function setProfile( profileData, buddyListData ) { // 個人資料顯示
