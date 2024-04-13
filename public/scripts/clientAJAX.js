@@ -6,6 +6,7 @@ httpRequest.onload = function() {
     if ( httpRequest.status >= 200 && httpRequest.status < 400 ) {
         let jsonObject = JSON.parse( httpRequest.responseText );
 
+        console.log( "===== From Server =====" );
         console.log( jsonObject );
 
         // 註冊成功, 讓使用者自行登入

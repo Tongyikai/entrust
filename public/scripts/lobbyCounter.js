@@ -283,6 +283,11 @@ let buddyData; // 好友資料, 給其他 method 使用, 頁面載入就會執�
 function setProfile( profileData, buddyListData ) { // 個人資料顯示
     console.log( "===== profile =====" );
     console.log( profileData );
+    if ( profileData.unreadMessage.length == 0 ) { // 陣列為空
+        console.log( "profileData.unreadMessage = empty" );
+    } else {
+        unreadNotification( true ); // 顯示通知訊息
+    }
     document.getElementById( "menuAvatar" ).src = profileData.avatar64code;
     buddyData = buddyListData;
     var count = buddyListData.length;
