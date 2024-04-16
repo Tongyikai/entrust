@@ -262,10 +262,14 @@ function getProfileData( username, callback ) {
     terminalInformation( "Get Profile." );
     var profileData = { avatar64code: "", unreadMessage: [] };
     var buddyListData = [];
+  
     client.connect( err => {
         if ( err ) throw err;
         // 取得好友清單
         const buddyListCollection = client.db( config.mongodb.database ).collection( config.mongodb.buddy_Collection );
+        const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
+        const circleCollection = client.db( config.mongodb.database ).collection( config.mongodb.circle_Collection );
+
         buddyListCollection.find( { owner: username } ).toArray( function( err, result ) {
             if ( err ) throw err;
             if ( result[ 0 ] != undefined ) {
@@ -277,7 +281,7 @@ function getProfileData( username, callback ) {
             }
         });
         // 取得使用者自己的個人資料
-        const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
+        // const membersCollection = client.db( config.mongodb.database ).collection( config.mongodb.members_Collection );
         membersCollection.find( { username: username } ).toArray( ( err, result ) => {
             if ( err ) throw err;
             if ( result[ 0 ] == undefined ) {
@@ -354,6 +358,9 @@ function unreadMessages( serialNumber, recipient, callback ) {
 
 function createCircleForm( tokenName, fields, callback ) {
     terminalInformation( "Create a Circle Form." );
+    console.log( "===== fields: " );
+    console.log( fields );
+
     client.connect( err => {
         if ( err ) throw err;
         const circleCollection = client.db( config.mongodb.database ).collection( config.mongodb.circle_Collection );
