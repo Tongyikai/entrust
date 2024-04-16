@@ -6,6 +6,7 @@ httpRequest.onload = function() {
     if ( httpRequest.status >= 200 && httpRequest.status < 400 ) {
         let jsonObject = JSON.parse( httpRequest.responseText );
 
+        console.log( "===== From Server =====" );
         console.log( jsonObject );
 
         // 註冊成功, 讓使用者自行登入
@@ -80,7 +81,7 @@ function userRegister( username, email, password ) {
 
 function loginAuthorization() {
     var cookieValue = document.cookie.replace( AUTHORIZATION_FORMAT, "$1" );
-    console.log( "拿到認證: " + cookieValue );
+    console.log( "Token: " + cookieValue );
 
     if ( cookieValue !== "" ) { // 如果authorization有值，傳給伺服器認證
         httpRequest.open( "POST", "http://127.0.0.1:8888/logInWithToken", false );

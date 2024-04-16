@@ -8,15 +8,23 @@ HOST_URL = "http://127.0.0.1:8888/index";
 /* *********#*********#*********#*********#*********#
 *					  Notify Bell 				    *
 #*********#*********#*********#*********#********* */
-var graph_bell = document.querySelector( ".graph_bell" ); // 取 class
+var graph_bell = document.querySelector( ".graph_bell" );
 graph_bell.addEventListener( "click", function() {
     this.classList.toggle( "active" );
+    // alert("未讀");
+    var n = document.getElementsByClassName("notify")[0];
+
+    if ( n.style.display === "block" ) {
+        alert( "1" );
+    } else {
+        alert( "2" );
+    }
 });
 
 /* *********#*********#*********#*********#*********#
 *					   Menu 選單				     *
 #*********#*********#*********#*********#********* */
-var graph_o = document.querySelector( ".graph_o" ); // 取 class
+var graph_o = document.querySelector( ".graph_o" );
 graph_o.addEventListener( "click", function() {
     this.classList.toggle( "active" );
 });
@@ -193,14 +201,9 @@ window.addEventListener( "load", () => {
         // console.log( document.getElementById( "circle_inviteMember" ).value );
 
         checkCircle( form );
-        // if ( checkCircle( form ) ) createCircle( form );
+        if ( checkCircle( form ) ) createCircle( form );
     });
 });
-
-// 取得個人資料
-function displayProfile() {
-    loadingProfile();
-}
 
 /* *********#*********#*********#*********#*********#
  *				   Circle視窗裡的功能 				  *
@@ -266,7 +269,14 @@ function removeLabel( obj ) {
 }
 
 /* *********#*********#*********#*********#*********#
-*				    通知訊息 (mail開關) 			  *
+*				       取得個人資料			          *
+#*********#*********#*********#*********#********* */
+function displayProfile() {
+    loadingProfile();
+}
+
+/* *********#*********#*********#*********#*********#
+*			 通知訊息( 紅色小圖示 mail 開關 ) 			*
 #*********#*********#*********#*********#********* */
 function unreadNotification( bool ) {
     var e = document.getElementById( "mailElement" );
@@ -276,11 +286,17 @@ function unreadNotification( bool ) {
         e.style.opacity = 0;
     }
 }
+
 /* *********#*********#*********#*********#*********#
 *				 給外部引用 clientAJAX.js			  *
 #*********#*********#*********#*********#********* */
 let buddyData; // 好友資料, 給其他 method 使用, 頁面載入就會執行(就有資料)
 function setProfile( profileData, buddyListData ) { // 個人資料顯示
+    if ( profileData.unreadMessage.length == 0 ) { // 陣列為空
+        console.log( "profileData.unreadMessage = empty" );
+    } else {
+        unreadNotification( true ); // 顯示通知訊息
+    }
     document.getElementById( "menuAvatar" ).src = profileData.avatar64code;
     buddyData = buddyListData;
     var count = buddyListData.length;
